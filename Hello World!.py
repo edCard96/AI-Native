@@ -1,3 +1,4 @@
+
 # This python script prints a greeting message to the console
 
 print("Hello my name is Edgar Cardona. Welcome.")
@@ -11,4 +12,6 @@ if answer == "2":
 else:
     print("Not quite! Give it another try.")
 
+# This python script prints a greeting message to the console
 
+print("Hello my name is Edgar Cardona. Welcome.")
