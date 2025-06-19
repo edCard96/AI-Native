@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My AI Journey Begins</title>
-    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
@@ -19,18 +17,37 @@
 </head>
 <body class="bg-gray-900 text-white">
 
-    <!-- Main container to center content -->
-    <div class="min-h-screen flex items-center justify-center p-4">
+    <div class="min-h-screen flex flex-col items-center justify-center p-4">
         
-        <!-- The main heading -->
-        <h1 class="text-5xl md:text-7xl font-black text-center tracking-tight">
-            <!-- Gradient text effect -->
+        <h1 class="text-5xl md:text-7xl font-black text-center tracking-tight mb-8">
             <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
                 My AI Journey Begins
             </span>
         </h1>
+
+        <div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center max-w-md w-full">
+            <p class="text-xl mb-4">Welcome, adventurer! What shall I call you?</p>
+            <input type="text" id="userName" placeholder="Enter your name" class="w-full p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4">
+            <button onclick="greetUser()" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-md transition duration-300 ease-in-out">
+                Start My Journey
+            </button>
+            <p id="greetingMessage" class="mt-6 text-2xl font-semibold"></p>
+        </div>
         
     </div>
+
+    <script>
+        function greetUser() {
+            const userName = document.getElementById('userName').value;
+            const greetingMessageElement = document.getElementById('greetingMessage');
+
+            if (userName.trim() !== '') {
+                greetingMessageElement.textContent = `Greetings, ${userName}! Your AI journey has officially begun!`;
+            } else {
+                greetingMessageElement.textContent = "Please enter your name to begin your journey.";
+            }
+        }
+    </script>
 
 </body>
 </html>
