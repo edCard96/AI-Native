@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Sleuth</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a; /* Dark cinema background */
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: radial-gradient(circle at center, #2e2e2e 0%, #1a1a1a 70%);
+        }
+
+        .container {
+            background-color: #0d0d0d;
+            border: 5px solid #a00; /* Red cinema curtain-like border */
+            border-radius: 15px;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.4), 0 0 20px rgba(0, 0, 0, 0.8);
+            max-width: 700px;
+            width: 100%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Cinema title effect */
+        .cinema-title {
+            font-family: 'Cinzel Decorative', cursive;
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #ffd700; /* Gold */
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 5px rgba(255, 215, 0, 0.5);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 5px rgba(255, 215, 0, 0.5); }
+            100% { transform: scale(1.02); text-shadow: 0 0 25px rgba(255, 215, 0, 1), 0 0 10px rgba(255, 215, 0, 0.7); }
+        }
+
+        .message-box {
+            min-height: 80px;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1.1em;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #444;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-group input {
+            background-color: #333;
+            border: 1px solid #555;
+            color: #eee;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 1em;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+        }
+
+        .button-primary {
+            background: linear-gradient(145deg, #a00, #d00);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+            border: none;
+            box-shadow: 0 5px 15px rgba(170, 0, 0, 0.4);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .button-primary:hover {
+            background: linear-gradient(145deg, #d00, #f00);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(170, 0, 0, 0.6);
+        }
+
+        .button-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(170, 0, 0, 0.3);
+        }
+
+        .button-secondary {
+            background-color: #4a4a4a;
+            color: #eee;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-secondary:hover {
+            background-color: #6a6a6a;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .game-info {
+            text-align: right;
+            font-size: 0.9em;
+            color: #bbb;
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #1c1c1c;
+            margin: auto;
+            padding: 30px;
+            border: 3px solid #ffd700;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .modal-content h3 {
+            font-size: 1.5em;
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-family: 'Cinzel Decorative', cursive;
+        }
+
+        .modal-content button {
+            background-color: #a00;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s;
+        }
+
+        .modal-content button:hover {
+            background-color: #d00;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 flex items-center justify-center min-h-screen p-5">
+
+    <div class="container">
+        <h1 class="cinema-title">Cinema Sleuth</h1>
+
+        <div id="game-info" class="game-info">
+            Questions left: <span id="questions-left">21</span>/21
+        </div>
+
+        <div id="message-box" class="message-box">
+            Welcome to Cinema Sleuth! I've picked a secret movie. Ask away!
+        </div>
+
+        <div class="input-group flex flex-col gap-4">
+            <input type="text" id="player-input" placeholder="Ask a question or make a guess...">
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button id="ask-button" class="button-primary flex-1">
+                    Ask Question
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-question"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.09 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                </button>
+                <button id="guess-button" class="button-primary flex-1">
+                    Make Guess
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-film"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7h18"/><path d="M3 17h18"/><path d="M17 3v18"/></svg>
+                </button>
+            </div>
+            <button id="new-game-button" class="button-secondary">
+                New Game
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.76 2.75L3 12Z"/><path d="M2.9 7.7C5.9 5.3 9.4 4 13 4c4.4 0 8 3.6 8 8 0 2.9-1.6 5.5-4 6.9"/><path d="M2 12h.01"/><path d="M12 22h.01"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Custom Modal for Alerts -->
+    <div id="custom-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Alert</h3>
+            <p id="modal-message" class="mb-5 text-gray-300"></p>
+            <button id="modal-close-button">OK</button>
+        </div>
+    </div>
+
+
+    <script>
+        // Global game state variables
+        let secretMovieData = {};
+        let gameState = {};
+        let currentModalCallback = null; // Added to manage modal callbacks
+
+        // --- Simulated Movie Database (similar to Python's) ---
+        const movieDatabase = [
+            {
+                'title': 'The Matrix',
+                'genres': ['Sci-Fi', 'Action'],
+                'actors': ['Keanu Reeves', 'Laurence Fishburne', 'Carrie-Anne Moss'],
+                'director': 'The Wachowskis',
+                'release_year': 1999,
+                'plot_summary': 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.',
+                'themes': ['artificial intelligence', 'reality vs illusion', 'hero\'s journey'],
+                'is_animated': false,
+                'has_sequel': true,
+                'content_rating': 'R'
+            },
+            {
+                'title': 'Forrest Gump',
+                'genres': ['Drama', 'Romance', 'Comedy'],
+                'actors': ['Tom Hanks', 'Robin Wright', 'Gary Sinise'],
+                'director': 'Robert Zemeckis',
+                'release_year': 1994,
+                'plot_summary': 'The presidencies of Kennedy and Johnson, the Vietnam War, Watergate, and other historical events unfold from the perspective of an Alabama man with an IQ of 75.',
+                'themes': ['destiny', 'innocence', 'American history'],
+                'is_animated': false,
+                'has_sequel': false,
+                'content_rating': 'PG-13'
+            },
+            {
+                'title': 'Spirited Away',
+                'genres': ['Animation', 'Fantasy', 'Adventure'],
+                'actors': ['Rumi Hiiragi', 'Miyu Irino'],
+                'director': 'Hayao Miyazaki',
+                'release_year': 2001,
+                'plot_summary': 'During her family\'s move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits, and where humans are changed into beasts.',
+                'themes': ['childhood', 'courage', 'environmentalism'],
+                'is_animated': true,
+                'has_sequel': false,
+                'content_rating': 'PG'
+            },
+            {
+                'title': 'Inception',
+                'genres': ['Sci-Fi', 'Action', 'Thriller'],
+                'actors': ['Leonardo DiCaprio', 'Joseph Gordon-Levitt', 'Elliot Page'],
+                'director': 'Christopher Nolan',
+                'release_year': 2010,
+                'plot_summary': 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.',
+                'themes': ['dreams', 'reality', 'subconscious'],
+                'is_animated': false,
+                'has_sequel': false,
+                'content_rating': 'PG-13'
+            },
+            {
+                'title': 'The Shawshank Redemption',
+                'genres': ['Drama'],
+                'actors': ['Tim Robbins', 'Morgan Freeman'],
+                'director': 'Frank Darabont',
+                'release_year': 1994,
+                'plot_summary': 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
+                'themes': ['hope', 'freedom', 'justice'],
+                'is_animated': false,
+                'has_sequel': false,
+                'content_rating': 'R'
+            },
+            {
+                'title': 'Toy Story',
+                'genres': ['Animation', 'Adventure', 'Comedy', 'Family'],
+                'actors': ['Tom Hanks', 'Tim Allen'],
+                'director': 'John Lasseter',
+                'release_year': 1995,
+                'plot_summary': 'A cowboy doll is profoundly threatened and jealous when a new spaceman figure supplants him as top toy in a boy\'s room.',
+                'themes': ['friendship', 'loyalty', 'growing up'],
+                'is_animated': true,
+                'has_sequel': true,
+                'content_rating': 'G'
+            },
+        ];
+
+        // --- Helper for Custom Modal ---
+        // Function to hide the modal
+        function hideModal() {
+            document.getElementById('custom-modal').style.display = 'none';
+            if (currentModalCallback) {
+                currentModalCallback();
+                currentModalCallback = null; // Clear the callback after execution
+            }
+        }
+
+        // Function to show the modal
+        function showModal(title, message, callback = null) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+            document.getElementById('custom-modal').style.display = 'flex'; // Show modal
+            currentModalCallback = callback; // Store the callback
+        }
+
+
+        // --- 1. Movie Selection Function ---
+        function selectSecretMovie(difficulty = 'medium', genrePreference = null, minYear = 1950, maxYear = 2025) {
+            // Filter movies based on year
+            let filteredMovies = movieDatabase.filter(m =>
+                minYear <= m.release_year && m.release_year <= maxYear
+            );
+
+            // Filter based on genre preference
+            if (genrePreference) {
+                const genreFiltered = filteredMovies.filter(m =>
+                    m.genres.some(g => g.toLowerCase() === genrePreference.toLowerCase())
+                );
+                if (genreFiltered.length > 0) {
+                    filteredMovies = genreFiltered;
+                } else {
+                    // Fallback if genre preference yields no results
+                    console.warn(`Warning: No movies found for genre '${genrePreference}'. Selecting from all available.`);
+                }
+            }
+
+            // Difficulty logic can be expanded here (e.g., pick more obscure for 'hard')
+            if (filteredMovies.length === 0) {
+                return null; // No movies match criteria
+            }
+
+            return filteredMovies[Math.floor(Math.random() * filteredMovies.length)];
+        }
+
+        // --- Simple String Similarity (similar to Python's difflib ratio for names) ---
+        function getSimilarity(str1, str2) {
+            if (!str1 || !str2) return 0;
+            const longer = str1.length > str2.length ? str1 : str2;
+            const shorter = str1.length > str2.length ? str2 : str1;
+            const longerLength = longer.length;
+            if (longerLength === 0) return 1.0; // Both are empty strings
+            return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+        }
+
+        function editDistance(s1, s2) {
+            s1 = s1.toLowerCase();
+            s2 = s2.toLowerCase();
+
+            const costs = [];
+            for (let i = 0; i <= s1.length; i++) {
+                let lastValue = i;
+                for (let j = 0; j <= s2.length; j++) {
+                    if (i === 0) {
+                        costs[j] = j;
+                    } else if (j > 0) {
+                        let newValue = costs[j - 1];
+                        if (s1.charAt(i - 1) !== s2.charAt(j - 1)) {
+                            newValue = Math.min(newValue, lastValue, costs[j]) + 1;
+                        }
+                        costs[j - 1] = lastValue;
+                        lastValue = newValue;
+                    }
+                }
+                if (i > 0) {
+                    costs[s2.length] = lastValue;
+                }
+            }
+            return costs[s2.length];
+        }
+
+
+        // --- 2. Question Answering Function ---
+        function answerPlayerQuestion(question, secretMovieData) {
+            const qLower = question.toLowerCase();
+
+            // --- Genre questions ---
+            for (const genre of secretMovieData.genres) {
+                if (qLower.includes(genre.toLowerCase())) {
+                    return `Yes, it is a ${genre} movie.`;
+                }
+            }
+
+            // --- Actor/Director questions ---
+            if (qLower.includes("star") || qLower.includes("actor") || qLower.includes("actress") || qLower.includes("cast")) {
+                for (const actor of secretMovieData.actors) {
+                    if (qLower.includes(actor.toLowerCase()) || getSimilarity(qLower, actor.toLowerCase()) > 0.7) {
+                        return `Yes, ${actor} is in it.`;
+                    }
+                }
+                return "No, that actor is not a main character in the movie.";
+            } else if (qLower.includes("director") || qLower.includes("directed by")) {
+                if (qLower.includes(secretMovieData.director.toLowerCase()) || getSimilarity(qLower, secretMovieData.director.toLowerCase()) > 0.7) {
+                    return `Yes, it was directed by ${secretMovieData.director}.`;
+                }
+                return "No, that director did not direct this movie.";
+            }
+
+            // --- Release Year questions ---
+            if (qLower.includes("year") || qLower.includes("released")) {
+                const currentYear = new Date().getFullYear();
+                const movieYear = secretMovieData.release_year;
+
+                if (qLower.includes("1990s") || qLower.includes("90s")) {
+                    return (movieYear >= 1990 && movieYear <= 1999) ? "Yes." : "No.";
+                } else if (qLower.includes("2000s") || qLower.includes("00s")) {
+                    return (movieYear >= 2000 && movieYear <= 2009) ? "Yes." : "No.";
+                } else if (qLower.includes("2010s") || qLower.includes("10s")) {
+                    return (movieYear >= 2010 && movieYear <= 2019) ? "Yes." : "No.";
+                } else if (qLower.includes("recent")) {
+                    return (currentYear - movieYear <= 10) ? "Yes, it's a relatively recent movie." : "No, it's not a very recent movie.";
+                } else if (qLower.includes("old") || qLower.includes("classic")) {
+                    return (movieYear < 1980) ? "Yes, it's an older film." : "No, it's not considered an old classic.";
+                } else if (qLower.includes(String(movieYear))) {
+                    return `Yes, it was released in ${movieYear}.`;
+                } else {
+                    return `It was released in ${movieYear}.`;
+                }
+            }
+
+            // --- Setting/Theme questions ---
+            const plotLower = secretMovieData.plot_summary.toLowerCase();
+            const themesLower = secretMovieData.themes.map(t => t.toLowerCase());
+
+            if (qLower.includes("space")) {
+                return plotLower.includes("space") ? "Yes, it takes place partly in space." : "No, it is not set in space.";
+            }
+            if (qLower.includes("city") || qLower.includes("urban")) {
+                return (plotLower.includes("city") || plotLower.includes("urban")) ? "Yes, a significant part of it is set in a city." : "No, it is not primarily set in a city.";
+            }
+            if (qLower.includes("time travel")) {
+                return themesLower.includes("time travel") ? "Yes, time travel is a central theme." : "No, it doesn't involve time travel.";
+            }
+            if (qLower.includes("heist") || qLower.includes("steal")) {
+                return (themesLower.includes("heist") || plotLower.includes("steal")) ? "Yes, a heist or a form of stealing is part of the plot." : "No, it doesn't involve a heist.";
+            }
+            if (qLower.includes("robot") || qLower.includes("ai") || qLower.includes("artificial intelligence")) {
+                return (themesLower.includes("artificial intelligence") || plotLower.includes("robot") || plotLower.includes("ai")) ? "Yes, artificial intelligence plays a role." : "No, robots or AI are not central.";
+            }
+
+            // --- Boolean properties ---
+            if (qLower.includes("animated")) {
+                return secretMovieData.is_animated ? "Yes, it's an animated movie." : "No, it's a live-action movie.";
+            }
+            if (qLower.includes("sequel") || qLower.includes("series") || qLower.includes("franchise")) {
+                return secretMovieData.has_sequel ? "Yes, it has at least one sequel." : "No, it does not have a sequel.";
+            }
+
+            // --- Nuance for "Partially/Sometimes" ---
+            if (qLower.includes("sad") || qLower.includes("depressing")) {
+                if (themesLower.includes("drama") || themesLower.includes("tragedy")) {
+                    if (themesLower.includes("comedy") || themesLower.includes("hope")) {
+                        return "It explores some dramatic or sad themes, but also has moments of hope or humor.";
+                    }
+                    return "Yes, it has significant sad or dramatic elements.";
+                }
+                return "No, it's not primarily a sad movie.";
+            }
+
+            if (qLower.includes("funny") || qLower.includes("comedy") || qLower.includes("humorous")) {
+                if (themesLower.includes("comedy") || secretMovieData.genres.some(g => g.toLowerCase() === "comedy")) {
+                    return "Yes, it's a comedic film.";
+                } else if (plotLower.includes("humor") && (themesLower.includes("drama") || themesLower.includes("action"))) {
+                    return "While not a pure comedy, it does contain humorous elements.";
+                }
+                return "No, it is not primarily a comedy.";
+            }
+
+            // --- Unclear/Irrelevant questions ---
+            return "I'm sorry, I can't answer that based on the movie's information. Please try a different kind of question.";
+        }
+
+        // --- 3. Game State Management Function ---
+        function updateGameState(currentState, playerInput, isGuess) {
+            const updatedState = { ...currentState };
+            let playerFeedback = "";
+
+            if (!isGuess) {
+                updatedState.questions_asked_count += 1;
+                const questionsLeft = updatedState.max_questions - updatedState.questions_asked_count;
+                playerFeedback = updatedState.current_message; // Keep AI's answer
+                if (questionsLeft > 0) {
+                    playerFeedback += ` You have used ${updatedState.questions_asked_count} out of ${updatedState.max_questions} questions. ${questionsLeft} questions left.`;
+                }
+            } else {
+                const similarity = getSimilarity(playerInput, updatedState.secret_movie_title);
+
+                if (similarity > 0.85 || playerInput.toLowerCase() === updatedState.secret_movie_title.toLowerCase()) {
+                    updatedState.game_over = true;
+                    updatedState.win_condition = 'guessed';
+                    playerFeedback = `Congratulations! You guessed it! The movie was '${updatedState.secret_movie_title}'!`;
+                } else {
+                    playerFeedback = `That's a good guess, but not quite! The movie is not '${playerInput}'. Try again!`;
+                }
+            }
+
+            // Check if questions ran out (only if game not already won)
+            if (!updatedState.game_over && updatedState.questions_asked_count >= updatedState.max_questions) {
+                updatedState.game_over = true;
+                updatedState.win_condition = 'ran_out_of_questions';
+                playerFeedback = `You've run out of questions! The movie was '${updatedState.secret_movie_title}'. Better luck next time!`;
+            }
+
+            updatedState.current_message = playerFeedback;
+            return updatedState;
+        }
+
+        // --- 4. Game Initialization Function ---
+        function initializeNewGame(gameSettings = {}) {
+            const settings = {
+                max_questions: 21,
+                difficulty: 'medium',
+                preferred_genre: null,
+                playerName: 'Movie Buff',
+                ...gameSettings
+            };
+
+            const selectedMovie = selectSecretMovie(settings.difficulty, settings.preferred_genre);
+
+            if (selectedMovie === null) {
+                gameState = {
+                    questions_asked_count: 0,
+                    max_questions: settings.max_questions,
+                    secret_movie_title: 'N/A',
+                    game_over: true,
+                    win_condition: 'setup_error',
+                    current_message: "Error: Could not select a movie based on criteria. Please try different settings."
+                };
+                secretMovieData = {}; // Clear movie data
+                return false; // Indicate setup failure
+            }
+
+            secretMovieData = selectedMovie; // Store globally
+            gameState = { // Store globally
+                questions_asked_count: 0,
+                max_questions: settings.max_questions,
+                secret_movie_title: secretMovieData.title,
+                game_over: false,
+                win_condition: null,
+                current_message: (
+                    `Welcome, ${settings.playerName}! I've picked a secret movie. ` +
+                    `You have ${settings.max_questions} questions to guess it. Ask away!`
+                )
+            };
+            return true; // Indicate successful setup
+        }
+
+        // --- 5. Display Game State Function ---
+        function displayGameStatus() {
+            const questionsLeftSpan = document.getElementById('questions-left');
+            const messageBox = document.getElementById('message-box');
+            const playerInput = document.getElementById('player-input');
+            const askButton = document.getElementById('ask-button');
+            const guessButton = document.getElementById('guess-button');
+
+            questionsLeftSpan.textContent = gameState.max_questions - gameState.questions_asked_count;
+            messageBox.innerHTML = gameState.current_message;
+
+            if (gameState.game_over) {
+                playerInput.disabled = true;
+                askButton.disabled = true;
+                guessButton.disabled = true;
+            } else {
+                playerInput.disabled = false;
+                askButton.disabled = false;
+                guessButton.disabled = false;
+                playerInput.focus(); // Keep focus on input
+            }
+        }
+
+        // --- Event Handlers for UI Interactions ---
+        function handleAskQuestion() {
+            const playerInput = document.getElementById('player-input');
+            const question = playerInput.value.trim();
+
+            if (!question) {
+                showModal("Input Needed", "Please type a question before clicking 'Ask Question'.");
+                return;
+            }
+
+            const aiAnswer = answerPlayerQuestion(question, secretMovieData);
+            gameState.current_message = `AI: ${aiAnswer}`; // Set AI's response
+            gameState = updateGameState(gameState, question, false); // Update state for a question
+            displayGameStatus();
+            playerInput.value = ''; // Clear input
+        }
+
+        function handleMakeGuess() {
+            const playerInput = document.getElementById('player-input');
+            const guess = playerInput.value.trim();
+
+            if (!guess) {
+                showModal("Input Needed", "Please type your movie guess before clicking 'Make Guess'.");
+                return;
+            }
+
+            gameState = updateGameState(gameState, guess, true); // Update state for a guess
+            displayGameStatus();
+            playerInput.value = ''; // Clear input
+
+            if (gameState.game_over) {
+                // Show a modal with the game outcome
+                let modalTitle = "Game Over!";
+                if (gameState.win_condition === 'guessed') {
+                    modalTitle = "Congratulations!";
+                } else if (gameState.win_condition === 'ran_out_of_questions') {
+                    modalTitle = "You Ran Out of Questions!";
+                }
+                showModal(modalTitle, gameState.current_message); // Removed the inline empty callback
+            }
+        }
+
+        function handleNewGame() {
+            const gameConfig = {
+                max_questions: 21,
+                difficulty: 'medium', // Can be dynamically changed later
+                preferred_genre: null,
+                playerName: 'Movie Buff'
+            };
+            const setupSuccess = initializeNewGame(gameConfig);
+            if (setupSuccess) {
+                displayGameStatus();
+                document.getElementById('player-input').value = '';
+                showModal("New Game Started!", gameState.current_message);
+            } else {
+                displayGameStatus(); // Display error message
+            }
+        }
+
+        // --- Main execution block and Event Listeners ---
+        function initializeGameAndSetupEvents() {
+            const gameConfig = {
+                max_questions: 21,
+                difficulty: 'medium',
+                preferred_genre: null,
+                playerName: 'Movie Buff'
+            };
+
+            const setupSuccess = initializeNewGame(gameConfig);
+            if (setupSuccess) {
+                displayGameStatus();
+            } else {
+                displayGameStatus(); // Display error message from initializeNewGame
+            }
+
+            // Attach all event listeners once when the DOM is loaded
+            document.getElementById('ask-button').addEventListener('click', handleAskQuestion);
+            document.getElementById('guess-button').addEventListener('click', handleMakeGuess);
+            document.getElementById('new-game-button').addEventListener('click', handleNewGame);
+            document.getElementById('modal-close-button').addEventListener('click', hideModal); // Single listener for modal close
+
+            // Allow Enter key to submit question/guess
+            document.getElementById('player-input').addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    if (this.value.toLowerCase().includes("is it") || this.value.toLowerCase().includes("guess is")) {
+                        handleMakeGuess();
+                    } else {
+                        handleAskQuestion();
+                    }
+                }
+            });
+        }
+
+        // Initialize game when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', initializeGameAndSetupEvents);
+    </script>
+</body>
+</html>
