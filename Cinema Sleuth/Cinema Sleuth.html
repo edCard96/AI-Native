@@ -19,9 +19,10 @@
             padding: 20px;
             box-sizing: border-box;
             background-image: radial-gradient(circle at center, #2e2e2e 0%, #1a1a1a 70%);
+            overflow: hidden; /* Prevent body scroll when modal isn't needed */
         }
 
-        .container {
+        .screen {
             background-color: #0d0d0d;
             border: 5px solid #a00; /* Red cinema curtain-like border */
             border-radius: 15px;
@@ -34,6 +35,7 @@
             gap: 20px;
             position: relative;
             overflow: hidden;
+            transition: opacity 0.5s ease-in-out;
         }
 
         /* Cinema title effect */
@@ -137,77 +139,33 @@
             color: #bbb;
         }
 
-        /* Modal styling */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+        /* Movie Info Display on Win/Loss */
+        .movie-reveal-info {
             display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background-color: #1c1c1c;
-            margin: auto;
-            padding: 30px;
-            border: 3px solid #ffd700;
-            border-radius: 12px;
-            width: 80%;
-            max-width: 400px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            text-align: center;
-            display: flex; /* Changed to flex for better vertical alignment */
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            border: 1px dashed #ffd700;
         }
 
-        .modal-content h3 {
-            font-size: 1.5em;
-            color: #ffd700;
-            margin-bottom: 15px; /* Adjusted margin */
-            font-family: 'Cinzel Decorative', cursive;
-        }
-
-        .modal-content p {
-            margin-bottom: 15px; /* Adjusted margin */
-        }
-
-        .modal-content img {
-            max-width: 150px; /* Max width for poster */
+        .movie-reveal-info img {
+            max-width: 150px;
             height: auto;
-            border-radius: 8px; /* Rounded corners for image */
-            margin-bottom: 15px; /* Margin below image */
-            border: 2px solid #555; /* Slight border for image */
-        }
-
-        .modal-content .movie-year {
-            font-size: 1.1em;
-            color: #bbb;
-            margin-bottom: 20px;
-        }
-
-        .modal-content button {
-            background-color: #a00;
-            color: white;
-            padding: 10px 20px;
-            border: none;
             border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.2s;
+            border: 2px solid #ffd700;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
         }
 
-        .modal-content button:hover {
-            background-color: #d00;
+        .movie-reveal-info p {
+            font-size: 1.1em;
+            color: #ffd700;
+            font-weight: 600;
         }
+
         .copyright {
             position: absolute;
             bottom: 10px;
@@ -216,11 +174,85 @@
             font-size: 0.8em;
             color: #777;
         }
+
+        /* Initial screen styles */
+        #initial-screen {
+            display: flex; /* Initially visible */
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 30px;
+            opacity: 1;
+            z-index: 2; /* Ensure it's on top */
+        }
+
+        #game-screen {
+            display: none; /* Initially hidden */
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .difficulty-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .difficulty-buttons button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: 700;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .difficulty-buttons button.easy {
+            background: linear-gradient(145deg, #28a745, #218838); /* Green */
+        }
+        .difficulty-buttons button.easy:hover {
+            background: linear-gradient(145deg, #218838, #1e7e34);
+            transform: translateY(-2px);
+        }
+
+        .difficulty-buttons button.medium {
+            background: linear-gradient(145deg, #ffc107, #e0a800); /* Yellow */
+        }
+        .difficulty-buttons button.medium:hover {
+            background: linear-gradient(145deg, #e0a800, #c69500);
+            transform: translateY(-2px);
+        }
+
+        .difficulty-buttons button.hard {
+            background: linear-gradient(145deg, #dc3545, #c82333); /* Red */
+        }
+        .difficulty-buttons button.hard:hover {
+            background: linear-gradient(145deg, #c82333, #bd2130);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 flex items-center justify-center min-h-screen p-5">
 
-    <div class="container">
+    <!-- Initial Screen - Difficulty Selector -->
+    <div id="initial-screen" class="screen">
+        <h1 class="cinema-title">Cinema Sleuth</h1>
+        <p class="text-xl text-center text-gray-300">Choose Your Difficulty:</p>
+        <div class="difficulty-buttons">
+            <button class="easy" data-difficulty="easy">Easy</button>
+            <button class="medium" data-difficulty="medium">Medium</button>
+            <button class="hard" data-difficulty="hard">Hard</button>
+        </div>
+    </div>
+
+    <!-- Main Game Screen -->
+    <div id="game-screen" class="screen">
         <h1 class="cinema-title">Cinema Sleuth</h1>
 
         <div id="game-info" class="game-info">
@@ -228,7 +260,14 @@
         </div>
 
         <div id="message-box" class="message-box">
-            Welcome to Cinema Sleuth! I've picked a secret movie. Ask away!
+            <!-- Initial message will be set by JS -->
+        </div>
+
+        <!-- Movie reveal area for win/loss conditions -->
+        <div id="movie-reveal-area" class="movie-reveal-info hidden">
+            <img id="reveal-poster" src="" alt="Movie Poster" onerror="this.onerror=null;this.src='https://placehold.co/150x225/333/FFF?text=Poster Not Available';">
+            <p id="reveal-title" class="text-xl font-bold"></p>
+            <p id="reveal-year"></p>
         </div>
 
         <div class="input-group flex flex-col gap-4">
@@ -250,17 +289,6 @@
         </div>
     </div>
 
-    <!-- Custom Modal for Alerts -->
-    <div id="custom-modal" class="modal">
-        <div class="modal-content">
-            <h3 id="modal-title">Alert</h3>
-            <img id="modal-image" class="hidden" src="" alt="Movie Poster" onerror="this.onerror=null;this.src='https://placehold.co/150x225/333/FFF?text=Poster Not Available';">
-            <p id="modal-message" class="mb-5 text-gray-300"></p>
-            <p id="modal-year" class="movie-year hidden"></p>
-            <button id="modal-close-button">OK</button>
-        </div>
-    </div>
-
     <!-- Copyright Notice -->
     <div class="copyright">
         © 2025 Edgar Cardona.
@@ -271,209 +299,126 @@
         // Global game state variables
         let secretMovieData = {};
         let gameState = {};
-        let currentModalCallback = null; // Added to manage modal callbacks
-
-        // --- Simulated Movie Database (similar to Python's) ---
-        const movieDatabase = [
-            {
-                'title': 'The Matrix',
-                'genres': ['Sci-Fi', 'Action'],
-                'actors': ['Keanu Reeves', 'Laurence Fishburne', 'Carrie-Anne Moss'],
-                'director': 'The Wachowskis',
-                'release_year': 1999,
-                'plot_summary': 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.',
-                'themes': ['artificial intelligence', 'reality vs illusion', 'hero\'s journey'],
-                'is_animated': false,
-                'has_sequel': true,
-                'content_rating': 'R',
-                'poster_url': 'https://placehold.co/150x225/111/FFF?text=The+Matrix'
-            },
-            {
-                'title': 'Forrest Gump',
-                'genres': ['Drama', 'Romance', 'Comedy'],
-                'actors': ['Tom Hanks', 'Robin Wright', 'Gary Sinise'],
-                'director': 'Robert Zemeckis',
-                'release_year': 1994,
-                'plot_summary': 'The presidencies of Kennedy and Johnson, the Vietnam War, Watergate, and other historical events unfold from the perspective of an Alabama man with an IQ of 75.',
-                'themes': ['destiny', 'innocence', 'American history'],
-                'is_animated': false,
-                'has_sequel': false,
-                'content_rating': 'PG-13',
-                'poster_url': 'https://placehold.co/150x225/222/FFF?text=Forrest+Gump'
-            },
-            {
-                'title': 'Spirited Away',
-                'genres': ['Animation', 'Fantasy', 'Adventure'],
-                'actors': ['Rumi Hiiragi', 'Miyu Irino'],
-                'director': 'Hayao Miyazaki',
-                'release_year': 2001,
-                'plot_summary': 'During her family\'s move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits, and where humans are changed into beasts.',
-                'themes': ['childhood', 'courage', 'environmentalism'],
-                'is_animated': true,
-                'has_sequel': false,
-                'content_rating': 'PG',
-                'poster_url': 'https://placehold.co/150x225/333/FFF?text=Spirited+Away'
-            },
-            {
-                'title': 'Inception',
-                'genres': ['Sci-Fi', 'Action', 'Thriller'],
-                'actors': ['Leonardo DiCaprio', 'Joseph Gordon-Levitt', 'Elliot Page'],
-                'director': 'Christopher Nolan',
-                'release_year': 2010,
-                'plot_summary': 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an "idea" into the mind of a C.E.O.',
-                'themes': ['dreams', 'reality', 'subconscious'],
-                'is_animated': false,
-                'has_sequel': false,
-                'content_rating': 'PG-13',
-                'poster_url': 'https://placehold.co/150x225/444/FFF?text=Inception'
-            },
-            {
-                'title': 'The Shawshank Redemption',
-                'genres': ['Drama'],
-                'actors': ['Tim Robbins', 'Morgan Freeman'],
-                'director': 'Frank Darabont',
-                'release_year': 1994,
-                'plot_summary': 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
-                'themes': ['hope', 'freedom', 'justice'],
-                'is_animated': false,
-                'has_sequel': false,
-                'content_rating': 'R',
-                'poster_url': 'https://placehold.co/150x225/555/FFF?text=Shawshank+Redemption'
-            },
-            {
-                'title': 'Toy Story',
-                'genres': ['Animation', 'Adventure', 'Comedy', 'Family'],
-                'actors': ['Tom Hanks', 'Tim Allen'],
-                'director': 'John Lasseter',
-                'release_year': 1995,
-                'plot_summary': 'A cowboy doll is profoundly threatened and jealous when a new spaceman figure supplants him as top toy in a boy\'s room.',
-                'themes': ['friendship', 'loyalty', 'growing up'],
-                'is_animated': true,
-                'has_sequel': true,
-                'content_rating': 'G',
-                'poster_url': 'https://placehold.co/150x225/666/FFF?text=Toy+Story'
-            },
-            {
-                'title': 'Pulp Fiction',
-                'genres': ['Crime', 'Drama'],
-                'actors': ['John Travolta', 'Uma Thurman', 'Samuel L. Jackson'],
-                'director': 'Quentin Tarantino',
-                'release_year': 1994,
-                'plot_summary': 'The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.',
-                'themes': ['crime', 'redemption', 'non-linear narrative'],
-                'is_animated': false,
-                'has_sequel': false,
-                'content_rating': 'R',
-                'poster_url': 'https://placehold.co/150x225/777/FFF?text=Pulp+Fiction'
-            },
-            {
-                'title': 'The Lion King',
-                'genres': ['Animation', 'Adventure', 'Drama', 'Family', 'Musical'],
-                'actors': ['Matthew Broderick', 'Jeremy Irons', 'James Earl Jones'],
-                'director': 'Roger Allers',
-                'release_year': 1994,
-                'plot_summary': 'Lion prince Simba and his father Mufasa are beloved by all until Mufasa\'s jealous brother Scar murders him and takes over the Pride Lands. Simba goes into exile and grows up with outcasts Timon and Pumbaa, before returning to reclaim his throne.',
-                'themes': ['coming-of-age', 'responsibility', 'family'],
-                'is_animated': true,
-                'has_sequel': true,
-                'content_rating': 'G',
-                'poster_url': 'https://placehold.co/150x225/888/FFF?text=Lion+King'
-            },
-            {
-                'title': 'Interstellar',
-                'genres': ['Sci-Fi', 'Drama', 'Adventure'],
-                'actors': ['Matthew McConaughey', 'Anne Hathaway', 'Jessica Chastain'],
-                'director': 'Christopher Nolan',
-                'release_year': 2014,
-                'plot_summary': 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity\'s survival.',
-                'themes': ['space exploration', 'love', 'time dilation'],
-                'is_animated': false,
-                'has_sequel': false,
-                'content_rating': 'PG-13',
-                'poster_url': 'https://placehold.co/150x225/999/FFF?text=Interstellar'
-            },
-            {
-                'title': 'Coco',
-                'genres': ['Animation', 'Adventure', 'Family', 'Fantasy', 'Musical', 'Mystery'],
-                'actors': ['Anthony Gonzalez', 'Gael García Bernal', 'Benjamin Bratt'],
-                'director': 'Lee Unkrich',
-                'release_year': 2017,
-                'plot_summary': 'Aspiring musician Miguel, confronted with his family\'s ancestral ban on music, enters the Land of the Dead to find his great-great-grandfather, a legendary singer.',
-                'themes': ['family', 'music', 'afterlife', 'culture'],
-                'is_animated': true,
-                'has_sequel': false,
-                'content_rating': 'PG',
-                'poster_url': 'https://placehold.co/150x225/AAA/FFF?text=Coco'
-            }
-        ];
-
-        // --- Helper for Custom Modal ---
-        function hideModal() {
-            document.getElementById('custom-modal').style.display = 'none';
-            document.getElementById('modal-image').classList.add('hidden');
-            document.getElementById('modal-image').src = '';
-            document.getElementById('modal-year').classList.add('hidden');
-            document.getElementById('modal-year').textContent = '';
-
-            if (currentModalCallback) {
-                currentModalCallback();
-                currentModalCallback = null;
-            }
-        }
-
-        function showModal(title, message, imageSrc = null, additionalInfo = null, callback = null) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-message').innerText = message;
-
-            const modalImage = document.getElementById('modal-image');
-            const modalYear = document.getElementById('modal-year');
-
-            if (imageSrc) {
-                modalImage.src = imageSrc;
-                modalImage.classList.remove('hidden');
-                // Set alt text for accessibility
-                modalImage.alt = `Poster for ${secretMovieData.title}`;
-            } else {
-                modalImage.classList.add('hidden');
-                modalImage.src = '';
-                modalImage.alt = '';
-            }
-
-            if (additionalInfo) {
-                modalYear.textContent = additionalInfo;
-                modalYear.classList.remove('hidden');
-            } else {
-                modalYear.classList.add('hidden');
-                modalYear.textContent = '';
-            }
-
-            document.getElementById('custom-modal').style.display = 'flex';
-            currentModalCallback = callback;
-        }
-
 
         // --- 1. Movie Selection Function ---
-        function selectSecretMovie(difficulty = 'medium', genrePreference = null, minYear = 1950, maxYear = 2025) {
-            let filteredMovies = movieDatabase.filter(m =>
-                minYear <= m.release_year && m.release_year <= maxYear
-            );
+        async function selectSecretMovie(difficulty = 'medium', genrePreference = null, minYear = 1950, maxYear = 2025) {
+            // Show a loading message and disable buttons while fetching
+            document.getElementById('message-box').textContent = "AI is thinking... fetching new movies!";
+            document.getElementById('ask-button').disabled = true;
+            document.getElementById('guess-button').disabled = true;
 
-            if (genrePreference) {
-                const genreFiltered = filteredMovies.filter(m =>
-                    m.genres.some(g => g.toLowerCase() === genrePreference.toLowerCase())
-                );
-                if (genreFiltered.length > 0) {
-                    filteredMovies = genreFiltered;
+            try {
+                const promptText = `Generate a JSON array of 10 diverse movie objects suitable for a guessing game. Each movie object must include:
+                "title" (string),
+                "genres" (array of strings, e.g., ["Sci-Fi", "Action"]),
+                "actors" (array of strings),
+                "director" (string),
+                "release_year" (number between ${minYear} and ${maxYear}),
+                "plot_summary" (string, concise),
+                "themes" (array of strings),
+                "is_animated" (boolean),
+                "has_sequel" (boolean),
+                "content_rating" (string, e.g., "G", "PG", "PG-13", "R"),
+                "poster_url" (string, use 'https://placehold.co/150x225/A00/FFF?text=Movie+Title' for placeholder, replace spaces with '+' in title).
+                Ensure variety in genres, years, and themes. Do not include any additional text outside the JSON array.`;
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: promptText }] });
+                const payload = {
+                    contents: chatHistory,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "ARRAY",
+                            items: {
+                                type: "OBJECT",
+                                properties: {
+                                    "title": { "type": "STRING" },
+                                    "genres": { "type": "ARRAY", "items": { "type": "STRING" } },
+                                    "actors": { "type": "ARRAY", "items": { "type": "STRING" } },
+                                    "director": { "type": "STRING" },
+                                    "release_year": { "type": "NUMBER" },
+                                    "plot_summary": { "type": "STRING" },
+                                    "themes": { "type": "ARRAY", "items": { "type": "STRING" } },
+                                    "is_animated": { "type": "BOOLEAN" },
+                                    "has_sequel": { "type": "BOOLEAN" },
+                                    "content_rating": { "type": "STRING" },
+                                    "poster_url": { "type": "STRING" }
+                                },
+                                required: ["title", "genres", "actors", "director", "release_year", "plot_summary", "themes", "is_animated", "has_sequel", "content_rating", "poster_url"]
+                            }
+                        }
+                    }
+                };
+
+                const apiKey = ""; // Canvas will provide this in runtime
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    let jsonString = result.candidates[0].content.parts[0].text;
+
+                    // Robust JSON extraction: look for the first [ and last ] to handle potential extra text
+                    const jsonMatch = jsonString.match(/\[.*\]/s);
+                    if (jsonMatch && jsonMatch[0]) {
+                        jsonString = jsonMatch[0];
+                    } else {
+                        console.error("No valid JSON array found in API response text:", jsonString);
+                        document.getElementById('message-box').textContent = "Error: AI returned unexpected text format. Please try starting a new game.";
+                        return null;
+                    }
+
+                    let generatedMovies;
+                    try {
+                        generatedMovies = JSON.parse(jsonString);
+                        
+                        // Apply difficulty filtering on the generated movies
+                        let filteredMovies = generatedMovies;
+                        if (difficulty === 'easy') {
+                            filteredMovies = filteredMovies.filter(m => m.genres.length === 1 || m.has_sequel === true);
+                        } else if (difficulty === 'hard') {
+                            filteredMovies = filteredMovies.filter(m => m.genres.length > 1 || m.themes.length > 1);
+                        }
+
+                        if (filteredMovies.length === 0) {
+                            console.warn("No movies matched after generated and filtered by difficulty/year. Falling back to simple random selection from original generated list.");
+                            // Fallback to simple random selection from the initially generated list
+                            if (generatedMovies.length > 0) {
+                                return generatedMovies[Math.floor(Math.random() * generatedMovies.length)];
+                            } else {
+                                return null;
+                            }
+                        }
+
+                        return filteredMovies[Math.floor(Math.random() * filteredMovies.length)];
+
+                    } catch (parseError) {
+                        console.error("Error parsing generated JSON:", parseError, "Original string:", jsonString);
+                        document.getElementById('message-box').textContent = "Error: Could not parse movie data (malformed JSON). Please try starting a new game.";
+                        return null;
+                    }
                 } else {
-                    console.warn(`Warning: No movies found for genre '${genrePreference}'. Selecting from all available.`);
+                    console.error("Gemini API did not return expected content structure:", result);
+                    document.getElementById('message-box').textContent = "Error: Failed to get movie data from AI. Please try starting a new game.";
+                    return null;
                 }
-            }
 
-            if (filteredMovies.length === 0) {
+            } catch (apiError) {
+                console.error("Error calling Gemini API:", apiError);
+                document.getElementById('message-box').textContent = "Error: Network issue or API call failed. Please check your connection and try again.";
                 return null;
+            } finally {
+                // Buttons will be re-enabled by displayGameStatus if game initializes
             }
-
-            return filteredMovies[Math.floor(Math.random() * filteredMovies.length)];
         }
 
         // --- Simple String Similarity (similar to Python's difflib ratio for names) ---
@@ -520,20 +465,24 @@
             const plotLower = secretMovieData.plot_summary.toLowerCase();
             const themesLower = secretMovieData.themes.map(t => t.toLowerCase());
 
-            // Check for YES conditions first
+            // --- Check for YES conditions ---
             // Genre questions
             if (secretMovieData.genres.some(genre => qLower.includes(genre.toLowerCase()))) {
                 return "Yes.";
             }
 
             // Actor/Director questions
+            let foundActor = false;
             if (qLower.includes("star") || qLower.includes("actor") || qLower.includes("actress") || qLower.includes("cast")) {
                 for (const actor of secretMovieData.actors) {
                     if (qLower.includes(actor.toLowerCase()) || getSimilarity(qLower, actor.toLowerCase()) > 0.7) {
-                        return "Yes.";
+                        foundActor = true;
+                        break;
                     }
                 }
             }
+            if (foundActor) return "Yes.";
+
             if (qLower.includes("director") || qLower.includes("directed by")) {
                 if (qLower.includes(secretMovieData.director.toLowerCase()) || getSimilarity(qLower, secretMovieData.director.toLowerCase()) > 0.7) {
                     return "Yes.";
@@ -542,7 +491,7 @@
 
             // Release Year questions
             const currentYear = new Date().getFullYear();
-            if (qLower.includes("year") || qLower.includes("released") || qLower.includes("when")) {
+            if (qLower.includes("year") || qLower.includes("released") || qLower.includes("when") || qLower.match(/\d{4}s?/)) {
                 if ((qLower.includes("1990s") || qLower.includes("90s")) && (movieYear >= 1990 && movieYear <= 1999)) {
                     return "Yes.";
                 }
@@ -625,7 +574,6 @@
                 }
             }
 
-            // Check if questions ran out (only if game not already won)
             if (!updatedState.game_over && updatedState.questions_asked_count >= updatedState.max_questions) {
                 updatedState.game_over = true;
                 updatedState.win_condition = 'ran_out_of_questions';
@@ -637,7 +585,7 @@
         }
 
         // --- 4. Game Initialization Function ---
-        function initializeNewGame(gameSettings = {}) {
+        async function initializeNewGame(gameSettings = {}) {
             const settings = {
                 max_questions: 21,
                 difficulty: 'medium',
@@ -646,7 +594,7 @@
                 ...gameSettings
             };
 
-            const selectedMovie = selectSecretMovie(settings.difficulty, settings.preferred_genre);
+            const selectedMovie = await selectSecretMovie(settings.difficulty, settings.preferred_genre);
 
             if (selectedMovie === null) {
                 gameState = {
@@ -684,6 +632,10 @@
             const playerInput = document.getElementById('player-input');
             const askButton = document.getElementById('ask-button');
             const guessButton = document.getElementById('guess-button');
+            const movieRevealArea = document.getElementById('movie-reveal-area');
+            const revealPoster = document.getElementById('reveal-poster');
+            const revealTitle = document.getElementById('reveal-title');
+            const revealYear = document.getElementById('reveal-year');
 
             questionsLeftSpan.textContent = gameState.max_questions - gameState.questions_asked_count;
             messageBox.innerHTML = gameState.current_message;
@@ -692,11 +644,26 @@
                 playerInput.disabled = true;
                 askButton.disabled = true;
                 guessButton.disabled = true;
+
+                // Show movie reveal area
+                movieRevealArea.classList.remove('hidden');
+                revealTitle.textContent = secretMovieData.title;
+                revealYear.textContent = `Released: ${secretMovieData.release_year}`;
+                revealPoster.src = secretMovieData.poster_url;
+                revealPoster.alt = `Poster for ${secretMovieData.title}`;
+
             } else {
                 playerInput.disabled = false;
                 askButton.disabled = false;
                 guessButton.disabled = false;
                 playerInput.focus();
+
+                // Hide movie reveal area and clear its content
+                movieRevealArea.classList.add('hidden');
+                revealTitle.textContent = '';
+                revealYear.textContent = '';
+                revealPoster.src = '';
+                revealPoster.alt = '';
             }
         }
 
@@ -706,7 +673,8 @@
             const question = playerInput.value.trim();
 
             if (!question) {
-                showModal("Input Needed", "Please type a question before clicking 'Ask Question'.");
+                gameState.current_message = "Please type a question before clicking 'Ask Question'.";
+                displayGameStatus();
                 return;
             }
 
@@ -722,68 +690,77 @@
             const guess = playerInput.value.trim();
 
             if (!guess) {
-                showModal("Input Needed", "Please type your movie guess before clicking 'Make Guess'.");
+                gameState.current_message = "Please type your movie guess before clicking 'Make Guess'.";
+                displayGameStatus();
                 return;
             }
 
             gameState = updateGameState(gameState, guess, true);
             displayGameStatus();
             playerInput.value = '';
-
-            if (gameState.game_over) {
-                let modalTitle = "Game Over!";
-                let imageSrc = null;
-                let additionalInfo = null;
-
-                if (gameState.win_condition === 'guessed') {
-                    modalTitle = "Congratulations!";
-                    imageSrc = secretMovieData.poster_url;
-                    additionalInfo = `Released: ${secretMovieData.release_year}`;
-
-                } else if (gameState.win_condition === 'ran_out_of_questions') {
-                    modalTitle = "You Ran Out of Questions!";
-                }
-                showModal(modalTitle, gameState.current_message, imageSrc, additionalInfo);
-            }
         }
 
-        function handleNewGame() {
-            const gameConfig = {
-                max_questions: 21,
-                difficulty: 'medium',
-                preferred_genre: null,
-                playerName: 'Movie Buff'
-            };
-            const setupSuccess = initializeNewGame(gameConfig);
-            if (setupSuccess) {
-                displayGameStatus();
-                document.getElementById('player-input').value = '';
-                showModal("New Game Started!", gameState.current_message);
-            } else {
-                displayGameStatus();
-            }
+        // New async function to handle starting a game
+        async function handleNewGame() {
+            // Show initial screen again to choose difficulty
+            document.getElementById('game-screen').style.opacity = '0';
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('initial-screen').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('initial-screen').style.opacity = '1';
+            }, 10); // Small delay for fade effect
         }
 
         // --- Main execution block and Event Listeners ---
-        function initializeGameAndSetupEvents() {
+        async function startGame(difficulty) {
             const gameConfig = {
                 max_questions: 21,
-                difficulty: 'medium',
+                difficulty: difficulty,
                 preferred_genre: null,
                 playerName: 'Movie Buff'
             };
 
-            const setupSuccess = initializeNewGame(gameConfig);
+            const setupSuccess = await initializeNewGame(gameConfig); // Await async initialization
             if (setupSuccess) {
-                displayGameStatus();
+                document.getElementById('initial-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('initial-screen').style.display = 'none';
+                    document.getElementById('game-screen').style.display = 'flex';
+                    setTimeout(() => {
+                        document.getElementById('game-screen').style.opacity = '1';
+                        // Initial message and status displayed after game setup and screen transition
+                        displayGameStatus();
+                        document.getElementById('player-input').value = '';
+                    }, 10); // Small delay for fade effect
+                }, 500); // Wait for initial screen to fade out
             } else {
-                displayGameStatus();
+                // If game setup fails, display error on the initial screen
+                console.error("Failed to initialize new game.");
+                document.getElementById('initial-screen').querySelector('p').textContent = gameState.current_message;
+                document.getElementById('initial-screen').style.display = 'flex';
+                document.getElementById('initial-screen').style.opacity = '1';
             }
+        }
 
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial display states
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('initial-screen').style.display = 'flex';
+            document.getElementById('initial-screen').style.opacity = '1'; // Ensure it's visible on load
+
+            // Attach event listeners for difficulty buttons
+            document.querySelectorAll('.difficulty-buttons button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const difficulty = this.dataset.difficulty;
+                    startGame(difficulty);
+                });
+            });
+
+            // Attach game control event listeners
             document.getElementById('ask-button').addEventListener('click', handleAskQuestion);
             document.getElementById('guess-button').addEventListener('click', handleMakeGuess);
             document.getElementById('new-game-button').addEventListener('click', handleNewGame);
-            document.getElementById('modal-close-button').addEventListener('click', hideModal);
 
             document.getElementById('player-input').addEventListener('keypress', function(event) {
                 if (event.key === 'Enter') {
@@ -797,9 +774,7 @@
                     }
                 }
             });
-        }
-
-        document.addEventListener('DOMContentLoaded', initializeGameAndSetupEvents);
+        });
     </script>
 </body>
 </html>

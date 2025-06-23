@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Storyteller Adventure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, #1a2a3a, #2c3e50); /* Darker blue-grey gradient */
+            color: #ecf0f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            line-height: 1.6;
+        }
+
+        /* Game container styling */
+        .game-container {
+            background-color: #34495e; /* Slightly lighter dark background */
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: left;
+            width: 100%;
+            max-width: 800px;
+            border: 2px solid #2c3e50; /* Darker border */
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Space between sections */
+        }
+
+        /* Title styling */
+        h1 {
+            color: #f1c40f; /* Yellow */
+            margin-bottom: 25px;
+            font-size: 2.8em;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        /* Game display area */
+        #gameDisplay {
+            background-color: #2c3e50; /* Darker background for text */
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 300px;
+            max-height: 500px;
+            overflow-y: auto; /* Scroll for long narratives */
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid #34495e;
+            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+            font-size: 1.1em;
+            color: #bdc3c7; /* Lighter grey text */
+        }
+
+        /* Player input and choices */
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .input-section label {
+            font-size: 1.1em;
+            color: #f1c40f;
+            font-weight: 600;
+        }
+
+        #commandInput {
+            width: calc(100% - 30px);
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background-color: #ecf0f1; /* Light background */
+            color: #2c3e50; /* Dark text */
+            font-size: 1.1em;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        #commandInput:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px #f1c40f, inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .choices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .choice-button {
+            background: linear-gradient(145deg, #3498db, #2980b9); /* Blue gradient */
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            text-align: center;
+            white-space: normal; /* Allow text to wrap */
+        }
+
+        .choice-button:hover {
+            background: linear-gradient(145deg, #2980b9, #3498db);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .choice-button:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .choice-button:disabled {
+            background: #7f8c8d; /* Grey */
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Status panel */
+        .status-panel {
+            background-color: #2c3e50;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid #34495e;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .status-item h3 {
+            color: #f1c40f;
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 1.2em;
+        }
+
+        .status-item p {
+            margin: 0;
+            color: #ecf0f1;
+            font-size: 1em;
+        }
+
+        /* Loading indicator */
+        #loadingIndicator {
+            text-align: center;
+            color: #f1c40f;
+            font-size: 1.2em;
+            margin-top: 15px;
+            display: none; /* Hidden by default */
+        }
+
+        #loadingIndicator::after {
+            content: '...';
+            animation: dot-flash 1s infinite steps(1);
+        }
+
+        @keyframes dot-flash {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 25px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            #gameDisplay {
+                min-height: 250px;
+            }
+
+            .status-panel {
+                grid-template-columns: 1fr; /* Stack on smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .choice-button {
+                padding: 12px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>AI Storyteller Adventure</h1>
+
+        <div id="gameDisplay">
+            <!-- Game narrative will be displayed here -->
+            Initializing game...
+        </div>
+
+        <div class="input-section">
+            <div id="choicesContainer" class="choices-grid">
+                <!-- Choices generated by AI will go here -->
+            </div>
+            <label for="commandInput">Your Action:</label>
+            <input type="text" id="commandInput" placeholder="Type your command or choose an option...">
+            <button id="submitCommandBtn" class="choice-button">Submit</button>
+        </div>
+
+        <div class="status-panel">
+            <div class="status-item">
+                <h3>Health</h3>
+                <p id="playerHealth">100</p>
+            </div>
+            <div class="status-item">
+                <h3>Mana</h3>
+                <p id="playerMana">50</p>
+            </div>
+            <div class="status-item">
+                <h3>Inventory</h3>
+                <p id="playerInventory">Empty</p>
+            </div>
+            <div class="status-item">
+                <h3>Quests</h3>
+                <p id="playerQuests">No active quests.</p>
+            </div>
+        </div>
+
+        <div id="loadingIndicator">AI is crafting the narrative...</div>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules for authentication
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // Firebase configuration (provided by Canvas environment)
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // Initialize Firebase app and services
+        let app;
+        let auth;
+        let userId = 'anonymous'; // Default userId
+
+        // Function to initialize Firebase and authenticate
+        async function initializeFirebase() {
+            try {
+                if (Object.keys(firebaseConfig).length > 0) {
+                    app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+
+                    onAuthStateChanged(auth, async (user) => {
+                        if (user) {
+                            userId = user.uid;
+                            console.log("Firebase Auth Ready. User ID:", userId);
+                        } else {
+                            console.log("No user signed in. Attempting anonymous sign-in.");
+                            if (initialAuthToken) {
+                                try {
+                                    await signInWithCustomToken(auth, initialAuthToken);
+                                    userId = auth.currentUser.uid;
+                                    console.log("Signed in with custom token:", userId);
+                                } catch (error) {
+                                    console.error("Error signing in with custom token:", error);
+                                    await signInAnonymously(auth); // Fallback to anonymous
+                                    userId = auth.currentUser.uid;
+                                    console.log("Signed in anonymously after custom token failure:", userId);
+                                }
+                            } else {
+                                await signInAnonymously(auth);
+                                userId = auth.currentUser.uid;
+                                console.log("Signed in anonymously:", userId);
+                            }
+                        }
+                        // Once Firebase auth is ready, initialize the game
+                        if (!gameInitialized) {
+                            await initializeGame();
+                            gameInitialized = true;
+                        }
+                    });
+
+                    // Initial sign-in attempt if not already authenticated
+                    if (!auth.currentUser) {
+                         // onAuthStateChanged will handle the actual sign-in
+                    } else {
+                        userId = auth.currentUser.uid;
+                        if (!gameInitialized) {
+                            await initializeGame();
+                            gameInitialized = true;
+                        }
+                    }
+                } else {
+                    console.warn("Firebase config not found. Running without Firebase authentication.");
+                    if (!gameInitialized) {
+                        await initializeGame();
+                        gameInitialized = true;
+                    }
+                }
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                if (!gameInitialized) { // Ensure game starts even if Firebase fails
+                    await initializeGame();
+                    gameInitialized = true;
+                }
+            }
+        }
+
+
+        // --- Game State Management (JavaScript equivalent of Python dictionary) ---
+        let game_state = {
+            current_scene: {
+                description: "",
+                available_choices: [],
+                npcs_present: [],
+                items_present: [],
+                active_quests: [],
+            },
+            player_state: {
+                inventory: [],
+                health: 100,
+                mana: 50,
+                location_history: [],
+                reputation: {},
+            },
+            narrative_history: [],
+            npcs_data: {},
+            quests_data: {},
+            secret_world_parameters: {
+                relic_location: "Whispering Caves",
+                main_antagonist: "Shadow Lord",
+                ancient_lore: "The Great Calamity was caused by ancient magic.",
+            }
+        };
+
+        let gameInitialized = false; // Flag to prevent multiple initializations
+
+        // --- DOM Elements ---
+        const gameDisplay = document.getElementById('gameDisplay');
+        const choicesContainer = document.getElementById('choicesContainer');
+        const commandInput = document.getElementById('commandInput');
+        const submitCommandBtn = document.getElementById('submitCommandBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const playerHealthEl = document.getElementById('playerHealth');
+        const playerManaEl = document.getElementById('playerMana');
+        const playerInventoryEl = document.getElementById('playerInventory');
+        const playerQuestsEl = document.getElementById('playerQuests');
+
+        // --- Helper Functions for AI Interaction ---
+
+        /**
+         * Constructs the prompt for the AI based on the current game state and context.
+         * @param {Object} current_game_state - The current state of the game.
+         * @param {string} player_input - The player's last choice or custom action.
+         * @param {string} context_type - Specifies what kind of AI output is needed (e.g., "initial_scene", "next_turn").
+         * @param {string} [npc_id] - Optional ID of the NPC being interacted with.
+         * @returns {string} The string representing the prompt for the LLM.
+         */
+        function _constructAiPrompt(current_game_state, player_input, context_type, npc_id = null) {
+            const historyContext = current_game_state.narrative_history.slice(-5).join("\n"); // Last 5 turns
+            const playerInventory = current_game_state.player_state.inventory.join(", ") || "nothing";
+            const activeQuestsSummaries = Object.entries(current_game_state.quests_data)
+                .filter(([, qd]) => qd.status === "active")
+                .map(([qid, qd]) => `${qid}: ${qd.description} (Status: ${qd.status})`);
+            const activeQuestsStr = activeQuestsSummaries.join("\n") || "No active quests.";
+            const npcsInScene = current_game_state.current_scene.npcs_present
+                .filter(nid => current_game_state.npcs_data[nid])
+                .map(nid => {
+                    const npcData = current_game_state.npcs_data[nid];
+                    return `${nid}: ${npcData.name} (Traits: ${npcData.personality_traits.join(", ")})`;
+                });
+            const npcsStr = npcsInScene.join("\n") || "No NPCs present.";
+
+            let basePrompt = `
+            You are an AI Dungeon Master for a text-based adventure game.
+            Current Game State Snapshot:
+            - Player Health: ${current_game_state.player_state.health}
+            - Player Inventory: ${playerInventory}
+            - Active Quests:
+            ${activeQuestsStr}
+            - NPCs in current scene:
+            ${npcsStr}
+            - Recent Narrative History:
+            ${historyContext}
+            - Player's Last Action: "${player_input}"
+
+            Based on this, generate content for the game. Your response MUST be a JSON object with the following keys. Ensure it is valid JSON and no extra text outside the JSON object:
+            - "scene_description": A detailed description of the next scene/situation.
+            - "available_choices": An array of 3-5 distinct, concise choices the player can make.
+            - "new_npcs_introduced": An optional array of new NPC objects (each with "id", "name", "personality_traits" (array of strings), "initial_dialogue").
+            - "new_items_found": An optional array of new item strings found in the scene.
+            - "new_quests_triggered": An optional array of new quest objects (each with "id", "description", "objectives" (array of strings), "rewards" (array of strings), "status": "active").
+            - "stat_changes": An optional object with keys like "health", "mana", "inventory_add" (array), "inventory_remove" (array), etc.
+            `;
+
+            if (context_type === "initial_scene") {
+                return `
+                ${basePrompt}
+                The adventure begins. You wake up in a mysterious forest with no memory of how you got there.
+                Generate the initial scene.
+                `;
+            } else if (context_type === "next_turn") {
+                return `
+                ${basePrompt}
+                The player has chosen to: "${player_input}".
+                Continue the story, describe the consequences of their action, and provide new choices.
+                Consider the hidden world parameters implicitly: ${JSON.stringify(current_game_state.secret_world_parameters)}.
+                `;
+            } else if (context_type === "npc_dialogue" && npc_id) {
+                const npcData = current_game_state.npcs_data[npc_id] || {};
+                const npcName = npcData.name || "Unknown NPC";
+                const npcTraits = npcData.personality_traits ? npcData.personality_traits.join(", ") : "neutral";
+                return `
+                ${basePrompt}
+                The player is interacting with ${npcName} (Personality: ${npcTraits}).
+                The player said/chose: "${player_input}".
+                Generate ${npcName}'s response, reflecting their personality and current state, based on the player's input.
+                Provide follow-up choices for dialogue or actions.
+                `;
+            } else if (context_type === "quest_trigger") {
+                return `
+                ${basePrompt}
+                The player's action has triggered a potential quest opportunity related to "${player_input}".
+                Generate a narrative segment that introduces a new side quest relevant to this.
+                Include the quest's initial objectives.
+                `;
+            } else {
+                return `${basePrompt}\nPlayer's action: "${player_input}". Continue the narrative.`;
+            }
+        }
+
+        /**
+         * Makes a conceptual call to the Gemini API.
+         * In a real application, this would use a fetch request to the actual Gemini API endpoint.
+         * For this example, we'll simulate a response or use a simple fetch call.
+         * @param {string} prompt - The text prompt to send to the AI.
+         * @returns {Promise<Object>} A promise that resolves to the parsed JSON response from the AI.
+         */
+        async function makeAiCall(prompt) {
+            loadingIndicator.style.display = 'block'; // Show loading indicator
+            commandInput.disabled = true;
+            submitCommandBtn.disabled = true;
+            choicesContainer.querySelectorAll('button').forEach(btn => btn.disabled = true);
+
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; // Canvas will provide this API key at runtime
+
+            try {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API call failed: ${response.status} ${response.statusText} - ${errorText}`);
+                }
+
+                const result = await response.json();
+                console.log("Raw AI result:", result); // For debugging AI response structure
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const rawAiText = result.candidates[0].content.parts[0].text;
+                    return _parseAiResponse(rawAiText);
+                } else {
+                    console.error("AI response structure unexpected:", result);
+                    throw new Error("AI did not return valid content.");
+                }
+            } catch (error) {
+                console.error("Error fetching AI message:", error);
+                // Return a default/error response if fetching or parsing fails
+                return {
+                    scene_description: "The world seems to glitch. A strange error occurred in the narrative. Please try a different action.",
+                    available_choices: ["Try again.", "Look around cautiously."],
+                    new_npcs_introduced: [], new_items_found: [],
+                    new_quests_triggered: [], stat_changes: {}
+                };
+            } finally {
+                loadingIndicator.style.display = 'none'; // Hide loading indicator
+                commandInput.disabled = false;
+                submitCommandBtn.disabled = false;
+                choicesContainer.querySelectorAll('button').forEach(btn => btn.disabled = false);
+            }
+        }
+
+        /**
+         * Parses the raw text response from the AI (expected to be JSON).
+         * @param {string} rawAiText - The raw text string received from the AI.
+         * @returns {Object} A dictionary containing the parsed game data.
+         */
+        function _parseAiResponse(rawAiText) {
+            try {
+                // Remove any markdown code block fences if present
+                const cleanJsonText = rawAiText.replace(/^```json\n|\n```$/g, '').trim();
+                const parsedData = JSON.parse(cleanJsonText);
+                return parsedData;
+            } catch (e) {
+                console.error(`Error parsing AI response JSON: ${e}`);
+                console.error(`Raw AI response: "${rawAiText}"`);
+                // Return a default/error response if parsing fails
+                return {
+                    scene_description: "The AI's message was garbled. The story has paused. Please try again.",
+                    available_choices: ["Continue anyway.", "Wait patiently."],
+                    new_npcs_introduced: [], new_items_found: [],
+                    new_quests_triggered: [], stat_changes: {}
+                };
+            }
+        }
+
+        /**
+         * Updates the main game_state object based on the parsed AI response.
+         * @param {Object} current_game_state - The current state of the game (will be modified).
+         * @param {Object} ai_response_data - The dictionary containing parsed data from the AI.
+         */
+        function _updateGameStateFromAiResponse(current_game_state, ai_response_data) {
+            current_game_state.current_scene.description = ai_response_data.scene_description || "";
+            current_game_state.current_scene.available_choices = ai_response_data.available_choices || [];
+
+            // Add new NPCs
+            if (ai_response_data.new_npcs_introduced) {
+                for (const npcData of ai_response_data.new_npcs_introduced) {
+                    const npcId = npcData.id || crypto.randomUUID(); // Generate UUID if not provided
+                    current_game_state.npcs_data[npcId] = {
+                        name: npcData.name || "Unnamed NPC",
+                        personality_traits: npcData.personality_traits || [],
+                        current_dialogue_state: npcData.initial_dialogue || "Greetings.",
+                        relevant_quests: []
+                    };
+                    if (!current_game_state.current_scene.npcs_present.includes(npcId)) {
+                        current_game_state.current_scene.npcs_present.push(npcId);
+                    }
+                }
+            }
+
+            // Add new items to current scene (for picking up)
+            if (ai_response_data.new_items_found) {
+                for (const item of ai_response_data.new_items_found) {
+                    if (!current_game_state.current_scene.items_present.includes(item)) {
+                        current_game_state.current_scene.items_present.push(item);
+                    }
+                }
+            }
+
+            // Trigger new quests
+            if (ai_response_data.new_quests_triggered) {
+                for (const questData of ai_response_data.new_quests_triggered) {
+                    const questId = questData.id || crypto.randomUUID();
+                    current_game_state.quests_data[questId] = {
+                        description: questData.description || "A new quest.",
+                        status: questData.status || "active",
+                        objectives: questData.objectives || [],
+                        rewards: questData.rewards || [],
+                    };
+                    if (!current_game_state.current_scene.active_quests.includes(questId)) {
+                        current_game_state.current_scene.active_quests.push(questId);
+                    }
+                }
+            }
+
+            // Apply stat changes
+            const statChanges = ai_response_data.stat_changes || {};
+            if (statChanges.health !== undefined) {
+                current_game_state.player_state.health += statChanges.health;
+                if (current_game_state.player_state.health < 0) current_game_state.player_state.health = 0;
+            }
+            if (statChanges.mana !== undefined) {
+                current_game_state.player_state.mana += statChanges.mana;
+                if (current_game_state.player_state.mana < 0) current_game_state.player_state.mana = 0;
+            }
+            if (statChanges.inventory_add) {
+                for (const item of statChanges.inventory_add) {
+                    if (!current_game_state.player_state.inventory.includes(item)) {
+                        current_game_state.player_state.inventory.push(item);
+                    }
+                }
+            }
+            if (statChanges.inventory_remove) {
+                for (const item of statChanges.inventory_remove) {
+                    const index = current_game_state.player_state.inventory.indexOf(item);
+                    if (index > -1) {
+                        current_game_state.player_state.inventory.splice(index, 1);
+                    }
+                }
+            }
+
+            // Update narrative history with the new scene description
+            current_game_state.narrative_history.push(current_game_state.current_scene.description);
+            console.log("Game state updated.");
+        }
+
+        // --- Core Game Functions ---
+
+        /**
+         * Initializes the game state and generates the first scene using AI.
+         */
+        async function initializeGame() {
+            gameDisplay.innerHTML = "Initializing game, please wait...";
+            gameDisplay.scrollTop = gameDisplay.scrollHeight; // Scroll to bottom
+
+            // Reset game state for new game
+            game_state = {
+                current_scene: {
+                    description: "",
+                    available_choices: [],
+                    npcs_present: [],
+                    items_present: [],
+                    active_quests: [],
+                },
+                player_state: {
+                    inventory: [],
+                    health: 100,
+                    mana: 50,
+                    location_history: [],
+                    reputation: {},
+                },
+                narrative_history: [],
+                npcs_data: {},
+                quests_data: {},
+                secret_world_parameters: {
+                    relic_location: "Whispering Caves",
+                    main_antagonist: "Shadow Lord",
+                    ancient_lore: "The Great Calamity was caused by ancient magic.",
+                }
+            };
+
+            const initialPrompt = _constructAiPrompt(game_state, "", "initial_scene");
+            const aiResponse = await makeAiCall(initialPrompt);
+
+            _updateGameStateFromAiResponse(game_state, aiResponse);
+            game_state.player_state.location_history.push(game_state.current_scene.description);
+            console.log("Game initialized successfully.");
+            displayCurrentScene();
+        }
+
+
+        /**
+         * Processes the player's choice and advances the story using AI.
+         * @param {string} player_choice - The choice made by the player.
+         */
+        async function advanceStory(player_choice) {
+            gameDisplay.innerHTML += `\n> You chose: "${player_choice}"\n`;
+            gameDisplay.scrollTop = gameDisplay.scrollHeight;
+
+            // Add player's choice to narrative history for context
+            game_state.narrative_history.push(`Player chooses: ${player_choice}`);
+            game_state.player_state.location_history.push(player_choice); // Track path
+
+            // Construct prompt for the next turn
+            const nextTurnPrompt = _constructAiPrompt(game_state, player_choice, "next_turn");
+            const aiResponse = await makeAiCall(nextTurnPrompt);
+
+            _updateGameStateFromAiResponse(game_state, aiResponse);
+            game_state.player_state.location_history.push(game_state.current_scene.description);
+            console.log("Story advanced.");
+            displayCurrentScene();
+
+            // Simple game over condition (e.g., health reaches 0)
+            if (game_state.player_state.health <= 0) {
+                gameDisplay.innerHTML += "\n--- Your journey ends here. Game Over! ---";
+                gameDisplay.scrollTop = gameDisplay.scrollHeight;
+                commandInput.disabled = true;
+                submitCommandBtn.disabled = true;
+                choicesContainer.innerHTML = ''; // Clear choices
+            }
+        }
+
+
+        /**
+         * Manages interaction with a specific NPC using AI.
+         * @param {string} npc_id - The ID of the NPC being interacted with.
+         * @param {string} player_query - What the player says or asks the NPC.
+         */
+        async function handleNpcInteraction(npc_id, player_query) {
+            if (!game_state.npcs_data[npc_id]) {
+                gameDisplay.innerHTML += `\nError: NPC with ID ${npc_id} not found.\n`;
+                gameDisplay.scrollTop = gameDisplay.scrollHeight;
+                return;
+            }
+
+            const npcName = game_state.npcs_data[npc_id].name;
+            gameDisplay.innerHTML += `\n> You say to ${npcName}: "${player_query}"\n`;
+            gameDisplay.scrollTop = gameDisplay.scrollHeight;
+
+            // Construct prompt for NPC dialogue
+            const npcDialoguePrompt = _constructAiPrompt(game_state, player_query, "npc_dialogue", npc_id);
+            const aiResponse = await makeAiCall(npcDialoguePrompt);
+
+            // NPC responses might also update the scene or trigger quests/items
+            _updateGameStateFromAiResponse(game_state, aiResponse);
+
+            // Display NPC's reply (which the AI puts in scene_description for dialogue)
+            gameDisplay.innerHTML += `\n${npcName} replies: "${game_state.current_scene.description}"\n`;
+            gameDisplay.scrollTop = gameDisplay.scrollHeight;
+            displayCurrentChoices(); // Refresh choices as dialogue might change them
+        }
+
+
+        /**
+         * Renders the current scene's description and available choices to the webpage.
+         */
+        function displayCurrentScene() {
+            gameDisplay.innerHTML += `\n\n--- NEW SCENE ---\n${game_state.current_scene.description}\n`;
+            gameDisplay.scrollTop = gameDisplay.scrollHeight; // Keep scrolled to bottom
+
+            displayCurrentChoices();
+            updatePlayerStatusDisplay();
+            commandInput.value = ''; // Clear input field
+            commandInput.focus(); // Keep focus for easy typing
+        }
+
+        /**
+         * Renders the available choices as buttons.
+         */
+        function displayCurrentChoices() {
+            choicesContainer.innerHTML = ''; // Clear previous choices
+            if (game_state.current_scene.available_choices.length > 0) {
+                game_state.current_scene.available_choices.forEach(choiceText => {
+                    const button = document.createElement('button');
+                    button.classList.add('choice-button');
+                    button.textContent = choiceText;
+                    button.addEventListener('click', () => {
+                        advanceStory(choiceText);
+                    });
+                    choicesContainer.appendChild(button);
+                });
+            } else {
+                const noChoicesMsg = document.createElement('p');
+                noChoicesMsg.textContent = "No specific choices available. Use the text input for custom actions.";
+                noChoicesMsg.style.color = '#bdc3c7';
+                choicesContainer.appendChild(noChoicesMsg);
+            }
+        }
+
+        /**
+         * Updates the player status display panel.
+         */
+        function updatePlayerStatusDisplay() {
+            playerHealthEl.textContent = game_state.player_state.health;
+            playerManaEl.textContent = game_state.player_state.mana;
+            playerInventoryEl.textContent = game_state.player_state.inventory.join(', ') || 'Empty';
+
+            const activeQuestsSummaries = Object.entries(game_state.quests_data)
+                .filter(([, qd]) => qd.status === "active")
+                .map(([qid, qd]) => `${qd.description}`);
+            playerQuestsEl.textContent = activeQuestsSummaries.join('; ') || 'No active quests.';
+        }
+
+
+        // --- Event Listeners ---
+
+        // Submit command via button click
+        submitCommandBtn.addEventListener('click', () => {
+            const command = commandInput.value.trim();
+            if (command) {
+                // Check if the command is for NPC interaction
+                const talkMatch = command.toLowerCase().match(/^talk to\s+(.+)/);
+                if (talkMatch) {
+                    const targetNpcName = talkMatch[1].trim();
+                    let foundNpcId = null;
+                    for (const npcId in game_state.npcs_data) {
+                        if (game_state.npcs_data[npcId].name.toLowerCase() === targetNpcName) {
+                            foundNpcId = npcId;
+                            break;
+                        }
+                    }
+
+                    if (foundNpcId) {
+                        // Prompt for dialogue if NPC found
+                        const dialoguePrompt = "What do you want to say to " + game_state.npcs_data[foundNpcId].name + "? (Type your message in the input field below)";
+                        gameDisplay.innerHTML += `\n> ${dialoguePrompt}\n`;
+                        gameDisplay.scrollTop = gameDisplay.scrollHeight;
+                        commandInput.setAttribute('data-npc-id', foundNpcId); // Store NPC ID for next input
+                        commandInput.setAttribute('placeholder', 'Type your dialogue here...');
+                        submitCommandBtn.textContent = 'Send Dialogue';
+                        choicesContainer.innerHTML = ''; // Clear choices during dialogue
+                        commandInput.value = '';
+                        commandInput.focus();
+                        return; // Exit here, will handle dialogue on next submit
+                    }
+                }
+
+                // If it's a dialogue follow-up
+                if (commandInput.hasAttribute('data-npc-id')) {
+                    const npcId = commandInput.getAttribute('data-npc-id');
+                    commandInput.removeAttribute('data-npc-id');
+                    commandInput.setAttribute('placeholder', 'Type your command or choose an option...');
+                    submitCommandBtn.textContent = 'Submit';
+                    handleNpcInteraction(npcId, command);
+                } else {
+                    // Regular story advancement
+                    advanceStory(command);
+                }
+            }
+        });
+
+        // Submit command via Enter key
+        commandInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent new line in input field
+                submitCommandBtn.click(); // Trigger button click
+            }
+        });
+
+        // Initialize Firebase and then the game on window load
+        window.addEventListener('load', initializeFirebase);
+    </script>
+</body>
+</html>
