@@ -5,13 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Storyteller Adventure</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
     <style>
+        /* Base Variables - used by themes */
+        :root {
+            --primary-bg: #1a2a3a;
+            --secondary-bg: #2c3e50;
+            --container-bg: #34495e;
+            --border-color: #2c3e50;
+            --text-color: #ecf0f1;
+            --highlight-color: #f1c40f;
+            --display-bg: #2c3e50;
+            --display-text-color: #bdc3c7;
+            --button-primary: #3498db;
+            --button-secondary: #2980b9;
+        }
+
+        /* Generic Theme Reset */
+        .game-container {
+            background-color: var(--container-bg);
+            border: 2px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        #gameDisplay, #sceneImageContainer, .status-panel {
+            background-color: var(--display-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: var(--highlight-color);
+        }
+
+        .input-section label {
+            color: var(--highlight-color);
+        }
+
+        /* Updated choice button styling */
+        .choice-button {
+            background: linear-gradient(145deg, var(--button-primary), var(--button-secondary));
+            color: white;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+            border-radius: 12px; /* Slightly more rounded */
+            font-size: 1.05em; /* Slightly larger font */
+            font-weight: 600; /* Bolder text */
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2); /* More depth */
+            transition: all 0.3s ease;
+            text-align: center;
+            white-space: normal;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Text shadow for pop */
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1; /* For hover effect layers */
+        }
+
+        .choice-button:hover {
+            background: linear-gradient(145deg, var(--button-secondary), var(--button-primary));
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 3px 6px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px); /* More pronounced lift */
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .choice-button:active {
+            transform: translateY(0); /* Press effect */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .choice-button:disabled {
+            background: #7f8c8d; /* Grey */
+            cursor: not-allowed;
+            box-shadow: none;
+            text-shadow: none;
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+
+        .status-item h3 {
+            color: var(--highlight-color);
+        }
+
+        .status-item p {
+            color: var(--text-color);
+        }
+
+        #loadingIndicator {
+            color: var(--highlight-color);
+        }
+
+        /* --- THEMES --- */
+        /* Default/Adventure Theme (as before) */
+        .adventure-theme {
+            --primary-bg: #1a2a3a;
+            --secondary-bg: #2c3e50;
+            --container-bg: #34495e;
+            --border-color: #2c3e50;
+            --text-color: #ecf0f1;
+            --highlight-color: #f1c40f; /* Yellow */
+            --display-bg: #2c3e50;
+            --display-text-color: #bdc3c7;
+            --button-primary: #3498db; /* Blue */
+            --button-secondary: #2980b9;
+            background: linear-gradient(to bottom right, #1a2a3a, #2c3e50);
+        }
+
+        /* Fantasy Theme */
+        .fantasy-theme {
+            --primary-bg: #2b1f1a; /* Darker brown */
+            --secondary-bg: #4a382e; /* Medium brown */
+            --container-bg: #634b3e; /* Lighter brown */
+            --border-color: #3b2a21;
+            --text-color: #fdf5e6; /* Cream */
+            --highlight-color: #b87333; /* Bronze */
+            --display-bg: #4a382e;
+            --display-text-color: #e0d5c8;
+            --button-primary: #8b4513; /* SaddleBrown */
+            --button-secondary: #a0522d; /* Sienna */
+            background: linear-gradient(to bottom right, #2b1f1a, #4a382e);
+        }
+        .fantasy-theme h1 { font-family: 'Pirata One', cursive; } /* Keep stylized title */
+
+        /* Sci-Fi Theme */
+        .sci-fi-theme {
+            --primary-bg: #0d1a2d; /* Very dark blue */
+            --secondary-bg: #1a2b3e; /* Dark blue */
+            --container-bg: #213c5a; /* Slightly brighter blue */
+            --border-color: #122132;
+            --text-color: #e0f2f7; /* Light cyan */
+            --highlight-color: #00bcd4; /* Cyan */
+            --display-bg: #1a2b3e;
+            --display-text-color: #a7d9e7;
+            --button-primary: #673ab7; /* Deep Purple */
+            --button-secondary: #512da8;
+            background: linear-gradient(to bottom right, #0d1a2d, #1a2b3e);
+        }
+        .sci-fi-theme h1 { font-family: 'Orbitron', sans-serif; } /* Optional sci-fi font */
+
+        /* Horror Theme */
+        .horror-theme {
+            --primary-bg: #140d0d; /* Almost black */
+            --secondary-bg: #211616; /* Dark grey-red */
+            --container-bg: #2c1d1d; /* Slightly lighter red-grey */
+            --border-color: #1a1010;
+            --text-color: #e6e6e6; /* Off-white */
+            --highlight-color: #b71c1c; /* Dark red */
+            --display-bg: #211616;
+            --display-text-color: #c9c9c9;
+            --button-primary: #5c0000; /* Darker red */
+            --button-secondary: #7f0000;
+            background: linear-gradient(to bottom right, #140d0d, #211616);
+        }
+        .horror-theme h1 { font-family: 'Creepster', cursive; } /* Optional horror font */
+
+
         /* General body styling */
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(to bottom right, #1a2a3a, #2c3e50); /* Darker blue-grey gradient */
-            color: #ecf0f1;
+            color: var(--text-color);
             display: flex;
+            flex-direction: column; /* Stack header and main content */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -19,182 +175,352 @@
             padding: 20px;
             box-sizing: border-box;
             line-height: 1.6;
+            transition: background 0.5s ease; /* Smooth background transition */
+            background: var(--primary-bg); /* Use theme variable */
         }
 
-        /* Game container styling */
-        .game-container {
-            background-color: #34495e; /* Slightly lighter dark background */
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            text-align: left;
+        /* Header for title and genre selection */
+        .game-header {
+            text-align: center;
+            margin-bottom: 20px;
             width: 100%;
             max-width: 800px;
-            border: 2px solid #2c3e50; /* Darker border */
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            gap: 20px; /* Space between sections */
         }
 
-        /* Title styling */
-        h1 {
-            color: #f1c40f; /* Yellow */
-            margin-bottom: 25px;
-            font-size: 2.8em;
-            letter-spacing: 1px;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-            text-align: center;
-        }
-
-        /* Game display area */
-        #gameDisplay {
-            background-color: #2c3e50; /* Darker background for text */
-            border-radius: 15px;
-            padding: 25px;
-            min-height: 300px;
-            max-height: 500px;
-            overflow-y: auto; /* Scroll for long narratives */
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
-            border: 1px solid #34495e;
-            white-space: pre-wrap; /* Preserve whitespace and line breaks */
-            font-size: 1.1em;
-            color: #bdc3c7; /* Lighter grey text */
-        }
-
-        /* Player input and choices */
-        .input-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .input-section label {
-            font-size: 1.1em;
-            color: #f1c40f;
-            font-weight: 600;
-        }
-
-        #commandInput {
-            width: calc(100% - 30px);
+        .genre-selection {
+            margin-top: 15px;
             padding: 15px;
-            border: none;
+            background-color: var(--display-bg);
             border-radius: 10px;
-            background-color: #ecf0f1; /* Light background */
-            color: #2c3e50; /* Dark text */
-            font-size: 1.1em;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            margin-right: 10px;
+            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
         }
 
-        #commandInput:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px #f1c40f, inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        .genre-button {
+            background-color: var(--button-primary);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .genre-button:hover {
+            background-color: var(--button-secondary);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .genre-button.active {
+            background-color: var(--highlight-color);
+            color: var(--primary-bg);
+            font-weight: bold;
+            border: 2px solid var(--text-color);
+            box-shadow: 0 0 0 3px var(--highlight-color), 0 5px 10px rgba(0, 0, 0, 0.5);
+        }
+
+
+        /* Game container grid layout */
+        .game-container {
+            padding: 30px; /* Adjust padding slightly for grid */
+            display: grid;
+            grid-template-columns: 1fr 250px; /* Main content + sidebar */
+            grid-template-rows: auto auto 1fr auto; /* Image, text/choices, stats, history button */
+            grid-template-areas:
+                "image image"
+                "game-display status-panel"
+                "choices status-panel"
+                "history-button history-button"; /* New area for history button */
+            gap: 20px 25px; /* Row and column gap */
+            height: fit-content; /* Adjust height based on content */
+            align-items: start; /* Align items to the top of their cells */
+            max-width: 1000px; /* Increase max-width to give more space */
+            min-height: 70vh; /* Ensure it's tall enough */
+        }
+
+        #sceneImageContainer {
+            grid-area: image;
+            height: 350px; /* Fixed height for consistency */
+            overflow: hidden; /* Ensure image doesn't break container */
+            display: flex; /* Default to flex, will be 'none' if no image */
+            justify-content: center;
+            align-items: center;
+            /* Shared styles from :root variables */
+        }
+
+        #sceneImage {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            object-fit: contain; /* Ensures the whole image is visible within the container */
+            border-radius: 10px;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0; /* Start hidden for fade-in effect */
+        }
+
+        /* Placeholder for image loading/error */
+        #imagePlaceholder {
+            position: absolute;
+            color: var(--display-text-color); /* Use theme variable */
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+            z-index: 1; /* Ensure placeholder is above image while image is loading/transparent */
+        }
+
+        #gameDisplay {
+            grid-area: game-display;
+            min-height: 200px;
+            max-height: 100%; /* Allow height to adjust within grid cell */
+            /* Shared styles from :root variables */
+        }
+
+        .input-section {
+            grid-area: choices;
+            /* No label or input for custom commands */
         }
 
         .choices-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Adjust choice button width */
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 0; /* Remove top margin as it's part of grid gap now */
         }
 
-        .choice-button {
-            background: linear-gradient(145deg, #3498db, #2980b9); /* Blue gradient */
+        .status-panel {
+            grid-area: status-panel;
+            display: flex;
+            flex-direction: column; /* Stack stats vertically */
+            gap: 15px;
+            min-height: 250px; /* Ensure some height for the panel */
+            /* Shared styles from :root variables */
+        }
+
+        .status-item {
+            text-align: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        /* History button styling */
+        #viewHistoryBtn {
+            grid-area: history-button; /* Place in the new grid area */
+            margin-top: 20px; /* Add some space from above */
+            background: linear-gradient(145deg, #f39c12, #e67e22); /* Orange gradient */
             color: white;
-            padding: 15px 20px;
+            padding: 15px 30px;
             border: none;
             border-radius: 10px;
-            font-size: 1em;
+            font-size: 1.1em;
+            font-weight: 600;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
-            text-align: center;
-            white-space: normal; /* Allow text to wrap */
+            display: block; /* Make it a block element to take full width of its grid area */
+            width: fit-content; /* Adjust width to content */
+            margin-left: auto; /* Center button horizontally in grid area */
+            margin-right: auto;
         }
 
-        .choice-button:hover {
-            background: linear-gradient(145deg, #2980b9, #3498db);
+        #viewHistoryBtn:hover {
+            background: linear-gradient(145deg, #e67e22, #f39c12);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             transform: translateY(-2px);
         }
 
-        .choice-button:active {
-            transform: translateY(0);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .choice-button:disabled {
-            background: #7f8c8d; /* Grey */
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        /* Status panel */
-        .status-panel {
-            background-color: #2c3e50;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
-            border: 1px solid #34495e;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .status-item h3 {
-            color: #f1c40f;
-            margin-top: 0;
-            margin-bottom: 8px;
-            font-size: 1.2em;
-        }
-
-        .status-item p {
-            margin: 0;
-            color: #ecf0f1;
-            font-size: 1em;
-        }
-
-        /* Loading indicator */
+        /* Loading indicator positioned centrally within the game container */
         #loadingIndicator {
-            text-align: center;
-            color: #f1c40f;
-            font-size: 1.2em;
-            margin-top: 15px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px 30px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            z-index: 100;
             display: none; /* Hidden by default */
+            font-size: 1.5em;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            /* Shared styles from :root variables */
         }
 
-        #loadingIndicator::after {
-            content: '...';
-            animation: dot-flash 1s infinite steps(1);
+        /* --- MODAL STYLES --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Ensure it's on top of everything */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
-        @keyframes dot-flash {
-            0% { opacity: 0.2; }
-            50% { opacity: 1; }
-            100% { opacity: 0.2; }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--container-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh; /* Limit height for scrolling */
+            overflow-y: auto; /* Enable scrolling for history */
+            position: relative;
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .modal-overlay.visible .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.8em;
+            color: var(--highlight-color);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        .modal-content h2 {
+            color: var(--highlight-color);
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Pirata One', cursive; /* Match main title style */
+            font-size: 2em;
+        }
+
+        #historyDisplay {
+            font-size: 0.95em;
+            line-height: 1.6;
+            white-space: pre-wrap; /* Preserve formatting from history entries */
+            color: var(--display-text-color);
+        }
+
+        .history-entry {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .history-entry:last-child {
+            border-bottom: none;
+        }
+
+        .history-entry h4 {
+            color: var(--button-primary);
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .history-entry p {
+            margin: 0;
+            padding-left: 10px;
+            font-size: 0.9em;
         }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
-            .game-container {
-                padding: 25px;
-                margin: 10px;
+            .game-header {
+                margin-bottom: 15px;
             }
-
             h1 {
                 font-size: 2.2em;
             }
+            .genre-selection {
+                padding: 10px;
+                gap: 8px;
+            }
+            .genre-button {
+                font-size: 0.85em;
+                padding: 6px 12px;
+            }
+
+            .game-container {
+                grid-template-columns: 1fr; /* Single column */
+                grid-template-rows: auto auto auto auto 1fr; /* Image, Game Display, Choices, then Stats */
+                grid-template-areas:
+                    "image"
+                    "game-display"
+                    "choices"
+                    "history-button" /* Move history button here for mobile */
+                    "status-panel"; /* Move status to below choices and history button */
+                padding: 25px;
+                gap: 15px;
+                min-height: auto; /* Allow height to shrink on small screens */
+            }
+
+            #sceneImageContainer {
+                height: 250px; /* Adjust for smaller screens */
+            }
 
             #gameDisplay {
-                min-height: 250px;
+                min-height: 150px; /* Adjust for smaller screens */
+                font-size: 1em;
+            }
+
+            .choices-grid {
+                grid-template-columns: 1fr; /* Stack buttons vertically */
             }
 
             .status-panel {
-                grid-template-columns: 1fr; /* Stack on smaller screens */
+                flex-direction: row; /* Layout stats horizontally */
+                flex-wrap: wrap;
+                justify-content: space-around;
+                min-height: auto;
+            }
+            .status-item {
+                flex: 1 1 auto; /* Allow items to grow/shrink */
+                padding: 5px;
+                border-bottom: none; /* Remove bottom border for row layout */
+                border-right: 1px dashed rgba(255, 255, 255, 0.1); /* Add right border */
+            }
+            .status-item:last-child {
+                border-right: none;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+            .modal-content h2 {
+                font-size: 1.5em;
+            }
+            .modal-close-btn {
+                font-size: 1.5em;
             }
         }
 
@@ -202,21 +528,43 @@
             .game-container {
                 padding: 15px;
             }
-
             h1 {
                 font-size: 1.8em;
             }
-
+            .genre-button {
+                font-size: 0.8em;
+                padding: 5px 10px;
+            }
+            #sceneImageContainer {
+                height: 200px;
+            }
             .choice-button {
                 padding: 12px 15px;
                 font-size: 0.9em;
             }
         }
+
+        /* Optional: Fonts for other genres if sci-fi/horror are chosen */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap'); /* Sci-fi */
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap'); /* Horror */
     </style>
 </head>
-<body>
-    <div class="game-container">
+<body class="adventure-theme"> <!-- Default theme -->
+    <div class="game-header">
         <h1>AI Storyteller Adventure</h1>
+        <div class="genre-selection" id="genreSelection">
+            <button class="genre-button active" data-genre="adventure">Adventure</button>
+            <button class="genre-button" data-genre="fantasy">Fantasy</button>
+            <button class="genre-button" data-genre="sci-fi">Sci-Fi</button>
+            <button class="genre-button" data-genre="horror">Horror</button>
+        </div>
+    </div>
+
+    <div class="game-container">
+        <div id="sceneImageContainer">
+            <img id="sceneImage" src="" alt="AI generated scene image">
+            <span id="imagePlaceholder">Loading image...</span>
+        </div>
 
         <div id="gameDisplay">
             <!-- Game narrative will be displayed here -->
@@ -227,9 +575,6 @@
             <div id="choicesContainer" class="choices-grid">
                 <!-- Choices generated by AI will go here -->
             </div>
-            <label for="commandInput">Your Action:</label>
-            <input type="text" id="commandInput" placeholder="Type your command or choose an option...">
-            <button id="submitCommandBtn" class="choice-button">Submit</button>
         </div>
 
         <div class="status-panel">
@@ -251,7 +596,20 @@
             </div>
         </div>
 
+        <button id="viewHistoryBtn">View History</button>
+
         <div id="loadingIndicator">AI is crafting the narrative...</div>
+    </div>
+
+    <!-- History Modal -->
+    <div class="modal-overlay" id="historyModal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="closeHistoryModalBtn">&times;</button>
+            <h2>Adventure Log</h2>
+            <div id="historyDisplay">
+                <!-- History entries will be populated here -->
+            </div>
+        </div>
     </div>
 
     <script type="module">
@@ -341,6 +699,7 @@
                 npcs_present: [],
                 items_present: [],
                 active_quests: [],
+                image_url: "" // New property for scene image
             },
             player_state: {
                 inventory: [],
@@ -356,21 +715,31 @@
                 relic_location: "Whispering Caves",
                 main_antagonist: "Shadow Lord",
                 ancient_lore: "The Great Calamity was caused by ancient magic.",
-            }
+            },
+            current_genre: "adventure" // Default genre
         };
 
         let gameInitialized = false; // Flag to prevent multiple initializations
+        let adventure_log = []; // New: Stores the history of turns
 
         // --- DOM Elements ---
         const gameDisplay = document.getElementById('gameDisplay');
         const choicesContainer = document.getElementById('choicesContainer');
-        const commandInput = document.getElementById('commandInput');
-        const submitCommandBtn = document.getElementById('submitCommandBtn');
         const loadingIndicator = document.getElementById('loadingIndicator');
         const playerHealthEl = document.getElementById('playerHealth');
         const playerManaEl = document.getElementById('playerMana');
         const playerInventoryEl = document.getElementById('playerInventory');
         const playerQuestsEl = document.getElementById('playerQuests');
+        const sceneImage = document.getElementById('sceneImage');
+        const imagePlaceholder = document.getElementById('imagePlaceholder');
+        const genreSelectionDiv = document.getElementById('genreSelection');
+        const h1Title = document.querySelector('h1');
+
+        // History Modal Elements
+        const viewHistoryBtn = document.getElementById('viewHistoryBtn');
+        const historyModal = document.getElementById('historyModal');
+        const closeHistoryModalBtn = document.getElementById('closeHistoryModalBtn');
+        const historyDisplay = document.getElementById('historyDisplay');
 
         // --- Helper Functions for AI Interaction ---
 
@@ -393,12 +762,14 @@
                 .filter(nid => current_game_state.npcs_data[nid])
                 .map(nid => {
                     const npcData = current_game_state.npcs_data[nid];
-                    return `${nid}: ${npcData.name} (Traits: ${npcData.personality_traits.join(", ")})`;
+                    return `${npcData.name} (Traits: ${npcData.personality_traits.join(", ")})`;
                 });
             const npcsStr = npcsInScene.join("\n") || "No NPCs present.";
+            const currentGenre = current_game_state.current_genre; // Get current genre
 
             let basePrompt = `
-            You are an AI Dungeon Master for a text-based adventure game.
+            You are an AI Dungeon Master for a text-based adventure game. The current genre is "${currentGenre}".
+            The player can only choose from the provided options. They cannot type custom commands.
             Current Game State Snapshot:
             - Player Health: ${current_game_state.player_state.health}
             - Player Inventory: ${playerInventory}
@@ -411,19 +782,20 @@
             - Player's Last Action: "${player_input}"
 
             Based on this, generate content for the game. Your response MUST be a JSON object with the following keys. Ensure it is valid JSON and no extra text outside the JSON object:
-            - "scene_description": A detailed description of the next scene/situation.
-            - "available_choices": An array of 3-5 distinct, concise choices the player can make.
-            - "new_npcs_introduced": An optional array of new NPC objects (each with "id", "name", "personality_traits" (array of strings), "initial_dialogue").
-            - "new_items_found": An optional array of new item strings found in the scene.
-            - "new_quests_triggered": An optional array of new quest objects (each with "id", "description", "objectives" (array of strings), "rewards" (array of strings), "status": "active").
+            - "scene_description": A detailed description of the next scene/situation. Ensure the description fits the "${currentGenre}" genre.
+            - "available_choices": An array of 3-5 distinct, concise choices the player can make. These choices should also fit the "${currentGenre}" genre.
+            - "new_npcs_introduced": An optional array of new NPC objects (each with "id", "name", "personality_traits" (array of strings), "initial_dialogue"). The NPCs should fit the "${currentGenre}" genre.
+            - "new_items_found": An optional array of new item strings found in the scene. Items should fit the "${currentGenre}" genre.
+            - "new_quests_triggered": An optional array of new quest objects (each with "id", "description", "objectives" (array of strings), "rewards" (array of strings), "status": "active"). Quests should fit the "${currentGenre}" genre.
             - "stat_changes": An optional object with keys like "health", "mana", "inventory_add" (array), "inventory_remove" (array), etc.
+            - "image_prompt": A concise, descriptive string (20-30 words) that can be used to generate an image for the "scene_description". Focus on the main visual elements and ensure it matches the "${currentGenre}" genre.
             `;
 
             if (context_type === "initial_scene") {
                 return `
                 ${basePrompt}
                 The adventure begins. You wake up in a mysterious forest with no memory of how you got there.
-                Generate the initial scene.
+                Generate the initial scene. Make the 'image_prompt' for a lush, mysterious forest with ancient trees, fitting the ${currentGenre} genre.
                 `;
             } else if (context_type === "next_turn") {
                 return `
@@ -431,6 +803,7 @@
                 The player has chosen to: "${player_input}".
                 Continue the story, describe the consequences of their action, and provide new choices.
                 Consider the hidden world parameters implicitly: ${JSON.stringify(current_game_state.secret_world_parameters)}.
+                Generate an 'image_prompt' that visually captures the essence of the new scene description, matching the ${currentGenre} genre.
                 `;
             } else if (context_type === "npc_dialogue" && npc_id) {
                 const npcData = current_game_state.npcs_data[npc_id] || {};
@@ -439,9 +812,10 @@
                 return `
                 ${basePrompt}
                 The player is interacting with ${npcName} (Personality: ${npcTraits}).
-                The player said/chose: "${player_input}".
-                Generate ${npcName}'s response, reflecting their personality and current state, based on the player's input.
-                Provide follow-up choices for dialogue or actions.
+                The player chose to interact with the NPC with action: "${player_input}".
+                Generate ${npcName}'s response, reflecting their personality and current state, based on the player's interaction.
+                Provide follow-up choices for dialogue or actions for the player.
+                Generate an 'image_prompt' that visually represents the NPC and their immediate surroundings, fitting the ${currentGenre} genre.
                 `;
             } else if (context_type === "quest_trigger") {
                 return `
@@ -449,70 +823,108 @@
                 The player's action has triggered a potential quest opportunity related to "${player_input}".
                 Generate a narrative segment that introduces a new side quest relevant to this.
                 Include the quest's initial objectives.
+                Generate an 'image_prompt' that visually depicts the quest's initiation or its immediate context, fitting the ${currentGenre} genre.
                 `;
             } else {
-                return `${basePrompt}\nPlayer's action: "${player_input}". Continue the narrative.`;
+                return `${basePrompt}\nPlayer's action: "${player_input}". Continue the narrative. Generate an 'image_prompt' for the new scene, fitting the ${currentGenre} genre.`;
             }
         }
 
         /**
-         * Makes a conceptual call to the Gemini API.
-         * In a real application, this would use a fetch request to the actual Gemini API endpoint.
-         * For this example, we'll simulate a response or use a simple fetch call.
+         * Makes a conceptual call to the Gemini API for text and Imagen for image.
          * @param {string} prompt - The text prompt to send to the AI.
-         * @returns {Promise<Object>} A promise that resolves to the parsed JSON response from the AI.
+         * @returns {Promise<Object>} A promise that resolves to an object containing parsed text data and an image URL.
          */
         async function makeAiCall(prompt) {
-            loadingIndicator.style.display = 'block'; // Show loading indicator
-            commandInput.disabled = true;
-            submitCommandBtn.disabled = true;
+            loadingIndicator.textContent = 'AI is crafting narrative...';
+            loadingIndicator.style.display = 'block';
             choicesContainer.querySelectorAll('button').forEach(btn => btn.disabled = true);
+            sceneImage.style.opacity = 0; // Hide old image
+            imagePlaceholder.style.display = 'block'; // Show image loading placeholder
 
-            let chatHistory = [];
-            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-            const payload = { contents: chatHistory };
-            const apiKey = ""; // Canvas will provide this API key at runtime
+            let textResponseData = null;
+            let imageUrl = '';
 
             try {
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                const response = await fetch(apiUrl, {
+                // Accessing the API key directly from the global variable provided by the Canvas environment
+                const apiKey = typeof __api_key !== 'undefined' ? __api_key : "";
+
+                // --- 1. Fetch Text Narrative from Gemini 2.0 Flash ---
+                const textApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const textPayload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+
+                const textFetchResponse = await fetch(textApiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(textPayload) // Corrected: use textPayload here
                 });
 
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`API call failed: ${response.status} ${response.statusText} - ${errorText}`);
+                if (!textFetchResponse.ok) {
+                    const errorText = await textFetchResponse.text();
+                    throw new Error(`Text API call failed: ${textFetchResponse.status} ${textFetchResponse.statusText} - ${errorText}`);
                 }
 
-                const result = await response.json();
-                console.log("Raw AI result:", result); // For debugging AI response structure
+                const textResult = await textFetchResponse.json();
+                console.log("Raw Text AI result:", textResult);
 
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const rawAiText = result.candidates[0].content.parts[0].text;
-                    return _parseAiResponse(rawAiText);
+                if (textResult.candidates && textResult.candidates.length > 0 &&
+                    textResult.candidates[0].content && textResult.candidates[0].content.parts &&
+                    textResult.candidates[0].content.parts.length > 0) {
+                    const rawAiText = textResult.candidates[0].content.parts[0].text;
+                    textResponseData = _parseAiResponse(rawAiText);
                 } else {
-                    console.error("AI response structure unexpected:", result);
-                    throw new Error("AI did not return valid content.");
+                    throw new Error("Text AI did not return valid content.");
                 }
+
+                // --- 2. Generate Image from Imagen 3.0 ---
+                if (textResponseData && textResponseData.image_prompt) {
+                    loadingIndicator.textContent = 'AI is crafting visuals...'; // Update loading message
+
+                    const imageApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+                    const imagePayload = { instances: { prompt: textResponseData.image_prompt }, parameters: { "sampleCount": 1 } };
+
+                    const imageFetchResponse = await fetch(imageApiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(imagePayload)
+                    });
+
+                    if (!imageFetchResponse.ok) {
+                        const errorText = await imageFetchResponse.text();
+                        throw new Error(`Image API call failed: ${imageFetchResponse.status} ${imageFetchResponse.statusText} - ${errorText}`);
+                    }
+
+                    const imageResult = await imageFetchResponse.json();
+                    console.log("Raw Image AI result:", imageResult);
+
+                    if (imageResult.predictions && imageResult.predictions.length > 0 && imageResult.predictions[0].bytesBase64Encoded) {
+                        imageUrl = `data:image/png;base64,${imageResult.predictions[0].bytesBase64Encoded}`;
+                    } else {
+                        console.warn("Image AI did not return valid image data. Using placeholder.");
+                        imagePlaceholder.textContent = "Image could not be generated.";
+                    }
+                } else {
+                    console.warn("No image_prompt received from text AI. Skipping image generation.");
+                    imagePlaceholder.textContent = "No image prompt available.";
+                }
+
             } catch (error) {
-                console.error("Error fetching AI message:", error);
-                // Return a default/error response if fetching or parsing fails
-                return {
-                    scene_description: "The world seems to glitch. A strange error occurred in the narrative. Please try a different action.",
-                    available_choices: ["Try again.", "Look around cautiously."],
+                console.error("Error during AI calls:", error);
+                // Return default/error responses for both text and image if anything fails
+                textResponseData = {
+                    scene_description: "An ancient magic interferes with the narrative. The story is momentarily lost. Please choose to continue.",
+                    available_choices: ["Bravely continue.", "Wait for the magic to clear."],
                     new_npcs_introduced: [], new_items_found: [],
                     new_quests_triggered: [], stat_changes: {}
                 };
+                imageUrl = ''; // No image on error
+                imagePlaceholder.textContent = "Failed to load scene image.";
             } finally {
-                loadingIndicator.style.display = 'none'; // Hide loading indicator
-                commandInput.disabled = false;
-                submitCommandBtn.disabled = false;
+                loadingIndicator.style.display = 'none';
                 choicesContainer.querySelectorAll('button').forEach(btn => btn.disabled = false);
             }
+
+            return { textData: textResponseData, imageUrl: imageUrl };
         }
 
         /**
@@ -522,14 +934,12 @@
          */
         function _parseAiResponse(rawAiText) {
             try {
-                // Remove any markdown code block fences if present
                 const cleanJsonText = rawAiText.replace(/^```json\n|\n```$/g, '').trim();
                 const parsedData = JSON.parse(cleanJsonText);
                 return parsedData;
             } catch (e) {
                 console.error(`Error parsing AI response JSON: ${e}`);
                 console.error(`Raw AI response: "${rawAiText}"`);
-                // Return a default/error response if parsing fails
                 return {
                     scene_description: "The AI's message was garbled. The story has paused. Please try again.",
                     available_choices: ["Continue anyway.", "Wait patiently."],
@@ -542,16 +952,19 @@
         /**
          * Updates the main game_state object based on the parsed AI response.
          * @param {Object} current_game_state - The current state of the game (will be modified).
-         * @param {Object} ai_response_data - The dictionary containing parsed data from the AI.
+         * @param {Object} ai_response - Object containing parsed text data and image URL.
          */
-        function _updateGameStateFromAiResponse(current_game_state, ai_response_data) {
-            current_game_state.current_scene.description = ai_response_data.scene_description || "";
-            current_game_state.current_scene.available_choices = ai_response_data.available_choices || [];
+        function _updateGameStateFromAiResponse(current_game_state, ai_response) {
+            const { textData, imageUrl } = ai_response;
+
+            current_game_state.current_scene.description = textData.scene_description || "";
+            current_game_state.current_scene.available_choices = textData.available_choices || [];
+            current_game_state.current_scene.image_url = imageUrl; // Store the generated image URL
 
             // Add new NPCs
-            if (ai_response_data.new_npcs_introduced) {
-                for (const npcData of ai_response_data.new_npcs_introduced) {
-                    const npcId = npcData.id || crypto.randomUUID(); // Generate UUID if not provided
+            if (textData.new_npcs_introduced) {
+                for (const npcData of textData.new_npcs_introduced) {
+                    const npcId = npcData.id || crypto.randomUUID();
                     current_game_state.npcs_data[npcId] = {
                         name: npcData.name || "Unnamed NPC",
                         personality_traits: npcData.personality_traits || [],
@@ -565,8 +978,8 @@
             }
 
             // Add new items to current scene (for picking up)
-            if (ai_response_data.new_items_found) {
-                for (const item of ai_response_data.new_items_found) {
+            if (textData.new_items_found) {
+                for (const item of textData.new_items_found) {
                     if (!current_game_state.current_scene.items_present.includes(item)) {
                         current_game_state.current_scene.items_present.push(item);
                     }
@@ -574,8 +987,8 @@
             }
 
             // Trigger new quests
-            if (ai_response_data.new_quests_triggered) {
-                for (const questData of ai_response_data.new_quests_triggered) {
+            if (textData.new_quests_triggered) {
+                for (const questData of textData.new_quests_triggered) {
                     const questId = questData.id || crypto.randomUUID();
                     current_game_state.quests_data[questId] = {
                         description: questData.description || "A new quest.",
@@ -590,7 +1003,7 @@
             }
 
             // Apply stat changes
-            const statChanges = ai_response_data.stat_changes || {};
+            const statChanges = textData.stat_changes || {};
             if (statChanges.health !== undefined) {
                 current_game_state.player_state.health += statChanges.health;
                 if (current_game_state.player_state.health < 0) current_game_state.player_state.health = 0;
@@ -611,6 +1024,11 @@
                     const index = current_game_state.player_state.inventory.indexOf(item);
                     if (index > -1) {
                         current_game_state.player_state.inventory.splice(index, 1);
+                    }
+                    // Remove from scene's items as well if it was there (e.g., picked up)
+                    const sceneItemIndex = current_game_state.current_scene.items_present.indexOf(item);
+                    if (sceneItemIndex > -1) {
+                        current_game_state.current_scene.items_present.splice(sceneItemIndex, 1);
                     }
                 }
             }
@@ -637,6 +1055,7 @@
                     npcs_present: [],
                     items_present: [],
                     active_quests: [],
+                    image_url: ""
                 },
                 player_state: {
                     inventory: [],
@@ -652,11 +1071,31 @@
                     relic_location: "Whispering Caves",
                     main_antagonist: "Shadow Lord",
                     ancient_lore: "The Great Calamity was caused by ancient magic.",
-                }
+                },
+                current_genre: game_state.current_genre // Preserve selected genre
             };
+
+            adventure_log = []; // Reset adventure log on new game
 
             const initialPrompt = _constructAiPrompt(game_state, "", "initial_scene");
             const aiResponse = await makeAiCall(initialPrompt);
+
+            // Capture initial state for the log before updating game_state
+            const initialLogEntry = {
+                turn_number: 1,
+                player_choice: "Game Start",
+                genre: game_state.current_genre,
+                scene_description: aiResponse.textData.scene_description,
+                image_prompt: aiResponse.textData.image_prompt,
+                image_url: aiResponse.imageUrl,
+                new_items_found: aiResponse.textData.new_items_found,
+                stat_changes_applied: aiResponse.textData.stat_changes,
+                npcs_introduced: aiResponse.textData.new_npcs_introduced,
+                quests_triggered: aiResponse.textData.new_quests_triggered,
+                player_state_at_end_of_turn: { ...game_state.player_state } // Deep copy
+            };
+            adventure_log.push(initialLogEntry);
+
 
             _updateGameStateFromAiResponse(game_state, aiResponse);
             game_state.player_state.location_history.push(game_state.current_scene.description);
@@ -673,16 +1112,67 @@
             gameDisplay.innerHTML += `\n> You chose: "${player_choice}"\n`;
             gameDisplay.scrollTop = gameDisplay.scrollHeight;
 
+            // Prepare log entry before AI call
+            const currentTurnNumber = adventure_log.length + 1;
+            const logEntry = {
+                turn_number: currentTurnNumber,
+                player_choice: player_choice,
+                genre: game_state.current_genre,
+                scene_description: "",
+                image_prompt: "",
+                image_url: "",
+                new_items_found: [],
+                stat_changes_applied: {},
+                npcs_introduced: [],
+                quests_triggered: [],
+                player_state_at_end_of_turn: { ...game_state.player_state } // Snapshot before AI's effects
+            };
+            adventure_log.push(logEntry); // Add placeholder entry
+
             // Add player's choice to narrative history for context
             game_state.narrative_history.push(`Player chooses: ${player_choice}`);
             game_state.player_state.location_history.push(player_choice); // Track path
 
             // Construct prompt for the next turn
-            const nextTurnPrompt = _constructAiPrompt(game_state, player_choice, "next_turn");
+            let nextTurnPrompt;
+            const talkMatch = player_choice.toLowerCase().match(/^talk to\s+(.+)/);
+            if (talkMatch) {
+                const targetNpcName = talkMatch[1].trim();
+                let foundNpcId = null;
+                for (const npcId in game_state.npcs_data) {
+                    if (game_state.npcs_data[npcId].name.toLowerCase() === targetNpcName) {
+                        foundNpcId = npcId;
+                        break;
+                    }
+                }
+                if (foundNpcId) {
+                    nextTurnPrompt = _constructAiPrompt(game_state, player_choice, "npc_dialogue", foundNpcId);
+                } else {
+                    nextTurnPrompt = _constructAiPrompt(game_state, player_choice, "next_turn");
+                }
+            } else {
+                nextTurnPrompt = _constructAiPrompt(game_state, player_choice, "next_turn");
+            }
+
             const aiResponse = await makeAiCall(nextTurnPrompt);
 
+            // Update game state
             _updateGameStateFromAiResponse(game_state, aiResponse);
             game_state.player_state.location_history.push(game_state.current_scene.description);
+
+            // Update the log entry with AI response data
+            logEntry.scene_description = aiResponse.textData.scene_description;
+            logEntry.image_prompt = aiResponse.textData.image_prompt;
+            logEntry.image_url = aiResponse.imageUrl;
+            logEntry.new_items_found = aiResponse.textData.new_items_found || [];
+            logEntry.stat_changes_applied = aiResponse.textData.stat_changes || {};
+            logEntry.npcs_introduced = aiResponse.textData.new_npcs_introduced || [];
+            logEntry.quests_triggered = aiResponse.textData.new_quests_triggered || [];
+            logEntry.player_state_at_end_of_turn = { // Snapshot after AI's effects
+                ...game_state.player_state,
+                inventory: [...game_state.player_state.inventory] // Deep copy inventory array
+            };
+
             console.log("Story advanced.");
             displayCurrentScene();
 
@@ -690,40 +1180,8 @@
             if (game_state.player_state.health <= 0) {
                 gameDisplay.innerHTML += "\n--- Your journey ends here. Game Over! ---";
                 gameDisplay.scrollTop = gameDisplay.scrollHeight;
-                commandInput.disabled = true;
-                submitCommandBtn.disabled = true;
                 choicesContainer.innerHTML = ''; // Clear choices
             }
-        }
-
-
-        /**
-         * Manages interaction with a specific NPC using AI.
-         * @param {string} npc_id - The ID of the NPC being interacted with.
-         * @param {string} player_query - What the player says or asks the NPC.
-         */
-        async function handleNpcInteraction(npc_id, player_query) {
-            if (!game_state.npcs_data[npc_id]) {
-                gameDisplay.innerHTML += `\nError: NPC with ID ${npc_id} not found.\n`;
-                gameDisplay.scrollTop = gameDisplay.scrollHeight;
-                return;
-            }
-
-            const npcName = game_state.npcs_data[npc_id].name;
-            gameDisplay.innerHTML += `\n> You say to ${npcName}: "${player_query}"\n`;
-            gameDisplay.scrollTop = gameDisplay.scrollHeight;
-
-            // Construct prompt for NPC dialogue
-            const npcDialoguePrompt = _constructAiPrompt(game_state, player_query, "npc_dialogue", npc_id);
-            const aiResponse = await makeAiCall(npcDialoguePrompt);
-
-            // NPC responses might also update the scene or trigger quests/items
-            _updateGameStateFromAiResponse(game_state, aiResponse);
-
-            // Display NPC's reply (which the AI puts in scene_description for dialogue)
-            gameDisplay.innerHTML += `\n${npcName} replies: "${game_state.current_scene.description}"\n`;
-            gameDisplay.scrollTop = gameDisplay.scrollHeight;
-            displayCurrentChoices(); // Refresh choices as dialogue might change them
         }
 
 
@@ -731,13 +1189,33 @@
          * Renders the current scene's description and available choices to the webpage.
          */
         function displayCurrentScene() {
+            // Display image
+            if (game_state.current_scene.image_url) {
+                sceneImage.src = game_state.current_scene.image_url;
+                sceneImage.onload = () => {
+                    sceneImage.style.opacity = 1; // Fade in image
+                    imagePlaceholder.style.display = 'none'; // Hide placeholder
+                };
+                sceneImage.onerror = () => {
+                    sceneImage.src = ''; // Clear source on error
+                    sceneImage.style.opacity = 0;
+                    imagePlaceholder.textContent = "Failed to load image.";
+                    imagePlaceholder.style.display = 'block';
+                };
+                sceneImageContainer.style.display = 'flex'; // Show the container
+            } else {
+                sceneImage.src = ''; // Clear any previous image
+                sceneImage.style.opacity = 0;
+                imagePlaceholder.textContent = "No image available for this scene.";
+                imagePlaceholder.style.display = 'block';
+                sceneImageContainer.style.display = 'none'; // Hide the container completely
+            }
+
             gameDisplay.innerHTML += `\n\n--- NEW SCENE ---\n${game_state.current_scene.description}\n`;
             gameDisplay.scrollTop = gameDisplay.scrollHeight; // Keep scrolled to bottom
 
             displayCurrentChoices();
             updatePlayerStatusDisplay();
-            commandInput.value = ''; // Clear input field
-            commandInput.focus(); // Keep focus for easy typing
         }
 
         /**
@@ -757,7 +1235,7 @@
                 });
             } else {
                 const noChoicesMsg = document.createElement('p');
-                noChoicesMsg.textContent = "No specific choices available. Use the text input for custom actions.";
+                noChoicesMsg.textContent = "No specific choices available. The story might have ended or is awaiting AI response.";
                 noChoicesMsg.style.color = '#bdc3c7';
                 choicesContainer.appendChild(noChoicesMsg);
             }
@@ -777,61 +1255,114 @@
             playerQuestsEl.textContent = activeQuestsSummaries.join('; ') || 'No active quests.';
         }
 
+        /**
+         * Sets the current theme based on the selected genre.
+         * @param {string} genre - The selected genre (e.g., 'fantasy', 'sci-fi', 'horror').
+         */
+        function setTheme(genre) {
+            const body = document.body;
+            // Remove existing theme classes
+            body.classList.remove('adventure-theme', 'fantasy-theme', 'sci-fi-theme', 'horror-theme');
+            // Add the new theme class
+            body.classList.add(`${genre}-theme`);
+            game_state.current_genre = genre; // Update game state with current genre
+
+            // Update title font if specific to genre
+            if (genre === 'sci-fi') {
+                h1Title.style.fontFamily = "'Orbitron', sans-serif";
+            } else if (genre === 'horror') {
+                h1Title.style.fontFamily = "'Creepster', cursive";
+            } else {
+                h1Title.style.fontFamily = "'Pirata One', cursive"; // Default adventure font
+            }
+
+            // Update active genre button
+            document.querySelectorAll('.genre-button').forEach(button => {
+                button.classList.remove('active');
+                if (button.dataset.genre === genre) {
+                    button.classList.add('active');
+                }
+            });
+
+            // Re-initialize game to generate new narrative/image based on new genre
+            initializeGame();
+        }
+
+        /**
+         * Displays the history modal and populates it with adventure log data.
+         */
+        function displayHistoryModal() {
+            historyDisplay.innerHTML = ''; // Clear previous history
+            if (adventure_log.length === 0) {
+                historyDisplay.textContent = "No adventure history yet. Start playing!";
+            } else {
+                adventure_log.forEach(entry => {
+                    const entryDiv = document.createElement('div');
+                    entryDiv.classList.add('history-entry');
+
+                    let content = `<h4>Turn ${entry.turn_number} (${entry.genre} Genre)</h4>`;
+                    content += `<p><strong>Player Choice:</strong> ${entry.player_choice}</p>`;
+                    content += `<p><strong>Scene:</strong> ${entry.scene_description}</p>`;
+                    if (entry.image_prompt) {
+                         content += `<p><strong>Image Prompt:</strong> <em>"${entry.image_prompt}"</em></p>`;
+                    }
+                    if (entry.new_items_found && entry.new_items_found.length > 0) {
+                        content += `<p><strong>Items Found:</strong> ${entry.new_items_found.join(', ')}</p>`;
+                    }
+                    if (entry.stat_changes_applied && Object.keys(entry.stat_changes_applied).length > 0) {
+                        const changes = Object.entries(entry.stat_changes_applied)
+                                            .map(([key, value]) => `${key}: ${value > 0 ? '+' : ''}${value}`)
+                                            .join(', ');
+                        content += `<p><strong>Stats Changed:</strong> ${changes}</p>`;
+                    }
+                    if (entry.npcs_introduced && entry.npcs_introduced.length > 0) {
+                        const npcs = entry.npcs_introduced.map(npc => `${npc.name} (${npc.personality_traits.join('/')})`).join('; ');
+                        content += `<p><strong>NPCs Introduced:</strong> ${npcs}</p>`;
+                    }
+                    if (entry.quests_triggered && entry.quests_triggered.length > 0) {
+                        const quests = entry.quests_triggered.map(q => `${q.description}`).join('; ');
+                        content += `<p><strong>Quests Triggered:</strong> ${quests}</p>`;
+                    }
+                    if (entry.player_state_at_end_of_turn) {
+                        content += `<p><strong>Player Health (End of Turn):</strong> ${entry.player_state_at_end_of_turn.health}</p>`;
+                        content += `<p><strong>Player Inventory (End of Turn):</strong> ${entry.player_state_at_end_of_turn.inventory.join(', ') || 'Empty'}</p>`;
+                    }
+
+                    entryDiv.innerHTML = content;
+                    historyDisplay.appendChild(entryDiv);
+                });
+            }
+            historyModal.classList.add('visible');
+        }
+
+        /**
+         * Hides the history modal.
+         */
+        function hideHistoryModal() {
+            historyModal.classList.remove('visible');
+        }
+
 
         // --- Event Listeners ---
 
-        // Submit command via button click
-        submitCommandBtn.addEventListener('click', () => {
-            const command = commandInput.value.trim();
-            if (command) {
-                // Check if the command is for NPC interaction
-                const talkMatch = command.toLowerCase().match(/^talk to\s+(.+)/);
-                if (talkMatch) {
-                    const targetNpcName = talkMatch[1].trim();
-                    let foundNpcId = null;
-                    for (const npcId in game_state.npcs_data) {
-                        if (game_state.npcs_data[npcId].name.toLowerCase() === targetNpcName) {
-                            foundNpcId = npcId;
-                            break;
-                        }
-                    }
-
-                    if (foundNpcId) {
-                        // Prompt for dialogue if NPC found
-                        const dialoguePrompt = "What do you want to say to " + game_state.npcs_data[foundNpcId].name + "? (Type your message in the input field below)";
-                        gameDisplay.innerHTML += `\n> ${dialoguePrompt}\n`;
-                        gameDisplay.scrollTop = gameDisplay.scrollHeight;
-                        commandInput.setAttribute('data-npc-id', foundNpcId); // Store NPC ID for next input
-                        commandInput.setAttribute('placeholder', 'Type your dialogue here...');
-                        submitCommandBtn.textContent = 'Send Dialogue';
-                        choicesContainer.innerHTML = ''; // Clear choices during dialogue
-                        commandInput.value = '';
-                        commandInput.focus();
-                        return; // Exit here, will handle dialogue on next submit
-                    }
-                }
-
-                // If it's a dialogue follow-up
-                if (commandInput.hasAttribute('data-npc-id')) {
-                    const npcId = commandInput.getAttribute('data-npc-id');
-                    commandInput.removeAttribute('data-npc-id');
-                    commandInput.setAttribute('placeholder', 'Type your command or choose an option...');
-                    submitCommandBtn.textContent = 'Submit';
-                    handleNpcInteraction(npcId, command);
-                } else {
-                    // Regular story advancement
-                    advanceStory(command);
-                }
+        // Event listener for genre selection buttons
+        genreSelectionDiv.addEventListener('click', (event) => {
+            if (event.target.classList.contains('genre-button')) {
+                const selectedGenre = event.target.dataset.genre;
+                setTheme(selectedGenre);
             }
         });
 
-        // Submit command via Enter key
-        commandInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // Prevent new line in input field
-                submitCommandBtn.click(); // Trigger button click
+        // Event listeners for history modal
+        viewHistoryBtn.addEventListener('click', displayHistoryModal);
+        closeHistoryModalBtn.addEventListener('click', hideHistoryModal);
+        historyModal.addEventListener('click', (event) => {
+            // Close modal if clicking on the overlay, not the content
+            if (event.target === historyModal) {
+                hideHistoryModal();
             }
         });
+
 
         // Initialize Firebase and then the game on window load
         window.addEventListener('load', initializeFirebase);
