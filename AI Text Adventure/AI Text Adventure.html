@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -231,12 +232,11 @@
             padding: 30px; /* Adjust padding slightly for grid */
             display: grid;
             grid-template-columns: 1fr 250px; /* Main content + sidebar */
-            grid-template-rows: auto auto 1fr auto; /* Image, text/choices, stats, history button */
+            grid-template-rows: auto auto 1fr; /* Image, text/choices, stats */
             grid-template-areas:
                 "image image"
                 "game-display status-panel"
-                "choices status-panel"
-                "history-button history-button"; /* New area for history button */
+                "choices status-panel";
             gap: 20px 25px; /* Row and column gap */
             height: fit-content; /* Adjust height based on content */
             align-items: start; /* Align items to the top of their cells */
@@ -312,32 +312,6 @@
             border-bottom: none;
         }
 
-        /* History button styling */
-        #viewHistoryBtn {
-            grid-area: history-button; /* Place in the new grid area */
-            margin-top: 20px; /* Add some space from above */
-            background: linear-gradient(145deg, #f39c12, #e67e22); /* Orange gradient */
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            display: block; /* Make it a block element to take full width of its grid area */
-            width: fit-content; /* Adjust width to content */
-            margin-left: auto; /* Center button horizontally in grid area */
-            margin-right: auto;
-        }
-
-        #viewHistoryBtn:hover {
-            background: linear-gradient(145deg, #e67e22, #f39c12);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            transform: translateY(-2px);
-        }
-
         /* Loading indicator positioned centrally within the game container */
         #loadingIndicator {
             position: absolute;
@@ -354,104 +328,6 @@
             /* Shared styles from :root variables */
         }
 
-        /* --- MODAL STYLES --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000; /* Ensure it's on top of everything */
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .modal-overlay.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background-color: var(--container-bg);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            width: 90%;
-            max-width: 700px;
-            max-height: 80vh; /* Limit height for scrolling */
-            overflow-y: auto; /* Enable scrolling for history */
-            position: relative;
-            color: var(--text-color);
-            border: 2px solid var(--border-color);
-            transform: translateY(20px);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .modal-overlay.visible .modal-content {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .modal-close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            font-size: 1.8em;
-            color: var(--highlight-color);
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .modal-close-btn:hover {
-            transform: rotate(90deg);
-        }
-
-        .modal-content h2 {
-            color: var(--highlight-color);
-            margin-top: 0;
-            margin-bottom: 20px;
-            text-align: center;
-            font-family: 'Pirata One', cursive; /* Match main title style */
-            font-size: 2em;
-        }
-
-        #historyDisplay {
-            font-size: 0.95em;
-            line-height: 1.6;
-            white-space: pre-wrap; /* Preserve formatting from history entries */
-            color: var(--display-text-color);
-        }
-
-        .history-entry {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-        }
-
-        .history-entry:last-child {
-            border-bottom: none;
-        }
-
-        .history-entry h4 {
-            color: var(--button-primary);
-            margin-top: 0;
-            margin-bottom: 5px;
-            font-size: 1.1em;
-        }
-
-        .history-entry p {
-            margin: 0;
-            padding-left: 10px;
-            font-size: 0.9em;
-        }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
@@ -477,8 +353,7 @@
                     "image"
                     "game-display"
                     "choices"
-                    "history-button" /* Move history button here for mobile */
-                    "status-panel"; /* Move status to below choices and history button */
+                    "status-panel"; /* Move status to below choices */
                 padding: 25px;
                 gap: 15px;
                 min-height: auto; /* Allow height to shrink on small screens */
@@ -511,16 +386,6 @@
             }
             .status-item:last-child {
                 border-right: none;
-            }
-
-            .modal-content {
-                padding: 20px;
-            }
-            .modal-content h2 {
-                font-size: 1.5em;
-            }
-            .modal-close-btn {
-                font-size: 1.5em;
             }
         }
 
@@ -596,20 +461,7 @@
             </div>
         </div>
 
-        <button id="viewHistoryBtn">View History</button>
-
         <div id="loadingIndicator">AI is crafting the narrative...</div>
-    </div>
-
-    <!-- History Modal -->
-    <div class="modal-overlay" id="historyModal">
-        <div class="modal-content">
-            <button class="modal-close-btn" id="closeHistoryModalBtn">&times;</button>
-            <h2>Adventure Log</h2>
-            <div id="historyDisplay">
-                <!-- History entries will be populated here -->
-            </div>
-        </div>
     </div>
 
     <script type="module">
@@ -720,7 +572,6 @@
         };
 
         let gameInitialized = false; // Flag to prevent multiple initializations
-        let adventure_log = []; // New: Stores the history of turns
 
         // --- DOM Elements ---
         const gameDisplay = document.getElementById('gameDisplay');
@@ -734,12 +585,6 @@
         const imagePlaceholder = document.getElementById('imagePlaceholder');
         const genreSelectionDiv = document.getElementById('genreSelection');
         const h1Title = document.querySelector('h1');
-
-        // History Modal Elements
-        const viewHistoryBtn = document.getElementById('viewHistoryBtn');
-        const historyModal = document.getElementById('historyModal');
-        const closeHistoryModalBtn = document.getElementById('closeHistoryModalBtn');
-        const historyDisplay = document.getElementById('historyDisplay');
 
         // --- Helper Functions for AI Interaction ---
 
@@ -856,7 +701,7 @@
                 const textFetchResponse = await fetch(textApiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(textPayload) // Corrected: use textPayload here
+                    body: JSON.stringify(textPayload)
                 });
 
                 if (!textFetchResponse.ok) {
@@ -1075,27 +920,8 @@
                 current_genre: game_state.current_genre // Preserve selected genre
             };
 
-            adventure_log = []; // Reset adventure log on new game
-
             const initialPrompt = _constructAiPrompt(game_state, "", "initial_scene");
             const aiResponse = await makeAiCall(initialPrompt);
-
-            // Capture initial state for the log before updating game_state
-            const initialLogEntry = {
-                turn_number: 1,
-                player_choice: "Game Start",
-                genre: game_state.current_genre,
-                scene_description: aiResponse.textData.scene_description,
-                image_prompt: aiResponse.textData.image_prompt,
-                image_url: aiResponse.imageUrl,
-                new_items_found: aiResponse.textData.new_items_found,
-                stat_changes_applied: aiResponse.textData.stat_changes,
-                npcs_introduced: aiResponse.textData.new_npcs_introduced,
-                quests_triggered: aiResponse.textData.new_quests_triggered,
-                player_state_at_end_of_turn: { ...game_state.player_state } // Deep copy
-            };
-            adventure_log.push(initialLogEntry);
-
 
             _updateGameStateFromAiResponse(game_state, aiResponse);
             game_state.player_state.location_history.push(game_state.current_scene.description);
@@ -1112,29 +938,13 @@
             gameDisplay.innerHTML += `\n> You chose: "${player_choice}"\n`;
             gameDisplay.scrollTop = gameDisplay.scrollHeight;
 
-            // Prepare log entry before AI call
-            const currentTurnNumber = adventure_log.length + 1;
-            const logEntry = {
-                turn_number: currentTurnNumber,
-                player_choice: player_choice,
-                genre: game_state.current_genre,
-                scene_description: "",
-                image_prompt: "",
-                image_url: "",
-                new_items_found: [],
-                stat_changes_applied: {},
-                npcs_introduced: [],
-                quests_triggered: [],
-                player_state_at_end_of_turn: { ...game_state.player_state } // Snapshot before AI's effects
-            };
-            adventure_log.push(logEntry); // Add placeholder entry
-
             // Add player's choice to narrative history for context
             game_state.narrative_history.push(`Player chooses: ${player_choice}`);
             game_state.player_state.location_history.push(player_choice); // Track path
 
             // Construct prompt for the next turn
             let nextTurnPrompt;
+            // Detect if the choice implies NPC interaction (e.g., "Talk to [NPC Name]")
             const talkMatch = player_choice.toLowerCase().match(/^talk to\s+(.+)/);
             if (talkMatch) {
                 const targetNpcName = talkMatch[1].trim();
@@ -1148,31 +958,18 @@
                 if (foundNpcId) {
                     nextTurnPrompt = _constructAiPrompt(game_state, player_choice, "npc_dialogue", foundNpcId);
                 } else {
+                    // If no NPC found for 'talk to', treat as general action
                     nextTurnPrompt = _constructAiPrompt(game_state, player_choice, "next_turn");
                 }
             } else {
                 nextTurnPrompt = _constructAiPrompt(game_state, player_choice, "next_turn");
             }
 
+
             const aiResponse = await makeAiCall(nextTurnPrompt);
 
-            // Update game state
             _updateGameStateFromAiResponse(game_state, aiResponse);
             game_state.player_state.location_history.push(game_state.current_scene.description);
-
-            // Update the log entry with AI response data
-            logEntry.scene_description = aiResponse.textData.scene_description;
-            logEntry.image_prompt = aiResponse.textData.image_prompt;
-            logEntry.image_url = aiResponse.imageUrl;
-            logEntry.new_items_found = aiResponse.textData.new_items_found || [];
-            logEntry.stat_changes_applied = aiResponse.textData.stat_changes || {};
-            logEntry.npcs_introduced = aiResponse.textData.new_npcs_introduced || [];
-            logEntry.quests_triggered = aiResponse.textData.new_quests_triggered || [];
-            logEntry.player_state_at_end_of_turn = { // Snapshot after AI's effects
-                ...game_state.player_state,
-                inventory: [...game_state.player_state.inventory] // Deep copy inventory array
-            };
-
             console.log("Story advanced.");
             displayCurrentScene();
 
@@ -1288,60 +1085,6 @@
             initializeGame();
         }
 
-        /**
-         * Displays the history modal and populates it with adventure log data.
-         */
-        function displayHistoryModal() {
-            historyDisplay.innerHTML = ''; // Clear previous history
-            if (adventure_log.length === 0) {
-                historyDisplay.textContent = "No adventure history yet. Start playing!";
-            } else {
-                adventure_log.forEach(entry => {
-                    const entryDiv = document.createElement('div');
-                    entryDiv.classList.add('history-entry');
-
-                    let content = `<h4>Turn ${entry.turn_number} (${entry.genre} Genre)</h4>`;
-                    content += `<p><strong>Player Choice:</strong> ${entry.player_choice}</p>`;
-                    content += `<p><strong>Scene:</strong> ${entry.scene_description}</p>`;
-                    if (entry.image_prompt) {
-                         content += `<p><strong>Image Prompt:</strong> <em>"${entry.image_prompt}"</em></p>`;
-                    }
-                    if (entry.new_items_found && entry.new_items_found.length > 0) {
-                        content += `<p><strong>Items Found:</strong> ${entry.new_items_found.join(', ')}</p>`;
-                    }
-                    if (entry.stat_changes_applied && Object.keys(entry.stat_changes_applied).length > 0) {
-                        const changes = Object.entries(entry.stat_changes_applied)
-                                            .map(([key, value]) => `${key}: ${value > 0 ? '+' : ''}${value}`)
-                                            .join(', ');
-                        content += `<p><strong>Stats Changed:</strong> ${changes}</p>`;
-                    }
-                    if (entry.npcs_introduced && entry.npcs_introduced.length > 0) {
-                        const npcs = entry.npcs_introduced.map(npc => `${npc.name} (${npc.personality_traits.join('/')})`).join('; ');
-                        content += `<p><strong>NPCs Introduced:</strong> ${npcs}</p>`;
-                    }
-                    if (entry.quests_triggered && entry.quests_triggered.length > 0) {
-                        const quests = entry.quests_triggered.map(q => `${q.description}`).join('; ');
-                        content += `<p><strong>Quests Triggered:</strong> ${quests}</p>`;
-                    }
-                    if (entry.player_state_at_end_of_turn) {
-                        content += `<p><strong>Player Health (End of Turn):</strong> ${entry.player_state_at_end_of_turn.health}</p>`;
-                        content += `<p><strong>Player Inventory (End of Turn):</strong> ${entry.player_state_at_end_of_turn.inventory.join(', ') || 'Empty'}</p>`;
-                    }
-
-                    entryDiv.innerHTML = content;
-                    historyDisplay.appendChild(entryDiv);
-                });
-            }
-            historyModal.classList.add('visible');
-        }
-
-        /**
-         * Hides the history modal.
-         */
-        function hideHistoryModal() {
-            historyModal.classList.remove('visible');
-        }
-
 
         // --- Event Listeners ---
 
@@ -1352,17 +1095,6 @@
                 setTheme(selectedGenre);
             }
         });
-
-        // Event listeners for history modal
-        viewHistoryBtn.addEventListener('click', displayHistoryModal);
-        closeHistoryModalBtn.addEventListener('click', hideHistoryModal);
-        historyModal.addEventListener('click', (event) => {
-            // Close modal if clicking on the overlay, not the content
-            if (event.target === historyModal) {
-                hideHistoryModal();
-            }
-        });
-
 
         // Initialize Firebase and then the game on window load
         window.addEventListener('load', initializeFirebase);

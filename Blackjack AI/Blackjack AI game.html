@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Blackjack Game</title>
+  <link rel="stylesheet" href="BlackJackAI.css" />
+</head>
+<body>
+  <div class="game-container">
+    <h1>🃏 Blackjack with AI Dealer</h1>
+    <div class="game-layout">
+      <div class="main-game">
+        <div class="hands">
+          <div class="dealer-hand">
+            <h2>Dealer's Hand</h2>
+            <div id="dealer-cards" class="cards"></div>
+            <p id="dealer-score"></p>
+          </div>
+          <div class="player-hand">
+            <h2>Your Hand</h2>
+            <div id="player-cards" class="cards"></div>
+            <p id="player-score"></p>
+          </div>
+        </div>
+        <div class="controls">
+          <button id="deal-button">Deal</button>
+          <button id="hit-button" disabled>Hit</button>
+          <button id="stand-button" disabled>Stand</button>
+        </div>
+        <p id="result"></p>
+        <div id="ai-comment" class="comment-box"></div>
+      </div>
+      <div class="game-history">
+        <h2>Game History</h2>
+        <div id="history-list" class="history-list">
+          <!-- History items will be added here dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="BlackJackAI.js"></script>
+</body>
+</html>
