@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Casino</title>
+  <title>AI Casino - Baccarat</title>
   <link rel="stylesheet" href="BlackJackAI.css" />
 </head>
 <body>
@@ -24,7 +24,7 @@
       <div class="game-menu">
         <h2>Games</h2>
         <nav>
-          <a href="#" class="menu-item active">
+          <a href="Blackjack AI game.html" class="menu-item">
             <span class="icon">🃏</span>
             <span class="game-name">Blackjack</span>
           </a>
@@ -32,12 +32,12 @@
             <span class="icon">♠️</span>
             <span class="game-name">Poker</span>
           </a>
-          <a href="baccarat.html" class="menu-item">
+          <a href="#" class="menu-item active">
             <span class="icon">🎴</span>
             <span class="game-name">Baccarat</span>
           </a>
           <a href="craps.html" class="menu-item">
-            <span class="icon">��</span>
+            <span class="icon">🎲</span>
             <span class="game-name">Craps</span>
           </a>
         </nav>
@@ -47,30 +47,51 @@
         <h1><img src="CardHand.png" alt="Cards" width="100" height="100"></img> AI Casino 🎲</h1>
         <div class="game-layout">
           <div class="main-game">
-            <div class="hands">
-              <div class="dealer-hand">
-                <h2>Dealer's Hand</h2>
-                <div id="dealer-cards" class="cards"></div>
-                <p id="dealer-score"></p>
+            <div class="baccarat-table">
+              <div class="banker-hand">
+                <h2>Banker's Hand</h2>
+                <div id="banker-cards" class="cards"></div>
+                <p id="banker-score"></p>
               </div>
               <div class="player-hand">
-                <h2>Your Hand</h2>
+                <h2>Player's Hand</h2>
                 <div id="player-cards" class="cards"></div>
                 <p id="player-score"></p>
               </div>
             </div>
+            <div class="betting-options">
+              <div class="bet-type">
+                <h3>Player</h3>
+                <p>Pays 1:1</p>
+                <button id="bet-player" class="bet-button">Bet on Player</button>
+              </div>
+              <div class="bet-type">
+                <h3>Banker</h3>
+                <p>Pays 0.95:1</p>
+                <button id="bet-banker" class="bet-button">Bet on Banker</button>
+              </div>
+              <div class="bet-type">
+                <h3>Tie</h3>
+                <p>Pays 8:1</p>
+                <button id="bet-tie" class="bet-button">Bet on Tie</button>
+              </div>
+            </div>
             <div class="controls">
-              <button id="deal-button">Deal</button>
-              <button id="hit-button" disabled>Hit</button>
-              <button id="stand-button" disabled>Stand</button>
+              <div class="bet-controls">
+                <button id="bet-decrease">-</button>
+                <span id="bet-amount">$50</span>
+                <button id="bet-increase">+</button>
+              </div>
+              <div class="action-controls">
+                <button id="deal-button">Deal</button>
+              </div>
             </div>
             <p id="result"></p>
             <div id="ai-comment" class="comment-box"></div>
           </div>
           <div class="game-history">
             <h2>Game History</h2>
-            <div id="history-list" class="history-list">
-            </div>
+            <div id="history-list" class="history-list"></div>
           </div>
         </div>
       </div>
@@ -82,6 +103,6 @@
   </div>
 
   <script src="account.js"></script>
-  <script src="BlackJackAI.js"></script>
+  <script src="baccarat.js"></script>
 </body>
-</html>
+</html> 

@@ -151,4 +151,4 @@ def get_ai_comment(action: str, hand_strength: float) -> str:
             "This is going to be expensive for you."
         ])
     
-    return random.choice(comments.get(action, ["Hmm..."]))) 
+    return random.choice(comments.get(action, ["Hmm..."])) 

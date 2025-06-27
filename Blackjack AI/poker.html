@@ -7,74 +7,355 @@
   <link rel="stylesheet" href="BlackJackAI.css" />
 </head>
 <body>
-  <div class="casino-layout">
-    <div class="game-menu">
-      <h2>Games</h2>
-      <nav>
-        <a href="Blackjack AI game.html" class="menu-item">
-          <span class="icon">🃏</span>
-          <span class="game-name">Blackjack</span>
-        </a>
-        <a href="#" class="menu-item active">
-          <span class="icon">♠️</span>
-          <span class="game-name">Poker</span>
-        </a>
-      </nav>
+  <div class="user-menu">
+    <div class="user-info">
+      <img id="user-avatar" src="CardHand.png" alt="User" class="user-avatar">
+      <span id="username">Guest</span>
     </div>
-    
-    <div class="game-container">
-      <h1><img src="Cards.png" alt="Cards" width="100" height="100"></img> AI Casino 🎲</h1>
-      <div class="game-layout">
-        <div class="main-game">
-          <div class="poker-table">
-            <div class="community-cards">
-              <h2>Community Cards</h2>
-              <div id="community-cards" class="cards"></div>
-            </div>
-            <div class="player-areas">
-              <div class="ai-player">
-                <h2>AI Player</h2>
-                <div id="ai-cards" class="cards"></div>
-                <div class="player-info">
-                  <p id="ai-chips">Chips: $1000</p>
-                  <p id="ai-bet">Bet: $0</p>
+    <div class="dropdown-content">
+      <a href="account.html">My Account</a>
+      <a href="#" id="login-button">Login</a>
+      <a href="#" id="logout-button" style="display: none;">Logout</a>
+    </div>
+  </div>
+
+  <div class="casino-layout">
+    <div class="casino-content">
+      <div class="game-menu">
+        <h2>Games</h2>
+        <nav>
+          <a href="Blackjack AI game.html" class="menu-item">
+            <span class="icon">🃏</span>
+            <span class="game-name">Blackjack</span>
+          </a>
+          <a href="#" class="menu-item active">
+            <span class="icon">♠️</span>
+            <span class="game-name">Poker</span>
+          </a>
+          <a href="baccarat.html" class="menu-item">
+            <span class="icon">🎴</span>
+            <span class="game-name">Baccarat</span>
+          </a>
+          <a href="craps.html" class="menu-item">
+            <span class="icon">🎲</span>
+            <span class="game-name">Craps</span>
+          </a>
+        </nav>
+      </div>
+      
+      <div class="game-container">
+        <h1><img src="CardHand.png" alt="Cards" width="100" height="100"></img> AI Casino 🎲</h1>
+        <div class="game-layout">
+          <div class="main-game">
+            <div class="poker-table">
+              <div class="community-cards">
+                <h2>Community Cards</h2>
+                <div id="community-cards" class="cards"></div>
+              </div>
+              <div class="player-areas">
+                <div class="ai-player">
+                  <h2>AI Player</h2>
+                  <div id="ai-cards" class="cards"></div>
+                  <div class="player-info">
+                    <p id="ai-chips">Chips: $1000</p>
+                    <p id="ai-bet">Bet: $0</p>
+                  </div>
+                </div>
+                <div class="human-player">
+                  <h2>Your Hand</h2>
+                  <div id="player-cards" class="cards"></div>
+                  <div class="player-info">
+                    <p id="player-chips">Chips: $1000</p>
+                    <p id="player-bet">Bet: $0</p>
+                  </div>
                 </div>
               </div>
-              <div class="human-player">
-                <h2>Your Hand</h2>
-                <div id="player-cards" class="cards"></div>
-                <div class="player-info">
-                  <p id="player-chips">Chips: $1000</p>
-                  <p id="player-bet">Bet: $0</p>
+            </div>
+            <div class="controls">
+              <div class="bet-controls">
+                <button id="bet-decrease">-</button>
+                <span id="bet-amount">$50</span>
+                <button id="bet-increase">+</button>
+              </div>
+              <div class="action-controls">
+                <button id="deal-button">Deal</button>
+                <button id="fold-button" disabled>Fold</button>
+                <button id="call-button" disabled>Call</button>
+                <button id="raise-button" disabled>Raise</button>
+              </div>
+            </div>
+            <p id="result"></p>
+            <div id="ai-comment" class="comment-box"></div>
+          </div>
+          <div class="game-history">
+            <h2>Hand History</h2>
+            <div id="history-list" class="history-list"></div>
+          </div>
+          <div class="poker-hands-guide">
+            <h2>Poker Hand Rankings</h2>
+            <div class="hand-rankings">
+              <div class="poker-hand">
+                <h3>Royal Flush</h3>
+                <div class="example-hand">
+                  <div class="card red">
+                    <div class="corner-value">A</div>
+                    <div class="suit">♥</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">K</div>
+                    <div class="suit">♥</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">Q</div>
+                    <div class="suit">♥</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">J</div>
+                    <div class="suit">♥</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">10</div>
+                    <div class="suit">♥</div>
+                  </div>
+                </div>
+              </div>
+              <div class="poker-hand">
+                <h3>Straight Flush</h3>
+                <div class="example-hand">
+                  <div class="card">
+                    <div class="corner-value">9</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">8</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">7</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">6</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">5</div>
+                    <div class="suit">♠</div>
+                  </div>
+                </div>
+              </div>
+              <div class="poker-hand">
+                <h3>Four of a Kind</h3>
+                <div class="example-hand">
+                  <div class="card">
+                    <div class="corner-value">K</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">K</div>
+                    <div class="suit">♥</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">K</div>
+                    <div class="suit">♦</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">K</div>
+                    <div class="suit">♣</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">A</div>
+                    <div class="suit">♠</div>
+                  </div>
+                </div>
+              </div>
+              <div class="poker-hand">
+                <h3>Full House</h3>
+                <div class="example-hand">
+                  <div class="card">
+                    <div class="corner-value">Q</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">Q</div>
+                    <div class="suit">♥</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">Q</div>
+                    <div class="suit">♣</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">J</div>
+                    <div class="suit">♦</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">J</div>
+                    <div class="suit">♣</div>
+                  </div>
+                </div>
+              </div>
+              <div class="poker-hand">
+                <h3>Flush</h3>
+                <div class="example-hand">
+                  <div class="card red">
+                    <div class="corner-value">A</div>
+                    <div class="suit">♦</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">J</div>
+                    <div class="suit">♦</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">8</div>
+                    <div class="suit">♦</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">6</div>
+                    <div class="suit">♦</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">3</div>
+                    <div class="suit">♦</div>
+                  </div>
+                </div>
+              </div>
+              <div class="poker-hand">
+                <h3>Straight</h3>
+                <div class="example-hand">
+                  <div class="card">
+                    <div class="corner-value">8</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">7</div>
+                    <div class="suit">♥</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">6</div>
+                    <div class="suit">♦</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">5</div>
+                    <div class="suit">♣</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">4</div>
+                    <div class="suit">♠</div>
+                  </div>
+                </div>
+              </div>
+              <div class="poker-hand">
+                <h3>Three of a Kind</h3>
+                <div class="example-hand">
+                  <div class="card">
+                    <div class="corner-value">10</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">10</div>
+                    <div class="suit">♥</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">10</div>
+                    <div class="suit">♣</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">K</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">5</div>
+                    <div class="suit">♥</div>
+                  </div>
+                </div>
+              </div>
+              <div class="poker-hand">
+                <h3>Two Pair</h3>
+                <div class="example-hand">
+                  <div class="card">
+                    <div class="corner-value">9</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">9</div>
+                    <div class="suit">♥</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">7</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">7</div>
+                    <div class="suit">♦</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">A</div>
+                    <div class="suit">♣</div>
+                  </div>
+                </div>
+              </div>
+              <div class="poker-hand">
+                <h3>One Pair</h3>
+                <div class="example-hand">
+                  <div class="card">
+                    <div class="corner-value">J</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">J</div>
+                    <div class="suit">♦</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">A</div>
+                    <div class="suit">♣</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">8</div>
+                    <div class="suit">♥</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">4</div>
+                    <div class="suit">♠</div>
+                  </div>
+                </div>
+              </div>
+              <div class="poker-hand">
+                <h3>High Card</h3>
+                <div class="example-hand">
+                  <div class="card">
+                    <div class="corner-value">A</div>
+                    <div class="suit">♠</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">K</div>
+                    <div class="suit">♥</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">J</div>
+                    <div class="suit">♣</div>
+                  </div>
+                  <div class="card red">
+                    <div class="corner-value">8</div>
+                    <div class="suit">♦</div>
+                  </div>
+                  <div class="card">
+                    <div class="corner-value">3</div>
+                    <div class="suit">♠</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="controls">
-            <div class="bet-controls">
-              <button id="bet-decrease">-</button>
-              <span id="bet-amount">$50</span>
-              <button id="bet-increase">+</button>
-            </div>
-            <div class="action-controls">
-              <button id="deal-button">Deal</button>
-              <button id="fold-button" disabled>Fold</button>
-              <button id="call-button" disabled>Call</button>
-              <button id="raise-button" disabled>Raise</button>
-            </div>
-          </div>
-          <p id="result"></p>
-          <div id="ai-comment" class="comment-box"></div>
-        </div>
-        <div class="game-history">
-          <h2>Hand History</h2>
-          <div id="history-list" class="history-list">
           </div>
         </div>
       </div>
     </div>
+    
+    <footer class="footer">
+      © Edgar Cardona, 2025. All Rights Reserved.
+    </footer>
   </div>
 
+  <script src="account.js"></script>
   <script src="poker.js"></script>
 </body>
 </html> 

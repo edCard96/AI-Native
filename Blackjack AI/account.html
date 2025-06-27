@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Casino - Account</title>
+  <link rel="stylesheet" href="BlackJackAI.css" />
+</head>
+<body>
+  <div class="user-menu">
+    <div class="user-info">
+      <img id="user-avatar" src="CardHand.png" alt="User" class="user-avatar">
+      <span id="username">Guest</span>
+    </div>
+    <div class="dropdown-content">
+      <a href="account.html">My Account</a>
+      <a href="#" id="login-button">Login</a>
+      <a href="#" id="logout-button" style="display: none;">Logout</a>
+    </div>
+  </div>
+
+  <div class="casino-layout">
+    <div class="casino-content">
+      <div class="game-menu">
+        <h2>Games</h2>
+        <nav>
+          <a href="Blackjack AI game.html" class="menu-item">
+            <span class="icon">🃏</span>
+            <span class="game-name">Blackjack</span>
+          </a>
+          <a href="poker.html" class="menu-item">
+            <span class="icon">♠️</span>
+            <span class="game-name">Poker</span>
+          </a>
+          <a href="baccarat.html" class="menu-item">
+            <span class="icon">🎴</span>
+            <span class="game-name">Baccarat</span>
+          </a>
+          <a href="craps.html" class="menu-item">
+            <span class="icon">🎲</span>
+            <span class="game-name">Craps</span>
+          </a>
+        </nav>
+      </div>
+      
+      <div class="game-container">
+        <h1><img src="CardHand.png" alt="Cards" width="100" height="100"></img> AI Casino - Account 🎲</h1>
+        
+        <div class="account-container">
+          <div class="profile-section">
+            <h2>Profile</h2>
+            <div class="profile-info">
+              <img id="profile-avatar" src="CardHand.png" alt="Profile" class="profile-avatar">
+              <div class="profile-details">
+                <h3 id="player-name">Player Name</h3>
+                <p id="member-since">Member since: <span></span></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-section">
+            <h2>Game Statistics</h2>
+            
+            <div class="game-stats">
+              <div class="game-stat-card">
+                <h3>Blackjack Stats</h3>
+                <ul>
+                  <li>Games Played: <span id="blackjack-games">0</span></li>
+                  <li>Wins: <span id="blackjack-wins">0</span></li>
+                  <li>Win Rate: <span id="blackjack-winrate">0%</span></li>
+                  <li>Total Earnings: <span id="blackjack-earnings">$0</span></li>
+                </ul>
+              </div>
+
+              <div class="game-stat-card">
+                <h3>Poker Stats</h3>
+                <ul>
+                  <li>Games Played: <span id="poker-games">0</span></li>
+                  <li>Wins: <span id="poker-wins">0</span></li>
+                  <li>Win Rate: <span id="poker-winrate">0%</span></li>
+                  <li>Total Earnings: <span id="poker-earnings">$0</span></li>
+                </ul>
+              </div>
+
+              <div class="game-stat-card">
+                <h3>Baccarat Stats</h3>
+                <ul>
+                  <li>Games Played: <span id="baccarat-games">0</span></li>
+                  <li>Wins: <span id="baccarat-wins">0</span></li>
+                  <li>Win Rate: <span id="baccarat-winrate">0%</span></li>
+                  <li>Total Earnings: <span id="baccarat-earnings">$0</span></li>
+                </ul>
+              </div>
+
+              <div class="game-stat-card">
+                <h3>Craps Stats</h3>
+                <ul>
+                  <li>Games Played: <span id="craps-games">0</span></li>
+                  <li>Wins: <span id="craps-wins">0</span></li>
+                  <li>Win Rate: <span id="craps-winrate">0%</span></li>
+                  <li>Total Earnings: <span id="craps-earnings">$0</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="achievements-section">
+            <h2>Achievements</h2>
+            <div id="achievements-list" class="achievements-list">
+              <!-- Achievements will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="footer">
+      © Edgar Cardona, 2025. All Rights Reserved.
+    </footer>
+  </div>
+
+  <script src="account.js"></script>
+</body>
+</html> 

@@ -490,8 +490,20 @@ function endHand(result) {
         }
     }
     
+    // Calculate earnings (change in chips from initial 1000)
+    const earnings = playerChips - 1000;
+    
+    // Update statistics
+    if (window.casinoAccount) {
+        window.casinoAccount.updateStats('poker', result.startsWith('Player wins'), earnings);
+    }
+    
     resultEl.textContent = result;
     addToHistory(playerHoleCards, aiHoleCards, communityCards, result);
+    
+    // Reset game state
+    currentBet = 0;
+    potSize = 0;
     
     // Reset buttons
     foldButton.disabled = true;
@@ -500,6 +512,10 @@ function endHand(result) {
     dealButton.disabled = false;
     
     updateChipsDisplay();
+    
+    // Show AI comment about the hand
+    const aiComment = getAIComment('end', aiHand ? aiHand.rank / 8 : 0);
+    aiCommentEl.textContent = aiComment;
 }
 
 foldButton.addEventListener('click', () => handlePlayerAction('fold'));

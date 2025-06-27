@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Casino - Craps</title>
+  <link rel="stylesheet" href="BlackJackAI.css" />
+</head>
+<body>
+  <div class="user-menu">
+    <div class="user-info">
+      <img id="user-avatar" src="CardHand.png" alt="User" class="user-avatar">
+      <span id="username">Guest</span>
+    </div>
+    <div class="dropdown-content">
+      <a href="account.html">My Account</a>
+      <a href="#" id="login-button">Login</a>
+      <a href="#" id="logout-button" style="display: none;">Logout</a>
+    </div>
+  </div>
+
+  <div class="casino-layout">
+    <div class="casino-content">
+      <div class="game-menu">
+        <h2>Games</h2>
+        <nav>
+          <a href="Blackjack AI game.html" class="menu-item">
+            <span class="icon">🃏</span>
+            <span class="game-name">Blackjack</span>
+          </a>
+          <a href="poker.html" class="menu-item">
+            <span class="icon">♠️</span>
+            <span class="game-name">Poker</span>
+          </a>
+          <a href="baccarat.html" class="menu-item">
+            <span class="icon">🎴</span>
+            <span class="game-name">Baccarat</span>
+          </a>
+          <a href="#" class="menu-item active">
+            <span class="icon">🎲</span>
+            <span class="game-name">Craps</span>
+          </a>
+        </nav>
+      </div>
+      
+      <div class="game-container">
+        <h1><img src="CardHand.png" alt="Cards" width="100" height="100"></img> AI Casino 🎲</h1>
+        <div class="game-layout">
+          <div class="main-game">
+            <div class="craps-table">
+              <div class="dice-area">
+                <div id="dice1" class="dice" data-value="1">
+                  <div class="dice-dot dot-a"></div>
+                  <div class="dice-dot dot-b"></div>
+                  <div class="dice-dot dot-c"></div>
+                  <div class="dice-dot dot-d"></div>
+                  <div class="dice-dot dot-e"></div>
+                  <div class="dice-dot dot-f"></div>
+                  <div class="dice-dot dot-g"></div>
+                </div>
+                <div id="dice2" class="dice" data-value="1">
+                  <div class="dice-dot dot-a"></div>
+                  <div class="dice-dot dot-b"></div>
+                  <div class="dice-dot dot-c"></div>
+                  <div class="dice-dot dot-d"></div>
+                  <div class="dice-dot dot-e"></div>
+                  <div class="dice-dot dot-f"></div>
+                  <div class="dice-dot dot-g"></div>
+                </div>
+              </div>
+              <div class="point-display">
+                <h2>Point: <span id="point">Off</span></h2>
+              </div>
+              <div class="betting-layout">
+                <div class="bet-section pass-line">
+                  <h3>Pass Line</h3>
+                  <p>Pays 1:1</p>
+                  <button id="bet-pass" class="bet-button">Bet Pass Line</button>
+                </div>
+                <div class="bet-section dont-pass">
+                  <h3>Don't Pass</h3>
+                  <p>Pays 1:1</p>
+                  <button id="bet-dont-pass" class="bet-button">Bet Don't Pass</button>
+                </div>
+                <div class="bet-section come">
+                  <h3>Come</h3>
+                  <p>Pays 1:1</p>
+                  <button id="bet-come" class="bet-button" disabled>Bet Come</button>
+                </div>
+                <div class="bet-section field">
+                  <h3>Field</h3>
+                  <p>2,12 Pay 2:1 - Others 1:1</p>
+                  <button id="bet-field" class="bet-button">Bet Field</button>
+                </div>
+              </div>
+            </div>
+            <div class="controls">
+              <div class="bet-controls">
+                <button id="bet-decrease">-</button>
+                <span id="bet-amount">$50</span>
+                <button id="bet-increase">+</button>
+              </div>
+              <div class="action-controls">
+                <button id="roll-button">Roll Dice</button>
+              </div>
+            </div>
+            <p id="result"></p>
+            <div id="ai-comment" class="comment-box"></div>
+          </div>
+          <div class="game-history">
+            <h2>Game History</h2>
+            <div id="history-list" class="history-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="footer">
+      © Edgar Cardona, 2025. All Rights Reserved.
+    </footer>
+  </div>
+
+  <script src="account.js"></script>
+  <script src="craps.js"></script>
+</body>
+</html> 

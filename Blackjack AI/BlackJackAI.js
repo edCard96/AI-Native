@@ -155,12 +155,12 @@ function playerTurn(action) {
     aiComment.textContent = getDealerComment('hit');
     
     if (calculateScore(playerHand) > 21) {
-      endGame();
+      endGame(false);
     }
   } else if (action === 'stand') {
     aiComment.textContent = getDealerComment('stand');
     dealerPlay();
-    endGame();
+    endGame(true);
   }
 }
 
@@ -185,7 +185,7 @@ function determineWinner(playerScore, dealerScore) {
   }
 }
 
-function endGame() {
+function endGame(playerWon) {
   gameOver = true;
   updateDisplay();
   
@@ -196,8 +196,28 @@ function endGame() {
   resultText.textContent = result;
   aiComment.textContent = getDealerComment('end', result);
 
+  let earnings = 0;
+  
+  if (playerWon) {
+    resultText.textContent = "You win!";
+    earnings = 10; // Basic winning amount
+  } else {
+    resultText.textContent = "Dealer wins!";
+    earnings = -5; // Basic losing amount
+  }
+  
+  // Update player statistics
+  if (window.casinoAccount) {
+    window.casinoAccount.updateStats('blackjack', playerWon, earnings);
+  }
+  
+  // Update game history
+  addToHistory(playerHand, dealerHand, result);
+  
+  // Enable/disable buttons
   hitBtn.disabled = true;
   standBtn.disabled = true;
+  dealBtn.disabled = false;
 }
 
 function getDealerComment(stage, result = '') {
