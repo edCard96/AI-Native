@@ -1,0 +1,271 @@
+/* Modern, Colorful Tech/Photography Style for Caption Genr8r */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #7C3AED 0%, #38BDF8 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+nav {
+    border-bottom: 1.5px solid #e0e7ff;
+    box-shadow: 0 2px 12px #7C3AED11;
+    margin-bottom: 2rem;
+    z-index: 10;
+}
+
+footer {
+    margin-top: auto;
+    background: transparent;
+    border-top: 1.5px solid #e0e7ff;
+    box-shadow: 0 -2px 12px #7C3AED11;
+}
+
+.flex-1 {
+    flex: 1 1 0%;
+}
+
+.bg-white, .main-card, .error-modal-content, .form-btn, .form-input, #loginDropdown {
+    transition: box-shadow 0.18s, background 0.18s, border 0.18s, transform 0.18s;
+}
+
+.bg-white, .main-card, .error-modal-content, #loginDropdown {
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+    border-radius: 1.5rem;
+    border: 1.5px solid rgba(120, 119, 198, 0.10);
+    padding: 2.5rem 2rem;
+    max-width: 44rem;
+    width: 100%;
+    margin: 2rem auto;
+    backdrop-filter: blur(6px);
+}
+
+.main-title, h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #7C3AED;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 16px #38BDF880;
+}
+
+.main-desc, p.main-desc {
+    color: #374151;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.upload-label {
+    color: #7C3AED;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.upload-input, .form-input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 9999px;
+    border: 1.5px solid #e0e7ff;
+    background: #f3f4f6;
+    color: #4f46e5;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px #7C3AED11;
+}
+.upload-input:focus, .form-input:focus {
+    background: #e0e7ff;
+    border-color: #7C3AED;
+    outline: none;
+    box-shadow: 0 2px 8px #7C3AED22;
+}
+.upload-input:hover, .form-input:hover {
+    background: #f0f7ff;
+    border-color: #38BDF8;
+}
+
+.image-preview-container {
+    margin-top: 1.5rem;
+    width: 100%;
+    height: 12rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border: none !important;
+    box-shadow: none !important;
+    background: none !important;
+}
+#imagePreviewContainer.show {
+    display: flex !important;
+    background: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+#imagePreview, .image-preview {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px #38BDF880;
+}
+
+.generate-btn, .form-btn {
+    background: linear-gradient(90deg, #7C3AED 0%, #F472B6 100%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.9rem 2.2rem;
+    border-radius: 9999px;
+    box-shadow: 0 4px 16px #7C3AED33;
+    border: none;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+}
+.generate-btn:hover, .form-btn:hover {
+    background: linear-gradient(90deg, #38BDF8 0%, #7C3AED 100%);
+    transform: scale(1.05);
+    box-shadow: 0 8px 32px #38BDF880;
+}
+
+#loginDropdown {
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
+    border-radius: 1.2rem;
+    border: 1.5px solid #e0e7ff;
+    padding: 2rem 1.5rem;
+    margin-top: 0.5rem;
+    min-width: 16rem;
+    background: #fff;
+    transition: box-shadow 0.18s, border 0.18s, background 0.18s;
+}
+#loginDropdown input {
+    margin-bottom: 0.7rem;
+}
+#loginDropdown button {
+    margin-top: 0.5rem;
+}
+#loginDropdown a {
+    margin-top: 0.5rem;
+    display: block;
+}
+
+/* Caption cards */
+.caption-card {
+    background: linear-gradient(120deg, #fff 60%, #F472B6 100%);
+    border-radius: 1.1rem;
+    box-shadow: 0 2px 12px #7C3AED22;
+    border: 1.5px solid #38BDF8;
+    padding: 1.2rem 1rem 1rem 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.caption-card:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 8px 32px #F472B688;
+}
+.caption-card p {
+    margin: 0 0 0.5rem 0;
+}
+.caption-card .copy-btn {
+    align-self: flex-end;
+    background: linear-gradient(90deg, #7C3AED 0%, #38BDF8 100%);
+    color: #fff;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.4rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.18s;
+    box-shadow: 0 2px 8px #7C3AED22;
+}
+.caption-card .copy-btn:hover {
+    background: linear-gradient(90deg, #F472B6 0%, #7C3AED 100%);
+    transform: scale(1.08);
+}
+
+/* Error modal */
+#errorModal {
+    background: rgba(55, 65, 81, 0.15) !important;
+    z-index: 50;
+}
+.error-modal-content, .bg-white {
+    border-radius: 1.2rem;
+    box-shadow: 0 8px 32px #7C3AED33;
+    padding: 2rem 1.5rem;
+    background: #fff;
+}
+.error-title {
+    color: #dc2626;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.close-error-btn {
+    background: linear-gradient(90deg, #F472B6 0%, #7C3AED 100%);
+    color: #fff;
+    font-weight: 700;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.18s;
+}
+.close-error-btn:hover {
+    background: linear-gradient(90deg, #7C3AED 0%, #38BDF8 100%);
+    transform: scale(1.05);
+}
+
+/* Responsive improvements */
+@media (max-width: 900px) {
+    .main-title, h1 { font-size: 2rem; }
+    .main-card, .bg-white, .error-modal-content, #loginDropdown { padding: 1.5rem 1rem; }
+}
+@media (max-width: 600px) {
+    nav, .main-card, .bg-white, .error-modal-content, #loginDropdown { padding: 1rem 0.5rem; }
+    .main-title, h1 { font-size: 1.3rem; }
+    .form-btn, .generate-btn { font-size: 1rem; padding: 0.7rem 1.2rem; }
+}
+
+/* Loading spinner and indicator */
+#loadingIndicator {
+    color: #7C3AED;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-top: 2rem;
+}
+.loading-spinner {
+    animation: spin 1s linear infinite;
+    height: 2rem;
+    width: 2rem;
+    margin-right: 0.75rem;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Hide scrollbar for aesthetic purposes, if needed (optional) */
+/*
+body {
+    -ms-overflow-style: none;  // IE and Edge
+    scrollbar-width: none;  // Firefox
+}
+body::-webkit-scrollbar {
+    display: none;  // Chrome, Safari, Opera
+}
+*/
