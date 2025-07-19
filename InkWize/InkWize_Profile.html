@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+    />
+
+    <title>Stitch Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#fcf8f8] group/design-root overflow-x-hidden" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f3e7e8] px-10 py-3">
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-4 text-[#1b0e0e]">
+              <div class="size-4">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path></svg>
+              </div>
+              <h2 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em]">InkWize</h2>
+            </div>
+            <div class="flex items-center gap-9">
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="InkWize.html">Home</a>
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="InkWize.html">Explore</a>
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="InkWize.html">My Library</a>
+            </div>
+          </div>
+          <div class="flex flex-1 justify-end gap-8" id="profile-header-actions">
+            <!-- Login button or avatar will be rendered here by JS -->
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex p-4 @container">
+              <div class="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
+                <div class="flex gap-4">
+                  <div
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBHC8C25rCIiLIwKKNFr47q1dYoCCEOvqCEgo03TnZbRJY__Fv5nR3TEpcPrGSaNkjAjVrMWZ8cngw1heAC8624nMp7Im1nD5JqX4g_LUXsxZbg_jZCL6vj0PTa0PEqWoEednn1mDxkWyUGl2xiBzvaJfwr9K48_XO5bYRv7I_nn4FZdABoTs4WSBx85pWQFH5VSXd3VEYeAT1KTzlvRFxjr_SW2M7OQjjxL580Q9l2pA4lMV6sHVkjhVGMAWC6lvse1XNyDEOz47c");'
+                  ></div>
+                  <div class="flex flex-col justify-center">
+                    <p class="text-[#1b0e0e] text-[22px] font-bold leading-tight tracking-[-0.015em]">Sophia Bennett</p>
+                    <p class="text-[#994d51] text-base font-normal leading-normal">Comic Book Enthusiast</p>
+                    <p class="text-[#994d51] text-base font-normal leading-normal">Joined 2021</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pb-3">
+              <div class="flex border-b border-[#e7d0d1] px-4 gap-8">
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-[#e92932] text-[#1b0e0e] pb-[13px] pt-4" href="#">
+                  <p class="text-[#1b0e0e] text-sm font-bold leading-normal tracking-[0.015em]">Reading Lists</p>
+                </a>
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#994d51] pb-[13px] pt-4" href="#">
+                  <p class="text-[#994d51] text-sm font-bold leading-normal tracking-[0.015em]">Preferences</p>
+                </a>
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#994d51] pb-[13px] pt-4" href="#">
+                  <p class="text-[#994d51] text-sm font-bold leading-normal tracking-[0.015em]">Account Settings</p>
+                </a>
+              </div>
+            </div>
+            <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Currently Reading</h3>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4" id="currently-reading-list">
+              <!-- Currently reading comics will be loaded here -->
+            </div>
+            <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Favorites</h3>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4" id="favorites-list">
+              <!-- Favorite comics will be loaded here -->
+            </div>
+            <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Up Next</h3>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4" id="up-next-list">
+              <!-- Up next comics will be loaded here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function renderList(listName, containerId, label) {
+        const key = `inkwize_${listName}`;
+        const list = JSON.parse(localStorage.getItem(key) || '[]');
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        if (list.length === 0) {
+          container.innerHTML = `<p class='text-[#994d51] text-center p-8'>No comics in ${label}.</p>`;
+          return;
+        }
+        container.innerHTML = list.map(comic => {
+          const comicName = comic.name || (comic.volume ? comic.volume.name : 'Untitled');
+          const volumeName = comic.volume ? comic.volume.name : '';
+          const imageUrl = comic.image && comic.image.small_url ? comic.image.small_url : '';
+          const issueNumber = comic.issue_number ? `#${comic.issue_number}` : '';
+          
+          return `
+            <div class="flex flex-col gap-3 pb-3">
+              <div
+                class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity ${imageUrl ? '' : 'bg-gray-200 flex items-center justify-center'}"
+                style='${imageUrl ? `background-image: url("${imageUrl}")` : ''}'
+                onclick="window.location.href='InkWize_ComicInfo.html?id=${comic.id}'"
+              >
+                ${!imageUrl ? '<p class="text-gray-500 text-sm">No Image</p>' : ''}
+              </div>
+              <p class="text-[#1b0e0e] text-base font-medium leading-normal">${comicName} ${issueNumber}</p>
+              ${volumeName && volumeName !== comicName ? `<p class="text-[#994d51] text-sm font-normal leading-normal">${volumeName}</p>` : ''}
+            </div>
+          `;
+        }).join('');
+      }
+      function loadAllLists() {
+        console.log('Currently Reading:', localStorage.getItem('inkwize_currently_reading'));
+        console.log('Favorites:', localStorage.getItem('inkwize_favorites'));
+        console.log('Up Next:', localStorage.getItem('inkwize_up_next'));
+        renderList('currently_reading', 'currently-reading-list', 'Currently Reading');
+        renderList('favorites', 'favorites-list', 'Favorites');
+        renderList('up_next', 'up-next-list', 'Up Next');
+      }
+      document.addEventListener('DOMContentLoaded', () => {
+        // Redirect to login if not logged in
+        const userStr = localStorage.getItem('inkwize_user');
+        if (!userStr) {
+          window.location.href = 'InkWize_Login.html';
+          return;
+        }
+
+        // Render reading lists
+        loadAllLists();
+
+        // Render avatar and logout button in header
+        const headerActions = document.getElementById('profile-header-actions');
+        const user = JSON.parse(userStr);
+        headerActions.innerHTML = `
+          <div class="flex items-center gap-4">
+            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style="background-image: url('https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || 'User')}&background=f3e7e8&color=1b0e0e');"></div>
+            <button id="logoutBtn" class="px-4 py-2 bg-[#e92932] text-white rounded-lg font-bold hover:bg-[#d4242a] transition-colors">Logout</button>
+          </div>
+        `;
+        document.getElementById('logoutBtn').onclick = function() {
+          localStorage.removeItem('inkwize_token');
+          localStorage.removeItem('inkwize_user');
+          window.location.href = 'InkWize_Login.html';
+        };
+      });
+    </script>
+  </body>
+</html>

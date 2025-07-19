@@ -1,0 +1,1291 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+  <link
+    rel="stylesheet"
+    as="style"
+    onload="this.rel='stylesheet'"
+    href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+  />
+  <title>InkWize - Comic Discovery</title>
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <style>
+    :root {
+      /* Light mode variables */
+      --bg-primary: #fcf8f8;
+      --bg-secondary: #f3e7e8;
+      --bg-tertiary: #e8d8d9;
+      --text-primary: #1b0e0e;
+      --text-secondary: #994d51;
+      --border-color: #f3e7e8;
+      --card-bg: #ffffff;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] {
+      /* Dark mode variables */
+      --bg-primary: #1a1a1a;
+      --bg-secondary: #2d2d2d;
+      --bg-tertiary: #404040;
+      --text-primary: #ffffff;
+      --text-secondary: #ff6b6b;
+      --border-color: #404040;
+      --card-bg: #2d2d2d;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .theme-transition {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Dark mode specific overrides */
+    [data-theme="dark"] .bg-white {
+      background-color: var(--card-bg);
+    }
+
+    [data-theme="dark"] .border-\[#f3e7e8\] {
+      border-color: var(--border-color);
+    }
+
+    [data-theme="dark"] .bg-\[#f3e7e8\] {
+      background-color: var(--bg-secondary);
+    }
+
+    [data-theme="dark"] .bg-\[#e8d8d9\] {
+      background-color: var(--bg-tertiary);
+    }
+
+    [data-theme="dark"] .text-\[#1b0e0e\] {
+      color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .text-\[#994d51\] {
+      color: var(--text-secondary);
+    }
+
+    [data-theme="dark"] .hover\:bg-\[#e8d8d9\]:hover {
+      background-color: var(--bg-tertiary);
+    }
+
+    [data-theme="dark"] .hover\:text-\[#1b0e0e\]:hover {
+      color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .bg-gray-200 {
+      background-color: var(--bg-secondary);
+    }
+
+    [data-theme="dark"] .text-gray-500 {
+      color: var(--text-secondary);
+    }
+
+    [data-theme="dark"] .shadow-lg {
+      box-shadow: var(--shadow-lg);
+    }
+
+    [data-theme="dark"] .shadow-sm {
+      box-shadow: var(--shadow);
+    }
+
+    /* Dark mode gradient overrides */
+    [data-theme="dark"] .bg-gradient-to-r.from-\[#f3e7e8\].to-\[#e8d8d9\] {
+      background: linear-gradient(to right, var(--bg-secondary), var(--bg-tertiary));
+    }
+
+    [data-theme="dark"] .bg-gradient-to-br.from-blue-400.to-blue-600 {
+      background: linear-gradient(to bottom right, #3b82f6, #2563eb);
+    }
+
+    [data-theme="dark"] .bg-gradient-to-br.from-purple-400.to-purple-600 {
+      background: linear-gradient(to bottom right, #a855f7, #9333ea);
+    }
+
+    [data-theme="dark"] .bg-gradient-to-br.from-green-400.to-green-600 {
+      background: linear-gradient(to bottom right, #4ade80, #16a34a);
+    }
+
+    /* Dark mode button styling */
+    [data-theme="dark"] #theme-toggle {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    [data-theme="dark"] #theme-toggle:hover {
+      background-color: var(--bg-tertiary);
+    }
+
+    /* Dark mode input styling */
+    [data-theme="dark"] input {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    [data-theme="dark"] input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    /* Dark mode notification button */
+    [data-theme="dark"] .text-\[#1b0e0e\] {
+      color: var(--text-primary);
+    }
+
+    /* --- Improved text contrast for dark mode --- */
+    [data-theme="dark"] h1,
+    [data-theme="dark"] h2,
+    [data-theme="dark"] h3,
+    [data-theme="dark"] h4,
+    [data-theme="dark"] h5,
+    [data-theme="dark"] h6 {
+      color: #fff;
+    }
+    [data-theme="dark"] p,
+    [data-theme="dark"] .text-base {
+      color: #e5e5e5;
+    }
+    [data-theme="dark"] .text-sm {
+      color: #d1d5db;
+    }
+    [data-theme="dark"] .text-lg,
+    [data-theme="dark"] .text-xl,
+    [data-theme="dark"] .text-2xl,
+    [data-theme="dark"] .text-3xl,
+    [data-theme="dark"] .text-4xl,
+    [data-theme="dark"] .text-6xl {
+      color: #fff;
+    }
+    [data-theme="dark"] .font-bold {
+      color: #fff;
+    }
+    [data-theme="dark"] .font-medium {
+      color: #e5e5e5;
+    }
+    [data-theme="dark"] a {
+      color: #60a5fa;
+    }
+    [data-theme="dark"] a:hover {
+      color: #93c5fd;
+    }
+    [data-theme="dark"] button {
+      color: #fff;
+    }
+    [data-theme="dark"] ::placeholder {
+      color: #fbbf24;
+      opacity: 1;
+    }
+    /* Highlighted numbers and stats */
+    [data-theme="dark"] .text-\[#994d51\],
+    [data-theme="dark"] .text-\[#994d51\].text-sm,
+    [data-theme="dark"] .text-\[#994d51\].mb-4,
+    [data-theme="dark"] .text-\[#994d51\].text-lg,
+    [data-theme="dark"] .text-\[#994d51\].text-sm.font-normal,
+    [data-theme="dark"] .text-\[#994d51\].text-sm.font-normal.leading-normal {
+      color: #fbbf24;
+    }
+    [data-theme="dark"] .text-4xl.font-bold.text-\[#994d51\] {
+      color: #fbbf24;
+    }
+    /* End improved text contrast */
+  </style>
+</head>
+<body>
+  <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden theme-transition" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+    <div class="layout-container flex h-full grow flex-col">
+      <!-- Header -->
+      <header class="flex items-center justify-between whitespace-nowrap border-b border-solid px-10 py-3 theme-transition">
+        <div class="flex items-center gap-8">
+          <div class="flex items-center gap-4">
+            <img src="InkWize_logo.png" alt="InkWize Logo" class="h-12 w-auto object-contain" />
+          </div>
+          <div class="flex items-center gap-9">
+            <a class="text-sm font-medium leading-normal cursor-pointer hover:text-[#994d51] transition-colors theme-transition" onclick="showSection('home')">Home</a>
+            <a class="text-sm font-medium leading-normal cursor-pointer hover:text-[#994d51] transition-colors theme-transition" onclick="showSection('search')">Search</a>
+            <a class="text-sm font-medium leading-normal cursor-pointer hover:text-[#994d51] transition-colors theme-transition" onclick="showSection('recommendations')">Recommendations</a>
+            <a class="text-sm font-medium leading-normal cursor-pointer hover:text-[#994d51] transition-colors theme-transition" onclick="showSection('reading-list')">My List</a>
+            <a class="text-sm font-medium leading-normal cursor-pointer hover:text-[#994d51] transition-colors theme-transition" onclick="showSection('profile')">Profile</a>
+          </div>
+        </div>
+        <div class="flex flex-1 justify-end gap-8">
+          <label class="flex flex-col min-w-40 !h-10 max-w-64">
+            <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+              <div
+                class="text-[#994d51] flex border-none items-center justify-center pl-4 rounded-l-lg border-r-0 theme-transition"
+                data-icon="MagnifyingGlass"
+                data-size="24px"
+                data-weight="regular"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                  ></path>
+                </svg>
+              </div>
+              <input
+                placeholder="Search"
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg focus:outline-0 focus:ring-0 border-none focus:border-none h-full placeholder:text-[#994d51] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal theme-transition"
+                value=""
+              />
+            </div>
+          </label>
+          
+          <!-- Dark Mode Toggle Button -->
+          <button
+            id="theme-toggle"
+            class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 theme-transition"
+            onclick="toggleTheme()"
+            title="Toggle dark mode"
+          >
+            <!-- Sun icon for light mode -->
+            <svg id="sun-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+            <!-- Moon icon for dark mode -->
+            <svg id="moon-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+          </button>
+          
+          <button
+            class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 theme-transition"
+          >
+            <div class="text-[#1b0e0e]" data-icon="Bell" data-size="20px" data-weight="regular">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                <path
+                  d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"
+                ></path>
+              </svg>
+            </div>
+          </button>
+          <div
+            class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer"
+            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIHhH8FZMYj4fN3Jw3q7vuys7G0rmWkxIIyxI0Q8ea8J69bPWQ1mote5TjwyuwCnm7yqxcKit-ds5gbZ1gcoi5CzCvEydQzpyF5caraoacq6RFfumxDyWqGwIJTzdXNS9YDCUHAsmJG_yW8ND_vkbYCsc-NU7uZQR9rLSiS-cH0W669m3mV9Xp2FCiWnCZlIZ9_sCRNyz8RZhsZL7LSerR_SNb7xb8UAtlC8pQewh1SELGjzj4lAO5QgJBcpcUop189xNb84iZiEE");'
+            onclick="showSection('profile')"
+          ></div>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <div class="px-40 flex flex-1 justify-center py-5">
+        <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+          
+          <!-- Home Section -->
+          <div id="home-section" class="section-content">
+            <!-- Hero Splash Section -->
+            <div class="relative overflow-hidden rounded-2xl mb-8">
+              <div class="absolute inset-0 bg-gradient-to-r from-[#994d51] via-[#8a4448] to-[#7c3a3e] opacity-90"></div>
+              <div class="relative p-8 md:p-12 text-white">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                  <div class="flex-1">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+                      <span class="block">DISCOVER</span>
+                      <span class="block text-yellow-300">AMAZING</span>
+                      <span class="block">COMICS</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-6 opacity-90">
+                      Your gateway to the Comic Vine universe
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                      <button onclick="showSection('search')" class="bg-yellow-400 text-[#1b0e0e] px-6 py-3 rounded-lg font-bold text-lg hover:bg-yellow-300 transition-colors transform hover:scale-105">
+                        START EXPLORING
+                      </button>
+                      <button onclick="showSection('recommendations')" class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-bold text-lg hover:bg-white hover:text-[#1b0e0e] transition-colors">
+                        GET RECOMMENDATIONS
+                      </button>
+                    </div>
+                  </div>
+                  <div class="flex-1 flex justify-center">
+                    <div class="relative w-80 h-[28rem]">
+                      <!-- Carousel Container -->
+                      <div id="comic-carousel" class="w-80 h-[28rem] rounded-lg shadow-2xl overflow-hidden relative">
+                        <!-- Slides will be injected here by JS -->
+                        <button id="carousel-prev" class="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-[#1b0e0e] bg-opacity-60 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-[#994d51] transition-colors">&#8592;</button>
+                        <button id="carousel-next" class="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-[#1b0e0e] bg-opacity-60 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-[#994d51] transition-colors">&#8594;</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Feature Cards with Comic Style -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <div class="group relative bg-white rounded-lg p-6 shadow-lg border border-[#f3e7e8] hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 theme-transition">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-bl-lg opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                <div class="relative">
+                  <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-[#1b0e0e] text-xl font-bold mb-3">Search Comics</h3>
+                  <p class="text-[#994d51] mb-4">Find your favorite comics by title, author, or genre with our powerful search engine.</p>
+                  <button onclick="showSection('search')" class="bg-[#f3e7e8] text-[#1b0e0e] px-4 py-2 rounded-lg hover:bg-[#e8d8d9] transition-colors font-medium">Start Searching</button>
+                </div>
+              </div>
+
+              <div class="group relative bg-white rounded-lg p-6 shadow-lg border border-[#f3e7e8] hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 theme-transition">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-bl-lg opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                <div class="relative">
+                  <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-[#1b0e0e] text-xl font-bold mb-3">Get Recommendations</h3>
+                  <p class="text-[#994d51] mb-4">Discover new comics based on your preferences and reading history.</p>
+                  <button onclick="showSection('recommendations')" class="bg-[#f3e7e8] text-[#1b0e0e] px-4 py-2 rounded-lg hover:bg-[#e8d8d9] transition-colors font-medium">View Recommendations</button>
+                </div>
+              </div>
+
+              <div class="group relative bg-white rounded-lg p-6 shadow-lg border border-[#f3e7e8] hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 theme-transition">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-bl-lg opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                <div class="relative">
+                  <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-700 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-[#1b0e0e] text-xl font-bold mb-3">My Reading List</h3>
+                  <p class="text-[#994d51] mb-4">Keep track of comics you want to read and manage your collection.</p>
+                  <button onclick="showSection('reading-list')" class="bg-[#f3e7e8] text-[#1b0e0e] px-4 py-2 rounded-lg hover:bg-[#e8d8d9] transition-colors font-medium">View My List</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Comic Stats Section -->
+            <div class="bg-gradient-to-r from-[#f3e7e8] to-[#e8d8d9] rounded-2xl p-8 mb-8 theme-transition">
+              <h2 class="text-3xl font-bold text-[#1b0e0e] mb-6 text-center">Comic Universe Stats</h2>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center">
+                  <div class="text-4xl font-bold text-[#994d51] mb-2">50K+</div>
+                  <div class="text-[#1b0e0e] font-medium">Comics Available</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-4xl font-bold text-[#994d51] mb-2">100+</div>
+                  <div class="text-[#1b0e0e] font-medium">Publishers</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-4xl font-bold text-[#994d51] mb-2">25+</div>
+                  <div class="text-[#1b0e0e] font-medium">Genres</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-4xl font-bold text-[#994d51] mb-2">∞</div>
+                  <div class="text-[#1b0e0e] font-medium">Stories to Discover</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Popular Characters Section -->
+            <div class="mb-8">
+              <h2 class="text-3xl font-bold text-[#1b0e0e] mb-6 text-center">Popular Characters</h2>
+              <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div class="group cursor-pointer transform hover:scale-110 transition-transform duration-200" onclick="searchCharacter('Batman')">
+                  <div class="w-full aspect-square bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center text-white font-bold text-sm mb-2 shadow-lg group-hover:shadow-xl">
+                    BATMAN
+                  </div>
+                </div>
+                <div class="group cursor-pointer transform hover:scale-110 transition-transform duration-200" onclick="searchCharacter('Spider-Man')">
+                  <div class="w-full aspect-square bg-gradient-to-br from-red-600 to-red-800 rounded-lg flex items-center justify-center text-white font-bold text-sm mb-2 shadow-lg group-hover:shadow-xl">
+                    SPIDER-MAN
+                  </div>
+                </div>
+                <div class="group cursor-pointer transform hover:scale-110 transition-transform duration-200" onclick="searchCharacter('Superman')">
+                  <div class="w-full aspect-square bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center text-white font-bold text-sm mb-2 shadow-lg group-hover:shadow-xl">
+                    SUPERMAN
+                  </div>
+                </div>
+                <div class="group cursor-pointer transform hover:scale-110 transition-transform duration-200" onclick="searchCharacter('Wolverine')">
+                  <div class="w-full aspect-square bg-gradient-to-br from-yellow-600 to-yellow-800 rounded-lg flex items-center justify-center text-white font-bold text-sm mb-2 shadow-lg group-hover:shadow-xl">
+                    WOLVERINE
+                  </div>
+                </div>
+                <div class="group cursor-pointer transform hover:scale-110 transition-transform duration-200" onclick="searchCharacter('Hulk')">
+                  <div class="w-full aspect-square bg-gradient-to-br from-green-600 to-green-800 rounded-lg flex items-center justify-center text-white font-bold text-sm mb-2 shadow-lg group-hover:shadow-xl">
+                    HULK
+                  </div>
+                </div>
+                <div class="group cursor-pointer transform hover:scale-110 transition-transform duration-200" onclick="searchCharacter('Thor')">
+                  <div class="w-full aspect-square bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg flex items-center justify-center text-white font-bold text-sm mb-2 shadow-lg group-hover:shadow-xl">
+                    THOR
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Search Section -->
+          <div id="search-section" class="section-content hidden">
+            <div class="px-4 py-3">
+              <div class="flex gap-2">
+                <label class="flex flex-col min-w-40 h-12 flex-1">
+                  <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                    <div
+                      class="text-[#994d51] flex border-none bg-[#f3e7e8] items-center justify-center pl-4 rounded-l-lg border-r-0"
+                      data-icon="MagnifyingGlass"
+                      data-size="24px"
+                      data-weight="regular"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                        <path
+                          d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                        ></path>
+                      </svg>
+                    </div>
+                    <input
+                      id="search-input"
+                      placeholder="Search for titles, authors, or genres"
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#1b0e0e] focus:outline-0 focus:ring-0 border-none bg-[#f3e7e8] focus:border-none h-full placeholder:text-[#994d51] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                      value=""
+                      onkeyup="handleSearch(event)"
+                    />
+                  </div>
+                </label>
+                <button
+                  onclick="performSearch()"
+                  class="flex items-center justify-center px-6 py-3 bg-[#994d51] text-white rounded-lg hover:bg-[#8a4448] transition-colors font-medium"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+            <div class="flex gap-3 p-3 flex-wrap pr-4">
+              <button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#f3e7e8] pl-4 pr-2">
+                <p class="text-[#1b0e0e] text-sm font-medium leading-normal">Genre</p>
+                <div class="text-[#1b0e0e]" data-icon="CaretDown" data-size="20px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                  </svg>
+                </div>
+              </button>
+              <button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#f3e7e8] pl-4 pr-2">
+                <p class="text-[#1b0e0e] text-sm font-medium leading-normal">Author</p>
+                <div class="text-[#1b0e0e]" data-icon="CaretDown" data-size="20px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                  </svg>
+                </div>
+              </button>
+              <button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#f3e7e8] pl-4 pr-2">
+                <p class="text-[#1b0e0e] text-sm font-medium leading-normal">Publisher</p>
+                <div class="text-[#1b0e0e]" data-icon="CaretDown" data-size="20px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                  </svg>
+                </div>
+              </button>
+              <button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#f3e7e8] pl-4 pr-2">
+                <p class="text-[#1b0e0e] text-sm font-medium leading-normal">Release Date</p>
+                <div class="text-[#1b0e0e]" data-icon="CaretDown" data-size="20px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                  </svg>
+                </div>
+              </button>
+              <button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#f3e7e8] pl-4 pr-2">
+                <p class="text-[#1b0e0e] text-sm font-medium leading-normal">Rating</p>
+                <div class="text-[#1b0e0e]" data-icon="CaretDown" data-size="20px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                  </svg>
+                </div>
+              </button>
+            </div>
+            <h2 class="text-[#1b0e0e] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Search Results</h2>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4" id="search-results">
+              <!-- Search results will be loaded here -->
+            </div>
+          </div>
+
+          <!-- Recommendations Section -->
+          <div id="recommendations-section" class="section-content hidden">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <p class="text-[#1b0e0e] tracking-light text-[32px] font-bold leading-tight min-w-72">Personalized Recommendations</p>
+            </div>
+            <div class="p-4 mb-6">
+              <p class="text-[#1b0e0e] text-lg leading-relaxed mb-4">
+                Based on the comics in your reading lists, we've curated these recommendations just for you.
+              </p>
+              <div class="bg-gradient-to-r from-[#f3e7e8] to-[#e8d8d9] rounded-lg p-4 theme-transition">
+                <p class="text-[#994d51] text-sm">
+                  💡 <strong>Tip:</strong> Add more comics to your lists to get even better recommendations!
+                </p>
+              </div>
+            </div>
+            <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Top Picks for You</h3>
+            <div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div class="flex items-stretch p-4 gap-3" id="top-picks">
+                <!-- Top picks will be loaded here -->
+              </div>
+            </div>
+            <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Based on Your Reading Lists</h3>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4" id="reading-history">
+              <!-- Reading history will be loaded here -->
+            </div>
+            <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Similar to Your Favorites</h3>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4" id="similar-comics">
+              <!-- Similar comics will be loaded here -->
+            </div>
+          </div>
+
+          <!-- Reading List Section -->
+          <div id="reading-list-section" class="section-content hidden">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <p class="text-[#1b0e0e] tracking-light text-[32px] font-bold leading-tight min-w-72">My Reading List</p>
+            </div>
+            <div class="p-4">
+              <p class="text-[#1b0e0e] text-lg mb-6">Your saved comics and reading progress.</p>
+              <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] pb-2 pt-4">Currently Reading</h3>
+              <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 mb-6" id="currently-reading-list"></div>
+              <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] pb-2 pt-4">Favorites</h3>
+              <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 mb-6" id="favorites-list"></div>
+              <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] pb-2 pt-4">Up Next</h3>
+              <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3" id="up-next-list"></div>
+            </div>
+          </div>
+
+          <!-- Profile Section -->
+          <div id="profile-section" class="section-content hidden">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <p class="text-[#1b0e0e] tracking-light text-[32px] font-bold leading-tight min-w-72">Profile</p>
+            </div>
+            <div class="p-4">
+              <div id="profile-content"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <footer class="w-full py-6 text-center text-[#994d51] bg-[#fcf8f8] border-t border-[#f3e7e8] font-medium text-sm mt-8">
+      © 2025 InkWize
+    </footer>
+  </div>
+
+  <script>
+    // Navigation function
+    function showSection(sectionName) {
+      // Hide all sections
+      document.querySelectorAll('.section-content').forEach(section => {
+        section.classList.add('hidden');
+      });
+      
+      // Show the selected section
+      const targetSection = document.getElementById(sectionName + '-section');
+      if (targetSection) {
+        targetSection.classList.remove('hidden');
+        
+        // Load data for the section if needed
+        if (sectionName === 'search') {
+          loadSearchResults();
+        } else if (sectionName === 'recommendations') {
+          loadRecommendations();
+        } else if (sectionName === 'reading-list') {
+          loadReadingList();
+        }
+      }
+    }
+
+    // Handle search input
+    function handleSearch(event) {
+      if (event.key === 'Enter') {
+        performSearch();
+      }
+    }
+
+    // Perform search with user input
+    async function performSearch() {
+      const searchInput = document.getElementById('search-input');
+      const searchTerm = searchInput.value.trim();
+      
+      if (searchTerm.length === 0) {
+        loadSearchResults(); // Load default results if empty
+        return;
+      }
+      
+      // Show loading state
+      const searchResultsContainer = document.getElementById('search-results');
+      if (searchResultsContainer) {
+        searchResultsContainer.innerHTML = `
+          <div class="col-span-full text-center p-8">
+            <p class="text-[#994d51] text-lg">Searching for "${searchTerm}"...</p>
+          </div>
+        `;
+      }
+      
+      try {
+        console.log('Performing search for:', searchTerm);
+        // Use backend proxy for search
+        const response = await fetch(`/api/search?q=${encodeURIComponent(searchTerm)}`);
+        console.log('Search response status:', response.status);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Search response data:', data);
+        
+        if (data.results && data.results.length > 0) {
+          // Filter comics to include those with at least a name or volume name, and try to get ones with images
+          const filteredComics = data.results.filter(comic => {
+            const hasName = comic.name || (comic.volume && comic.volume.name);
+            return hasName;
+          });
+          
+          if (filteredComics.length > 0) {
+            searchResultsContainer.innerHTML = filteredComics.slice(0, 12).map(comic => {
+              const comicName = comic.name || (comic.volume ? comic.volume.name : 'Untitled');
+              const volumeName = comic.volume ? comic.volume.name : '';
+              const imageUrl = comic.image && comic.image.small_url ? comic.image.small_url : '';
+              const issueNumber = comic.issue_number ? `#${comic.issue_number}` : '';
+              
+              return `
+                <div class="flex flex-col gap-3 pb-3">
+                  <div
+                    class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity ${imageUrl ? '' : 'bg-gray-200 flex items-center justify-center'}"
+                    style='${imageUrl ? `background-image: url("${imageUrl}")` : ''}'
+                    onclick="openComicInfo('${comic.id}')"
+                  >
+                    ${!imageUrl ? '<p class="text-gray-500 text-sm">No Image</p>' : ''}
+                  </div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal">${comicName} ${issueNumber}</p>
+                  ${volumeName && volumeName !== comicName ? `<p class="text-[#994d51] text-sm font-normal leading-normal">${volumeName}</p>` : ''}
+                </div>
+              `;
+            }).join('');
+          } else {
+            searchResultsContainer.innerHTML = `
+              <div class="col-span-full text-center p-8">
+                <p class="text-[#994d51] text-lg">No comics found for "${searchTerm}"</p>
+                <p class="text-[#994d51] text-sm mt-2">Try searching for: Batman, Spider-Man, X-Men, Avengers, Superman</p>
+              </div>
+            `;
+          }
+        } else {
+          searchResultsContainer.innerHTML = `
+            <div class="col-span-full text-center p-8">
+              <p class="text-[#994d51] text-lg">No comics found for "${searchTerm}"</p>
+              <p class="text-[#994d51] text-sm mt-2">Try searching for: Batman, Spider-Man, X-Men, Avengers, Superman</p>
+            </div>
+          `;
+        }
+      } catch (error) {
+        console.error('Search error:', error);
+        if (searchResultsContainer) {
+          searchResultsContainer.innerHTML = `
+            <div class="col-span-full text-center p-8">
+              <p class="text-[#994d51] text-lg">Error performing search</p>
+              <p class="text-[#994d51] text-sm mt-2">${error.message}</p>
+              <p class="text-[#994d51] text-sm mt-2">Please try again later</p>
+            </div>
+          `;
+        }
+      }
+    }
+
+    // Fetch and display Comic Vine images for search results (default)
+    async function loadSearchResults() {
+      try {
+        // Use backend proxy for default comics
+        const response = await fetch('/api/comics?limit=12');
+        const data = await response.json();
+        
+        if (data.results && data.results.length > 0) {
+          const comics = data.results;
+          const searchResultsContainer = document.getElementById('search-results');
+          
+          if (searchResultsContainer) {
+            // Filter comics to include those with at least a name or volume name
+            const filteredComics = comics.filter(comic => {
+              const hasName = comic.name || (comic.volume && comic.volume.name);
+              return hasName;
+            });
+            
+            if (filteredComics.length > 0) {
+              searchResultsContainer.innerHTML = filteredComics.slice(0, 12).map(comic => {
+                const comicName = comic.name || (comic.volume ? comic.volume.name : 'Untitled');
+                const volumeName = comic.volume ? comic.volume.name : '';
+                const imageUrl = comic.image && comic.image.small_url ? comic.image.small_url : '';
+                const issueNumber = comic.issue_number ? `#${comic.issue_number}` : '';
+                
+                return `
+                  <div class="flex flex-col gap-3 pb-3">
+                    <div
+                      class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity ${imageUrl ? '' : 'bg-gray-200 flex items-center justify-center'}"
+                      style='${imageUrl ? `background-image: url("${imageUrl}")` : ''}'
+                      onclick="openComicInfo('${comic.id}')"
+                    >
+                      ${!imageUrl ? '<p class="text-gray-500 text-sm">No Image</p>' : ''}
+                    </div>
+                    <p class="text-[#1b0e0e] text-base font-medium leading-normal">${comicName} ${issueNumber}</p>
+                    ${volumeName && volumeName !== comicName ? `<p class="text-[#994d51] text-sm font-normal leading-normal">${volumeName}</p>` : ''}
+                  </div>
+                `;
+              }).join('');
+            } else {
+              searchResultsContainer.innerHTML = `
+                <div class="col-span-full text-center p-8">
+                  <p class="text-[#994d51] text-lg">No comics found for default search</p>
+                  <p class="text-[#994d51] text-sm mt-2">Try searching for: Batman, Spider-Man, X-Men, Avengers, Superman</p>
+                </div>
+              `;
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error loading search results:', error);
+      }
+    }
+
+    // Fetch and display personalized recommendations based on user's reading lists
+    async function loadRecommendations() {
+      try {
+        console.log('Loading recommendations...');
+        
+        // Get user's reading lists from localStorage
+        const currentlyReading = JSON.parse(localStorage.getItem('inkwize_currently_reading') || '[]');
+        const favorites = JSON.parse(localStorage.getItem('inkwize_favorites') || '[]');
+        const upNext = JSON.parse(localStorage.getItem('inkwize_up_next') || '[]');
+        
+        console.log('Reading lists:', {
+          currentlyReading: currentlyReading.length,
+          favorites: favorites.length,
+          upNext: upNext.length
+        });
+        
+        // Combine all user's comics for analysis
+        const userComics = [...currentlyReading, ...favorites, ...upNext];
+        
+        console.log('User comics for recommendations:', userComics);
+        
+        // Extract keywords from user's comics for search
+        const keywords = extractKeywordsFromComics(userComics);
+        console.log('Extracted keywords:', keywords);
+        
+        // Get recommendations based on user preferences
+        const recommendations = await getPersonalizedRecommendations(keywords, userComics);
+        console.log('Final recommendations:', recommendations);
+        
+        // Update "Top Picks" section
+        const topPicksContainer = document.getElementById('top-picks');
+        if (topPicksContainer) {
+          if (recommendations.topPicks.length > 0) {
+            topPicksContainer.innerHTML = recommendations.topPicks.map(comic => `
+              <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg flex flex-col cursor-pointer hover:opacity-80 transition-opacity ${comic.image && comic.image.small_url ? '' : 'bg-gray-200 flex items-center justify-center'}"
+                  style='${comic.image && comic.image.small_url ? `background-image: url("${comic.image.small_url}")` : ''}'
+                  onclick="openComicInfo('${comic.id}')"
+                >
+                  ${!comic.image || !comic.image.small_url ? '<p class="text-gray-500 text-sm">No Image</p>' : ''}
+                </div>
+                <p class="text-[#1b0e0e] text-base font-medium leading-normal">${comic.name || (comic.volume ? comic.volume.name : 'Untitled')}</p>
+                <p class="text-[#994d51] text-sm font-normal leading-normal">${comic.volume ? comic.volume.name : 'Comic'}</p>
+              </div>
+            `).join('');
+          } else {
+            topPicksContainer.innerHTML = `
+              <div class="col-span-full text-center p-8">
+                <p class="text-[#994d51] text-lg">Add some comics to your lists to get personalized recommendations!</p>
+                <button onclick="showSection('search')" class="bg-[#f3e7e8] text-[#1b0e0e] px-4 py-2 rounded-lg mt-4 hover:bg-[#e8d8d9] transition-colors">Start Adding Comics</button>
+              </div>
+            `;
+          }
+        }
+        
+        // Update "Based on your reading history" section
+        const readingHistoryContainer = document.getElementById('reading-history');
+        if (readingHistoryContainer) {
+          if (recommendations.basedOnHistory.length > 0) {
+            readingHistoryContainer.innerHTML = recommendations.basedOnHistory.map(comic => `
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity ${comic.image && comic.image.small_url ? '' : 'bg-gray-200 flex items-center justify-center'}"
+                  style='${comic.image && comic.image.small_url ? `background-image: url("${comic.image.small_url}")` : ''}'
+                  onclick="openComicInfo('${comic.id}')"
+                >
+                  ${!comic.image || !comic.image.small_url ? '<p class="text-gray-500 text-sm">No Image</p>' : ''}
+                </div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal">${comic.name || (comic.volume ? comic.volume.name : 'Untitled')}</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal">${comic.volume ? comic.volume.name : 'Comic'}</p>
+                </div>
+              </div>
+            `).join('');
+          } else {
+            readingHistoryContainer.innerHTML = `
+              <div class="col-span-full text-center p-8">
+                <p class="text-[#994d51] text-lg">No recommendations based on your reading history yet.</p>
+              </div>
+            `;
+          }
+        }
+        
+        // Update "Similar to what you've enjoyed" section
+        const similarContainer = document.getElementById('similar-comics');
+        if (similarContainer) {
+          if (recommendations.similarComics.length > 0) {
+            similarContainer.innerHTML = recommendations.similarComics.map(comic => `
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity ${comic.image && comic.image.small_url ? '' : 'bg-gray-200 flex items-center justify-center'}"
+                  style='${comic.image && comic.image.small_url ? `background-image: url("${comic.image.small_url}")` : ''}'
+                  onclick="openComicInfo('${comic.id}')"
+                >
+                  ${!comic.image || !comic.image.small_url ? '<p class="text-gray-500 text-sm">No Image</p>' : ''}
+                </div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal">${comic.name || (comic.volume ? comic.volume.name : 'Untitled')}</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal">${comic.volume ? comic.volume.name : 'Comic'}</p>
+                </div>
+              </div>
+            `).join('');
+          } else {
+            similarContainer.innerHTML = `
+              <div class="col-span-full text-center p-8">
+                <p class="text-[#994d51] text-lg">No similar comics found yet.</p>
+              </div>
+            `;
+          }
+        }
+      } catch (error) {
+        console.error('Error loading recommendations:', error);
+      }
+    }
+
+    // Extract keywords from user's comics for better recommendations
+    function extractKeywordsFromComics(comics) {
+      console.log('Extracting keywords from comics:', comics);
+      
+      const keywords = new Set();
+      const characterNames = new Set();
+      const publishers = new Set();
+      
+      // Common comic character names to look for
+      const knownCharacters = [
+        'batman', 'superman', 'spider-man', 'wolverine', 'hulk', 'thor', 'iron man', 'captain america',
+        'black widow', 'hawkeye', 'black panther', 'doctor strange', 'scarlet witch', 'vision',
+        'deadpool', 'venom', 'carnage', 'green lantern', 'flash', 'aquaman', 'wonder woman',
+        'x-men', 'avengers', 'justice league', 'fantastic four', 'guardians', 'teen titans'
+      ];
+      
+      comics.forEach((comic, index) => {
+        console.log(`Processing comic ${index + 1}:`, comic);
+        
+        // Extract from comic name
+        if (comic.name) {
+          console.log(`Extracting from comic name: "${comic.name}"`);
+          const nameWords = comic.name.toLowerCase().split(/\s+/);
+          nameWords.forEach(word => {
+            if (word.length > 2 && !['the', 'and', 'for', 'with', 'from', 'of', 'in', 'on', 'at'].includes(word)) {
+              keywords.add(word);
+              
+              // Check if it's a known character
+              if (knownCharacters.includes(word)) {
+                characterNames.add(word);
+                console.log(`Found known character: "${word}"`);
+              }
+            }
+          });
+        }
+        
+        // Extract from volume name
+        if (comic.volume && comic.volume.name) {
+          console.log(`Extracting from volume name: "${comic.volume.name}"`);
+          const volumeWords = comic.volume.name.toLowerCase().split(/\s+/);
+          volumeWords.forEach(word => {
+            if (word.length > 2 && !['the', 'and', 'for', 'with', 'from', 'of', 'in', 'on', 'at'].includes(word)) {
+              keywords.add(word);
+              
+              // Check if it's a known character
+              if (knownCharacters.includes(word)) {
+                characterNames.add(word);
+                console.log(`Found known character: "${word}"`);
+              }
+            }
+          });
+        }
+        
+        // Extract publisher information if available
+        if (comic.volume && comic.volume.publisher) {
+          publishers.add(comic.volume.publisher.name.toLowerCase());
+          console.log(`Found publisher: "${comic.volume.publisher.name}"`);
+        }
+      });
+      
+      // Prioritize character names and publishers
+      const priorityKeywords = [...characterNames, ...publishers, ...keywords];
+      const finalKeywords = priorityKeywords.slice(0, 8); // Return more keywords for better recommendations
+      
+      console.log('Extraction results:', {
+        characterNames: Array.from(characterNames),
+        publishers: Array.from(publishers),
+        keywords: Array.from(keywords),
+        finalKeywords: finalKeywords
+      });
+      
+      return finalKeywords;
+    }
+
+    // Get personalized recommendations based on user preferences
+    async function getPersonalizedRecommendations(keywords, userComics) {
+      const recommendations = {
+        topPicks: [],
+        basedOnHistory: [],
+        similarComics: []
+      };
+      
+      try {
+        console.log('Getting personalized recommendations...');
+        console.log('User comics count:', userComics.length);
+        console.log('Keywords:', keywords);
+        
+        // If user has comics, search for similar ones
+        if (userComics.length > 0 && keywords.length > 0) {
+          const allComics = [];
+          
+          // Search using multiple keywords for better diversity
+          const searchKeywords = keywords.slice(0, 3); // Use top 3 keywords
+          console.log('Searching with keywords:', searchKeywords);
+          
+          for (const keyword of searchKeywords) {
+            try {
+              console.log(`Searching for keyword: "${keyword}"`);
+              const response = await fetch(`/api/search?q=${encodeURIComponent(keyword)}`);
+              const data = await response.json();
+              
+              console.log(`Found ${data.results ? data.results.length : 0} results for "${keyword}"`);
+              
+              if (data.results && data.results.length > 0) {
+                const filteredComics = data.results.filter(comic => {
+                  const hasName = comic.name || (comic.volume && comic.volume.name);
+                  return hasName;
+                });
+                
+                console.log(`Filtered to ${filteredComics.length} comics with names for "${keyword}"`);
+                
+                // Add comics to the collection, avoiding duplicates
+                filteredComics.forEach(comic => {
+                  if (!allComics.some(existing => existing.id === comic.id)) {
+                    allComics.push(comic);
+                  }
+                });
+              }
+            } catch (error) {
+              console.error(`Error searching for keyword "${keyword}":`, error);
+            }
+          }
+          
+          console.log(`Total unique comics found: ${allComics.length}`);
+          
+          // If we have enough comics, distribute them across sections
+          if (allComics.length > 0) {
+            const shuffledComics = allComics.sort(() => Math.random() - 0.5); // Shuffle for variety
+            recommendations.topPicks = shuffledComics.slice(0, 4);
+            recommendations.basedOnHistory = shuffledComics.slice(4, 10);
+            recommendations.similarComics = shuffledComics.slice(10, 16);
+            
+            console.log('Distributed recommendations:', {
+              topPicks: recommendations.topPicks.length,
+              basedOnHistory: recommendations.basedOnHistory.length,
+              similarComics: recommendations.similarComics.length
+            });
+          }
+        }
+        
+        // If no user comics or recommendations, get popular comics
+        if (recommendations.topPicks.length === 0) {
+          const response = await fetch('/api/comics?limit=18');
+          const data = await response.json();
+          
+          if (data.results && data.results.length > 0) {
+            const filteredComics = data.results.filter(comic => {
+              const hasName = comic.name || (comic.volume && comic.volume.name);
+              return hasName;
+            });
+            
+            const totalComics = filteredComics.slice(0, 18);
+            recommendations.topPicks = totalComics.slice(0, 4);
+            recommendations.basedOnHistory = totalComics.slice(4, 10);
+            recommendations.similarComics = totalComics.slice(10, 16);
+          }
+        }
+        
+      } catch (error) {
+        console.error('Error getting personalized recommendations:', error);
+      }
+      
+      return recommendations;
+    }
+
+    function renderList(listName, containerId, label) {
+      const key = `inkwize_${listName}`;
+      const list = JSON.parse(localStorage.getItem(key) || '[]');
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      if (list.length === 0) {
+        container.innerHTML = `<p class='text-[#994d51] text-center p-8'>No comics in ${label}.</p>`;
+        return;
+      }
+      container.innerHTML = list.map(comic => {
+        const comicName = comic.name || (comic.volume ? comic.volume.name : 'Untitled');
+        const volumeName = comic.volume ? comic.volume.name : '';
+        const imageUrl = comic.image && comic.image.small_url ? comic.image.small_url : '';
+        const issueNumber = comic.issue_number ? `#${comic.issue_number}` : '';
+        return `
+          <div class="flex flex-col gap-3 pb-3">
+            <div
+              class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity ${imageUrl ? '' : 'bg-gray-200 flex items-center justify-center'}"
+              style='${imageUrl ? `background-image: url("${imageUrl}")` : ''}'
+              onclick="openComicInfo('${comic.id}')"
+            >
+              ${!imageUrl ? '<p class=\"text-gray-500 text-sm\">No Image</p>' : ''}
+            </div>
+            <p class="text-[#1b0e0e] text-base font-medium leading-normal">${comicName} ${issueNumber}</p>
+            ${volumeName && volumeName !== comicName ? `<p class=\"text-[#994d51] text-sm font-normal leading-normal\">${volumeName}</p>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+    function loadReadingList() {
+      renderList('currently_reading', 'currently-reading-list', 'Currently Reading');
+      renderList('favorites', 'favorites-list', 'Favorites');
+      renderList('up_next', 'up-next-list', 'Up Next');
+    }
+
+    // Show comic details (placeholder for future implementation)
+    function showComicDetails(comicId) {
+      window.location.href = `InkWize_ComicInfo.html?id=${comicId}`;
+    }
+
+    // Search for a specific character
+    function searchCharacter(characterName) {
+      // Switch to search section
+      showSection('search');
+      
+      // Set the search input value
+      const searchInput = document.getElementById('search-input');
+      if (searchInput) {
+        searchInput.value = characterName;
+        // Trigger the search
+        performSearch();
+      }
+    }
+
+    // Dark mode toggle function
+    function toggleTheme() {
+      const htmlElement = document.documentElement;
+      const sunIcon = document.getElementById('sun-icon');
+      const moonIcon = document.getElementById('moon-icon');
+
+      if (htmlElement.getAttribute('data-theme') === 'dark') {
+        htmlElement.setAttribute('data-theme', 'light');
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+        localStorage.setItem('inkwize_theme', 'light');
+      } else {
+        htmlElement.setAttribute('data-theme', 'dark');
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+        localStorage.setItem('inkwize_theme', 'dark');
+      }
+    }
+
+    // Carousel logic
+    const sampleCovers = [
+      'https://static.comicvine.com/uploads/scale_large/6/67663/7230306-01.jpg',
+      'https://static.comicvine.com/uploads/scale_large/6/67663/7230307-02.jpg',
+      'https://static.comicvine.com/uploads/scale_large/6/67663/7230308-03.jpg',
+      'https://static.comicvine.com/uploads/scale_large/6/67663/7230309-04.jpg',
+      'https://static.comicvine.com/uploads/scale_large/6/67663/7230310-05.jpg',
+    ];
+    let comicCovers = [...sampleCovers];
+    let currentSlide = 0;
+    let carouselInterval;
+
+    const SUPERHERO_KEYWORDS = [
+      'superman','batman','spider','avengers','hulk','thor','iron','x-men','flash','wonder','captain','marvel','justice','league','green lantern','wolverine','panther','aquaman','hawk','arrow','shazam','deadpool','guardians','daredevil','punisher','fantastic','supergirl','catwoman','batgirl','nightwing','robin','cyborg','ant-man','wasp','doctor','strange','vision','scarlet','witch','star','fire','beast','boy','raven','riddler','joker','harley','quinn'
+    ];
+
+    function isSuperheroComic(comic) {
+      const name = (comic.name || '').toLowerCase();
+      const volume = (comic.volume && comic.volume.name ? comic.volume.name : '').toLowerCase();
+      return SUPERHERO_KEYWORDS.some(keyword => name.includes(keyword) || volume.includes(keyword));
+    }
+
+    function isModernComic(comic) {
+      if (!comic.cover_date) return false;
+      const year = parseInt(comic.cover_date.slice(0, 4), 10);
+      return year > 2000;
+    }
+
+    function renderCarousel() {
+      const carousel = document.getElementById('comic-carousel');
+      if (!carousel) return;
+      carousel.style.background = '#222';
+      carousel.innerHTML = `
+        <img src="${comicCovers[currentSlide]}" alt="Comic Cover" class="w-full h-full object-contain transition-all duration-500 bg-[#222]" />
+        <button id="carousel-prev" class="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-[#1b0e0e] bg-opacity-60 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-[#994d51] transition-colors">&#8592;</button>
+        <button id="carousel-next" class="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-[#1b0e0e] bg-opacity-60 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-[#994d51] transition-colors">&#8594;</button>
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+          ${comicCovers.map((_, i) => `<span class="w-2 h-2 rounded-full ${i === currentSlide ? 'bg-yellow-400' : 'bg-white bg-opacity-40'} inline-block"></span>`).join('')}
+        </div>
+      `;
+      document.getElementById('carousel-prev').onclick = () => {
+        currentSlide = (currentSlide - 1 + comicCovers.length) % comicCovers.length;
+        renderCarousel();
+        resetCarouselInterval();
+      };
+      document.getElementById('carousel-next').onclick = () => {
+        currentSlide = (currentSlide + 1) % comicCovers.length;
+        renderCarousel();
+        resetCarouselInterval();
+      };
+    }
+
+    function resetCarouselInterval() {
+      if (carouselInterval) clearInterval(carouselInterval);
+      carouselInterval = setInterval(() => {
+        currentSlide = (currentSlide + 1) % comicCovers.length;
+        renderCarousel();
+      }, 5000); // 5 seconds
+    }
+
+    const HEROES = [
+      'Superman', 'Batman', 'Wolverine', 'Ghost Rider', 'Blade', 'Flash', 'Spawn', 'Spider-Man', 'Thor', 'Hulk'
+    ];
+
+    function isEnglish(comic) {
+      // Comic Vine sometimes has a 'language' or 'site_detail_url' or 'volume.language' field, but not always.
+      // We'll check for 'en' in language or default to true if not present.
+      if (comic.language) return comic.language.toLowerCase().startsWith('en');
+      if (comic.volume && comic.volume.language) return comic.volume.language.toLowerCase().startsWith('en');
+      return true;
+    }
+
+    async function fetchHeroCover(hero) {
+      try {
+        const response = await fetch(`/api/search?q=${encodeURIComponent(hero)}`);
+        const data = await response.json();
+        if (data && data.results && data.results.length > 0) {
+          // Find the first modern, English comic with a cover
+          const comic = data.results.find(c => isModernComic(c) && isEnglish(c) && c.image && c.image.super_url);
+          if (comic) return comic.image.super_url;
+        }
+      } catch (e) {}
+      return null;
+    }
+
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Show home section by default
+      showSection('home');
+
+      // Check for saved theme preference
+      const savedTheme = localStorage.getItem('inkwize_theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') {
+          document.getElementById('sun-icon').classList.add('hidden');
+          document.getElementById('moon-icon').classList.remove('hidden');
+        } else {
+          document.getElementById('sun-icon').classList.remove('hidden');
+          document.getElementById('moon-icon').classList.add('hidden');
+        }
+      }
+
+      // Fetch one cover per hero
+      const covers = await Promise.all(HEROES.map(fetchHeroCover));
+      comicCovers = covers.filter(Boolean);
+      if (comicCovers.length < HEROES.length) {
+        // Fill with sample covers if not enough
+        comicCovers = comicCovers.concat(sampleCovers.slice(0, HEROES.length - comicCovers.length));
+      }
+      comicCovers = comicCovers.slice(0, HEROES.length);
+      currentSlide = 0;
+      renderCarousel();
+      resetCarouselInterval();
+    });
+  </script>
+  <script>
+    function openComicInfo(comicId) {
+      if (!comicId || comicId === 'undefined' || comicId === 'null') {
+        alert('Comic information is unavailable or invalid.');
+        return;
+      }
+      window.location.href = `InkWize_ComicInfo.html?id=${comicId}`;
+    }
+  </script>
+  <script>
+    function getRandomElement(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generateRandomProfile() {
+      const names = ["Alex", "Jordan", "Taylor", "Morgan", "Casey", "Riley", "Skyler", "Jamie", "Avery", "Quinn", "Drew", "Parker", "Reese", "Rowan", "Sawyer"];
+      const avatars = [
+        "https://static.comicvine.com/uploads/scale_small/6/67663/7230306-01.jpg", // Superman
+        "https://static.comicvine.com/uploads/scale_small/6/67663/7230307-02.jpg", // Batman
+        "https://static.comicvine.com/uploads/scale_small/6/67663/7230308-03.jpg", // Spider-Man
+        "https://static.comicvine.com/uploads/scale_small/6/67663/7230309-04.jpg", // Wonder Woman
+        "https://static.comicvine.com/uploads/scale_small/6/67663/7230310-05.jpg", // X-Men
+        "https://static.comicvine.com/uploads/scale_small/6/67663/7230311-06.jpg", // Hulk
+        "https://static.comicvine.com/uploads/scale_small/6/67663/7230312-07.jpg", // Thor
+        "https://static.comicvine.com/uploads/scale_small/6/67663/7230313-08.jpg"  // Captain America
+      ];
+      const name = getRandomElement(names);
+      const avatar = getRandomElement(avatars);
+      const favoriteGenres = 'Superhero, Horror';
+      const favoritePublishers = 'DC, Marvel, Image';
+      const stats = {
+        read: Math.floor(Math.random() * 100) + 1,
+        inProgress: Math.floor(Math.random() * 10),
+        wishlist: Math.floor(Math.random() * 20)
+      };
+      return { name, avatar, favoriteGenres, favoritePublishers, stats };
+    }
+
+    function renderRandomProfile() {
+      const profile = generateRandomProfile();
+      document.getElementById('profile-content').innerHTML = `
+        <div class="bg-white rounded-lg p-6 shadow-sm border border-[#f3e7e8] theme-transition">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-16 h-16" style='background-image: url("${profile.avatar}");'></div>
+            <div>
+              <h3 class="text-[#1b0e0e] text-xl font-bold">${profile.name}</h3>
+              <p class="text-[#994d51]">Comic enthusiast</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="text-[#1b0e0e] font-bold mb-2">Reading Stats</h4>
+              <p class="text-[#994d51]">Comics read: ${profile.stats.read}</p>
+              <p class="text-[#994d51]">In progress: ${profile.stats.inProgress}</p>
+              <p class="text-[#994d51]">Wishlist: ${profile.stats.wishlist}</p>
+            </div>
+            <div>
+              <h4 class="text-[#1b0e0e] font-bold mb-2">Preferences</h4>
+              <p class="text-[#994d51]">Favorite genres: ${profile.favoriteGenres}</p>
+              <p class="text-[#994d51]">Preferred publishers: ${profile.favoritePublishers}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderRandomProfile();
+    });
+  </script>
+</body>
+</html>

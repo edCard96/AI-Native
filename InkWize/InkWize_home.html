@@ -1,0 +1,231 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+    />
+
+    <title>InkWize</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#fcf8f8] group/design-root overflow-x-hidden" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f3e7e8] px-10 py-3">
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-4 text-[#1b0e0e]">
+              <div class="size-4">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path></svg>
+              </div>
+              <h2 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em]">InkWize</h2>
+            </div>
+            <div class="flex items-center gap-9">
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Home</a>
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Browse</a>
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">My List</a>
+            </div>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <label class="flex flex-col min-w-40 !h-10 max-w-64">
+              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                <div
+                  class="text-[#994d51] flex border-none bg-[#f3e7e8] items-center justify-center pl-4 rounded-l-lg border-r-0"
+                  data-icon="MagnifyingGlass"
+                  data-size="24px"
+                  data-weight="regular"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  placeholder="Search"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#1b0e0e] focus:outline-0 focus:ring-0 border-none bg-[#f3e7e8] focus:border-none h-full placeholder:text-[#994d51] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                  value=""
+                />
+              </div>
+            </label>
+            <button
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#f3e7e8] text-[#1b0e0e] text-sm font-bold leading-normal tracking-[0.015em]"
+            >
+              <span class="truncate">Sign Up</span>
+            </button>
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="@container">
+              <div class="@[480px]:p-4">
+                <div
+                  class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-lg items-center justify-center p-4"
+                  style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCrfoit_laNiRag3Weg3sWK1oUUDFK6VeHJljfI6DHd3Nsbzi4_Po6tdLokkip_FhsncQVdSTUvPN7Aqhz0smzwYFfIqpGiNZez2vX5KVxJr2x_23NU8kUbLZBj_S-7lsW9iOQbR8j7pIt0MaV2jDhEekGGSyt1afkzpYMN-GoIFv3KfKSzrM2pKyB1FSAtOjv0VLZVDDLSNkz_r1XBAHQJc5sUw-tm6U6c5tr06zzfg0s01RNFwiSEvXpXGTZJzeHrC9ILaoL9SCw");'
+                >
+                  <div class="flex flex-col gap-2 text-center">
+                    <h1
+                      class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]"
+                    >
+                      Discover Your Next Comic Book Adventure
+                    </h1>
+                    <h2 class="text-white text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
+                      Explore a vast library of comics and manga, tailored to your unique taste. Find your next favorite story today.
+                    </h2>
+                  </div>
+                  <label class="flex flex-col min-w-40 h-14 w-full max-w-[480px] @[480px]:h-16">
+                    <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                      <div
+                        class="text-[#994d51] flex border border-[#e7d0d1] bg-[#fcf8f8] items-center justify-center pl-[15px] rounded-l-lg border-r-0"
+                        data-icon="MagnifyingGlass"
+                        data-size="20px"
+                        data-weight="regular"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                          <path
+                            d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <input
+                        placeholder="Search for comics"
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#1b0e0e] focus:outline-0 focus:ring-0 border border-[#e7d0d1] bg-[#fcf8f8] focus:border-[#e7d0d1] h-full placeholder:text-[#994d51] px-[15px] rounded-r-none border-r-0 pr-2 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal"
+                        value=""
+                      />
+                      <div class="flex items-center justify-center rounded-r-lg border-l-0 border border-[#e7d0d1] bg-[#fcf8f8] pr-[7px]">
+                        <button
+                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em]"
+                        >
+                          <span class="truncate">Search</span>
+                        </button>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <h2 class="text-[#1b0e0e] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Featured Comics</h2>
+            <div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
+              <div class="flex items-stretch p-4 gap-3">
+                <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+                  <div
+                    class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex flex-col"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC8Nxi4mdrHcoo9pduZVAmTmN1sirqTOpxGbEI1Pw5xB3ARdhJYKR9JLurxvfMWbXNCJIWIGDBrdd_i3bbnd8h_axQKOekZFrFWL0-cbTfPCG7P3LggjCSmAs8Rhl00RyKh9n40v_Ig49BfKXMoqNOOBL0fplBLeVehjJ4aIvz6hHGjVwZLEWc0-dOe7hDyXcnmzTmpKeSpZqJwdIiLgMRdVaO5WZ3__9yr_Ki-njafBuGwqZ7jDBwxxlWO0mBorkBycm9PU5YrRHk");'
+                  ></div>
+                  <div>
+                    <p class="text-[#1b0e0e] text-base font-medium leading-normal">The Cosmic Odyssey</p>
+                    <p class="text-[#994d51] text-sm font-normal leading-normal">A space opera of epic proportions.</p>
+                  </div>
+                </div>
+                <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+                  <div
+                    class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex flex-col"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAkCeej4dD_7CzfvKs5p_AmQUcz60d_Bad5hX58lewLx8JnTLyNvgEaGCkaPaneSwn8HoJa-vpDU_GAP3fqWHvGnC0f8W2TM7hfJsOB-QmFtnAW9pAKYbDcrpmW2vSUxGDnMl5AqMQyI76VHi2nh4EcDnCc_dnxgRP9ADkx6OMrhITGeyfa9fde70dtGBZuNY4_tAOSoXG4q6-_SsxVihQEbJtYQuEadXSpeu_crnMKTiiZWRQRa6gtBLjt6kQX4re7wXHYRPztPek");'
+                  ></div>
+                  <div>
+                    <p class="text-[#1b0e0e] text-base font-medium leading-normal">The Shadow Syndicate</p>
+                    <p class="text-[#994d51] text-sm font-normal leading-normal">A thrilling tale of espionage and intrigue.</p>
+                  </div>
+                </div>
+                <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+                  <div
+                    class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex flex-col"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC4Ymw7__MAx5hpiqMIx05-u2PelD2tnLLUnv-nP4ixRz3ahwcIQRtULLHj5VgoLJ-ipywEigY9LF78exIQGXYLj7_YPsSmxIgajrXbiV74FJTQ-3pK408dGRIah1NyAOEeNH03u9ghw-wFkuhNkDCQ9wBC4PSezOfE0QTiorfhItASaD_5jrY4UUwkEqi021ZKa5_NCzD6aEgXTfSwfF9yL6gHnn_qxSbqqgvqJgHT9WLLvIBZmv9enjyYQYE3w_4NIn40oRqVXpM");'
+                  ></div>
+                  <div>
+                    <p class="text-[#1b0e0e] text-base font-medium leading-normal">The Quantum Paradox</p>
+                    <p class="text-[#994d51] text-sm font-normal leading-normal">A mind-bending journey through alternate realities.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 class="text-[#1b0e0e] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Popular Genres</h2>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCGVYVKbZtSdBi762iLVwZPx6yKT3kVBMPCMU5AkoMjIhluHBm0Ngj4C9-YBwHu-_4utTJF9KtyU5hzcjEkGvQ-rpspWj9PKipNLCA8ONdHH4lyzEZdQXH_-JAwdx61ga392Lw1OMWp5J07v8Tk6oSwv78JbNoBCAAMTgIaDubsHYRL87UiIjOOvOT6ggPpAbN-IotUyLnk_0fTndNgOWObYOI6hwp0tOWPTvQCt31Aw-cyf3zLV4fi5fXQpfZCirB9wBER_mtcVr4");'
+                ></div>
+                <p class="text-[#1b0e0e] text-base font-medium leading-normal">Superhero</p>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAOVWxD0KZVkExt6TZ2rKWQn9yPMwMakknrmFNN7bCkGbtUtdCVMgxJkMbmw85LWZeCAlo69PRH3BNFKBdJ7LHyw8LjrqQJzqdZnFgZS7S9eWLorhZ8Osp0VBEsgKXdn-DSQdsGWq8MGIJ_jhatyr-c7QFR0Q8wSMc-EWm0WUZxXjlIQQQtYJc6TkZEYABdHoiALBo7YnWtJs8FBWyv6F31GDCoyWLa6-FMaaqtDUXaUy9QaUk9CIUaHYd307gnu-sfMwnoW3rJWPg");'
+                ></div>
+                <p class="text-[#1b0e0e] text-base font-medium leading-normal">Fantasy</p>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCM1gp1lN1u6yjmb0ierHHiOhcSThXDUqphBWd2RcdIxcfDxuxFJRGN6qr6Rzw4Y3q6c-UMR5tuOEmUeaEiyF64-9BwAwKARL4QSWUddnOQDWpao2biCtIF3cKsCIaf7Y-I6e9uwBX7ygxu3O4uETqNrAm8YhWvuFBrMXLhRus9FOKLmO3cw2ebdspuKRMdbqU8mxviIaDeNQe9fLtW_cIcmTV7CnL52M_56xdJ0F0-7Ajl3TWA2ybm84EzXeiW3dcE5_DkJqpJeMY");'
+                ></div>
+                <p class="text-[#1b0e0e] text-base font-medium leading-normal">Sci-Fi</p>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDCg1E5GQCihLCv1wLxaZY6TVzN57wzSLlKBIw8GbPx_WH9Dg5hSe4s4M7BYUChlVWgMa6tHBs6P7iQi2oLaYQd_kgbPdJGHW0Ihi_FDLUzD1GvnZ3_kaSUAzaEBT6vlIrdE8VCYd0PIY0hVQJ3feJVZTC3Xz6y5RIJWFUtNKsDOe9FTAEQ8c9gXL73j0Zny821TeTgpfLbBrZO8LBBjZnUI-hmIOGLJL0kX13l52D5dTELWc3osedUrcpdSwEDYlp0DqO6lClYnP4");'
+                ></div>
+                <p class="text-[#1b0e0e] text-base font-medium leading-normal">Horror</p>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBUvLHqT0ASun_3WXhaN0RUvhNqe8ApMmgPYcIneskL3QLTBYWO5C2CV-Vy2GMjeZ80f6uCNDq3F1A0tYWpF5OdyhY1-lIs3dOfCdiIccmmrUiz80cNTmFU_XVfBYgTaH_TXqC77Sh3ccQJ51qpy_8y72E27TfB6hZG1pip-phPSRHJKx-NPrsTYPs4hCMYbU9gDcOt-gfJK38ldwBPdmmhHYBvo-v9xY8k-4C7hHgoZ9XBVJKl0U4H4Ym-iu_Y3uH8rlNDNgthsK4");'
+                ></div>
+                <p class="text-[#1b0e0e] text-base font-medium leading-normal">Romance</p>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCvm7kK0o8ddU57FrXkobHM6hG2D94AqUn24UAFvKgtudJONzyXpJvrRKoHaih9XjIiK5aqHkPg5GFYlOhuUTRcylpAlPb5A1y8YjT2HDTT42Qp99IOvaBiL7ZeQfK74lSSnWkXtZd5x-3B7eGxtLlkkSt2GoSXhC0rFexRm47CXmnAEZuUguiAh6uQb-mqerWVNT-FatamHRG-dfVUuDu4mfyNBZSPq_pzzznDrP2sRz-8rh3YUEFAazkMWJXLLRxNF4gDMxVRfp0");'
+                ></div>
+                <p class="text-[#1b0e0e] text-base font-medium leading-normal">Mystery</p>
+              </div>
+            </div>
+            <h2 class="text-[#1b0e0e] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Personalized Picks</h2>
+            <div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
+              <div class="flex items-stretch p-4 gap-3">
+                <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+                  <div
+                    class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex flex-col"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAsJdISU97MzWBD-0Rw_rUoXGA88JpVY4MzVUDuPAy1-HkoEubQNHsRGPshXsgKa1JAC1wjuC3XGhnni42TQONqC9TWdyKfrn4Ug25llRODQWLz9qvpazZHys8oSlxtBP1VPiHaBQppT-fu9BdiFHkgTdrNn5i3hcjUTDOzOlc1yQB8t-jjz2lUe-MzZZh8ChWXIHV2kXfaTuSLL3Hoc-yKvrGS3UTQEAy49rvDZ4PgPxBjGaTEcjvP_QDZAvhizS6Pvg9sVdJY9gM");'
+                  ></div>
+                  <div>
+                    <p class="text-[#1b0e0e] text-base font-medium leading-normal">The Crimson Comet</p>
+                    <p class="text-[#994d51] text-sm font-normal leading-normal">A superhero story with a twist.</p>
+                  </div>
+                </div>
+                <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+                  <div
+                    class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex flex-col"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC-3g_Fk8i0k6lNOEWgC_czC6C8eZH6RAcCJFR_uPhSuY6u-d3ACrJxCW7yMCqn0xN4MizBqJs92J7Emzi582caxrVwyRRqPYVt1wyCSAhJ0H91OT-wgE_O8nL50K2nV1of6DUsGSazTyzZhCCbaUbE0UARxpc_mUq35JrgB9hlqiWiKdeY45ZHv8V0BtX8hiLfAMlrQ75W5-zsJAduizWyjua5jj7LHQmGCKr8Nj4uAGBVlYykUZzAVxLBLeEwdP-iEmZvyMiLSRI");'
+                  ></div>
+                  <div>
+                    <p class="text-[#1b0e0e] text-base font-medium leading-normal">The Emerald Enigma</p>
+                    <p class="text-[#994d51] text-sm font-normal leading-normal">A fantasy adventure with a hidden mystery.</p>
+                  </div>
+                </div>
+                <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+                  <div
+                    class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex flex-col"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBozbNnrTDztlc-wsGfck8abY75zANAtN_TVQOPcL11c2787bSsqxhqFefub07o8W7u-vbN2fvNwn2SDOQLx5zT26LY4-cyY6keMPylxYdHFVFgScOsYcL767HmPRbsHk1NOGGtZeQu25BJ7SHIZgWSZACO-TgdSk4ihK3t58vccIFTIgM980q1tTTit0JCd1bYaX_CUT4rG77f3wI_kfEd2mkB90r_L4xNkCMnlD5psRETUV9EpZfa2vEnUuAX6CAAtruhO1l6tEY");'
+                  ></div>
+                  <div>
+                    <p class="text-[#1b0e0e] text-base font-medium leading-normal">The Sapphire Secret</p>
+                    <p class="text-[#994d51] text-sm font-normal leading-normal">A sci-fi thriller with a shocking revelation.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
